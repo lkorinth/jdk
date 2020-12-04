@@ -633,9 +633,6 @@ public:
 
   // Executes a task using worker threads.
   virtual void execute(ProcessTask& task, uint ergo_workers) = 0;
-
-  // Switch to single threaded mode.
-  virtual void set_single_threaded_mode() { };
 };
 
 // Abstract reference processing task to execute.
