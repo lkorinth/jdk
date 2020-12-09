@@ -28,6 +28,7 @@
 #include "gc/g1/g1FullGCOopClosures.hpp"
 #include "gc/shared/preservedMarks.hpp"
 #include "gc/shared/taskqueue.hpp"
+#include "gc/shared/taskTerminator.hpp"
 #include "memory/iterator.hpp"
 #include "oops/markWord.hpp"
 #include "oops/oop.hpp"

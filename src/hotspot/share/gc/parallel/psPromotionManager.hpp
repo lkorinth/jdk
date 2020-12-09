@@ -50,10 +50,9 @@ class PSOldGen;
 class ParCompactionManager;
 
 class PSPromotionManager {
+  friend class PSRefProcClosureContext;
   friend class PSScavenge;
   friend class ScavengeRootsTask;
-  friend class PSRefProcTaskExecutor;
-  friend class PSRefProcTask;
 
  private:
   typedef OverflowTaskQueue<ScannerTask, mtGC>           PSScannerTasksQueue;

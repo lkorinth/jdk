@@ -587,9 +587,8 @@ void DefNewGeneration::collect(bool   full,
   ReferenceProcessor* rp = ref_processor();
   rp->setup_policy(clear_all_soft_refs);
   ReferenceProcessorPhaseTimes pt(_gc_timer, rp->max_num_queues());
-  const ReferenceProcessorStats& stats =
-  rp->process_discovered_references(&is_alive, &keep_alive, &evacuate_followers,
-                                    NULL, &pt);
+  SerialClosureContext closure_context(is_alive, keep_alive, evacuate_followers);
+  const ReferenceProcessorStats& stats = rp->process_discovered_references(closure_context, pt);
   gc_tracer.report_gc_reference_stats(stats);
   gc_tracer.report_tenuring_threshold(tenuring_threshold());
   pt.print_all_references();

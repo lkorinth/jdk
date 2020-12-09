@@ -32,7 +32,7 @@
 #include "gc/g1/g1FullGCMarker.inline.hpp"
 #include "gc/g1/g1FullGCMarkTask.hpp"
 #include "gc/g1/g1FullGCPrepareTask.hpp"
-#include "gc/g1/g1FullGCReferenceProcessorExecutor.hpp"
+#include "gc/g1/g1FullGCReferenceClosureContext.hpp"
 #include "gc/g1/g1FullGCScope.hpp"
 #include "gc/g1/g1OopClosures.hpp"
 #include "gc/g1/g1Policy.hpp"
@@ -241,9 +241,19 @@ void G1FullCollector::phase1_mark_live_objects() {
   }
 
   {
-    // Process references discovered during marking.
-    G1FullGCReferenceProcessingExecutor reference_processing(this);
-    reference_processing.execute(scope()->timer(), scope()->tracer());
+    unsigned old_active_mt_degree = reference_processor()->num_queues();
+    reference_processor()->set_active_mt_degree(workers());
+    GCTraceTime(Debug, gc, phases) debug("Phase 1: Reference Processing", scope()->timer());
+    // Process reference objects found during marking.
+    //G1FullGCMarker* marker = _marker(0); // lkorinth
+    ReferenceProcessorPhaseTimes pt(scope()->timer(), reference_processor()->max_num_queues());
+    G1FullRefProcClosureContext context(*this, reference_processor()->max_num_queues());
+    const ReferenceProcessorStats& stats = reference_processor()->process_discovered_references(context, pt);
+    scope()->tracer()->report_gc_reference_stats(stats);
+    pt.print_all_references();
+    //assert(marker->oop_stack()->is_empty(), "Should be no oops on the stack");
+
+    reference_processor()->set_active_mt_degree(old_active_mt_degree);
   }
 
   // Weak oops cleanup.
