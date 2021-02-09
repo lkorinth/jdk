@@ -52,8 +52,7 @@ G1FullGCReferenceProcessingExecutor::G1RefProcTaskProxy::G1RefProcTaskProxy(Proc
                                                                       G1FullCollector* collector) :
      AbstractGangTask("G1 reference processing task"),
      _proc_task(proc_task),
-     _collector(collector),
-     _terminator(_collector->workers(), _collector->oop_queue_set()) { }
+     _collector(collector) { }
 
 void G1FullGCReferenceProcessingExecutor::G1RefProcTaskProxy::work(uint worker_id) {
   G1FullGCMarker* marker = _collector->marker(worker_id);
