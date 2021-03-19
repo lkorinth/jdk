@@ -36,6 +36,7 @@ class AbstractRefProcClosureContext;
 class GCTimer;
 class ReferencePolicy;
 class ReferenceProcessorPhaseTimes;
+struct RPNewTask;
 
 // List of discovered references.
 class DiscoveredList {
@@ -240,7 +241,8 @@ private:
 
   // Phase 1: Re-evaluate soft ref policy.
   void process_soft_ref_reconsider(AbstractRefProcClosureContext& closure_context,
-                                   ReferenceProcessorPhaseTimes& phase_times);
+                                   ReferenceProcessorPhaseTimes& phase_times,
+                                   RPNewTask* new_task = nullptr);
 
   // Phase 2: Drop Soft/Weak/Final references with a NULL or live referent, and clear
   // and enqueue non-Final references.
@@ -425,7 +427,8 @@ public:
   // Process references found during GC (called by the garbage collector)
   ReferenceProcessorStats
   process_discovered_references(AbstractRefProcClosureContext&  closure_context,
-                                ReferenceProcessorPhaseTimes& phase_times);
+                                ReferenceProcessorPhaseTimes& phase_times,
+                                RPNewTask* new_task = nullptr);
 
   // If a discovery is in process that is being superceded, abandon it: all
   // the discovered lists will be empty, and all the objects on them will
@@ -594,6 +597,48 @@ public:
   virtual VoidClosure* complete_gc(uint worker_id) = 0;
   virtual void prepare_run_task(uint queue_count, RefProcThreadModel tm, bool marks_oops_alive) = 0;
   uint index(uint id, RefProcThreadModel tm) { return (tm == RefProcThreadModel::Single) ? 0 : id; }
+};
+
+
+class RefProcTask : public AbstractGangTask {
+protected:
+  ReferenceProcessor& _ref_processor;
+  ReferenceProcessorPhaseTimes* _phase_times;
+  AbstractRefProcClosureContext& _closure_context;
+
+public:
+  RefProcTask(const char* name,
+              ReferenceProcessor& ref_processor,
+              ReferenceProcessorPhaseTimes* phase_times,
+              AbstractRefProcClosureContext& closure_context)
+          : AbstractGangTask(name),
+            _ref_processor(ref_processor),
+            _phase_times(phase_times),
+            _closure_context(closure_context) {}
+
+  virtual void rp_work(uint worker_id,
+                       uint list_index,
+                       BoolObjectClosure* is_alive,
+                       OopClosure* keep_alive,
+                       VoidClosure* complete_gc) {
+
+  }
+};
+
+struct RPNewTask : public AbstractGangTask {
+  RefProcTask* _rp_task = nullptr;
+  bool _parallel;
+
+  RPNewTask(const char* name) : AbstractGangTask(name) {}
+
+  void set_rp(RefProcTask* rp_task) {
+    assert(_rp_task == nullptr, "");
+    _rp_task = rp_task;
+  }
+
+  void set_mode(bool parallel) {
+    _parallel = parallel;
+  }
 };
 
 // Temporarily change the number of workers based on given reference count.

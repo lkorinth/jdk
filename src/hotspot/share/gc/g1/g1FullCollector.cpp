@@ -229,6 +229,28 @@ void G1FullCollector::update_attribute_table(HeapRegion* hr) {
   }
 }
 
+struct G1FullGCRPTask : public RPNewTask {
+  uint _max_workers;
+  G1FullCollector& _collector;
+
+  G1FullGCRPTask(G1FullCollector &collector, uint max_workers)
+          : RPNewTask("g1 full rp task"),
+            _max_workers(max_workers),
+            _collector(collector) {}
+
+  void work(uint worker_id) override {
+    assert(worker_id < _max_workers, "sanity");
+    uint list_index = worker_id;
+    if (!_parallel) {
+      worker_id = 0;
+    }
+    G1IsAliveClosure is_alive(&_collector);
+    G1FullKeepAliveClosure keep_alive(_collector.marker(worker_id));
+    auto complete_gc = _collector.marker(worker_id)->stack_closure();
+    _rp_task->rp_work(worker_id, list_index, &is_alive, &keep_alive, complete_gc);
+  }
+};
+
 class G1FullGCRefProcClosureContext : public AbstractRefProcClosureContext {
   uint _max_workers;
   G1FullCollector& _collector;
@@ -287,7 +309,8 @@ void G1FullCollector::phase1_mark_live_objects() {
     // Process reference objects found during marking.
     ReferenceProcessorPhaseTimes pt(scope()->timer(), reference_processor()->max_num_queues());
     G1FullGCRefProcClosureContext context(*this, reference_processor()->max_num_queues());
-    const ReferenceProcessorStats& stats = reference_processor()->process_discovered_references(context, pt);
+    G1FullGCRPTask new_task(*this, reference_processor()->max_num_queues());
+    const ReferenceProcessorStats& stats = reference_processor()->process_discovered_references(context, pt, &new_task);
     scope()->tracer()->report_gc_reference_stats(stats);
     pt.print_all_references();
     assert(marker(0)->oop_stack()->is_empty(), "Should be no oops on the stack");

@@ -197,7 +197,8 @@ void ReferenceProcessor::verify_total_count_zero(DiscoveredList lists[], const c
 #endif
 
 ReferenceProcessorStats ReferenceProcessor::process_discovered_references(AbstractRefProcClosureContext& closure_context,
-                                                                          ReferenceProcessorPhaseTimes& phase_times) {
+                                                                          ReferenceProcessorPhaseTimes& phase_times,
+                                                                          RPNewTask* new_task) {
 
   double start_time = os::elapsedTime();
 
@@ -222,7 +223,7 @@ ReferenceProcessorStats ReferenceProcessor::process_discovered_references(Abstra
 
   {
     RefProcTotalPhaseTimesTracker tt(RefPhase1, &phase_times, this);
-    process_soft_ref_reconsider(closure_context, phase_times);
+    process_soft_ref_reconsider(closure_context, phase_times, new_task);
   }
 
   update_soft_ref_master_clock();
@@ -511,22 +512,7 @@ size_t ReferenceProcessor::total_reference_count(ReferenceType type) const {
   return total_count(list);
 }
 
-class RefProcTask : public AbstractGangTask {
-protected:
-  ReferenceProcessor& _ref_processor;
-  ReferenceProcessorPhaseTimes* _phase_times;
-  AbstractRefProcClosureContext& _closure_context;
 
-public:
-  RefProcTask(const char* name,
-              ReferenceProcessor& ref_processor,
-              ReferenceProcessorPhaseTimes* phase_times,
-              AbstractRefProcClosureContext& closure_context)
-    : AbstractGangTask(name),
-      _ref_processor(ref_processor),
-      _phase_times(phase_times),
-      _closure_context(closure_context) {}
-};
 
 class RefProcPhase1Task : public RefProcTask {
 public:
@@ -551,6 +537,20 @@ public:
                                                                            _closure_context.complete_gc(worker_id));
     _phase_times->add_ref_cleared(REF_SOFT, removed);
   }
+
+  void rp_work(uint worker_id,
+               uint list_index,
+               BoolObjectClosure* is_alive,
+               OopClosure* keep_alive,
+               VoidClosure* complete_gc) override {
+    ResourceMark rm;
+    // TODO:should use worker_id; but due to existing bug...
+    RefProcSubPhasesWorkerTimeTracker tt(ReferenceProcessor::SoftRefSubPhase1, _phase_times, list_index);
+    size_t const removed = _ref_processor.process_soft_ref_reconsider_work(_ref_processor._discoveredSoftRefs[list_index],
+                                                                           _policy, is_alive, keep_alive, complete_gc);
+    _phase_times->add_ref_cleared(REF_SOFT, removed);
+  }
+
 private:
   ReferencePolicy* _policy;
 };
@@ -813,7 +813,8 @@ void ReferenceProcessor::run_task(AbstractGangTask& task, AbstractRefProcClosure
 }
 
 void ReferenceProcessor::process_soft_ref_reconsider(AbstractRefProcClosureContext& closure_context,
-                                                     ReferenceProcessorPhaseTimes& phase_times) {
+                                                     ReferenceProcessorPhaseTimes& phase_times,
+                                                     RPNewTask* new_task) {
 
   size_t const num_soft_refs = total_count(_discoveredSoftRefs);
   phase_times.set_ref_discovered(REF_SOFT, num_soft_refs);
@@ -839,8 +840,17 @@ void ReferenceProcessor::process_soft_ref_reconsider(AbstractRefProcClosureConte
   RefProcPhaseTimeTracker tt(RefPhase1, &phase_times);
 
   log_reflist("Phase 1 Soft before", _discoveredSoftRefs, _max_num_queues);
-  RefProcPhase1Task phase1(*this, &phase_times, _current_soft_ref_policy, closure_context);
-  run_task(phase1, closure_context, true);
+  {
+    if (new_task != nullptr) {
+      RefProcPhase1Task phase1(*this, &phase_times, _current_soft_ref_policy, closure_context);
+      new_task->set_rp(&phase1);
+      new_task->set_mode(processing_is_mt());
+      run_task(*new_task, closure_context, true);
+    } else {
+      RefProcPhase1Task phase1(*this, &phase_times, _current_soft_ref_policy, closure_context);
+      run_task(phase1, closure_context, true);
+    }
+  }
   log_reflist("Phase 1 Soft after", _discoveredSoftRefs, _max_num_queues);
 }
 
