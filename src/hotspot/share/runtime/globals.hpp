@@ -543,6 +543,9 @@ const intx ObjectAlignmentInBytes = 8;
           "compression. Otherwise the level must be between 1 and 9.")      \
           range(0, 9)                                                       \
                                                                             \
+  product(bool, HeapDumpCompressedIdentifiers, false,                       \
+          "Try to use 32 bit identifiers in heap dumps")                    \
+                                                                            \
   product(ccstr, NativeMemoryTracking, "off",                               \
           "Native memory tracking options")                                 \
                                                                             \
