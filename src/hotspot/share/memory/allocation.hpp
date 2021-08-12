@@ -404,6 +404,11 @@ class ResourceObj ALLOCATION_SUPER_CLASS_SPEC {
   // Use second array's element for verification value to distinguish garbage.
   allocation_type _type;
   static THREAD_LOCAL allocation_type _thread_last_allocated;
+  static address add_type_to_header(void* addr, allocation_type type) {
+    uintptr_t* header = reinterpret_cast<uintptr_t*>(addr);
+    header[0] = type;
+    return reinterpret_cast<address>(&header[1]); // return tail
+  }
 
  public:
   allocation_type get_allocation_type() const;
@@ -419,13 +424,15 @@ protected:
 
  public:
   void* operator new(size_t size, allocation_type type, MEMFLAGS flags) throw();
-  void* operator new [](size_t size, allocation_type type, MEMFLAGS flags) throw() = delete;
+  void* operator new [](size_t size, allocation_type type, MEMFLAGS flags) throw();
   void* operator new(size_t size, const std::nothrow_t&  nothrow_constant,
       allocation_type type, MEMFLAGS flags) throw();
   void* operator new [](size_t size, const std::nothrow_t&  nothrow_constant,
-      allocation_type type, MEMFLAGS flags) throw() = delete;
+      allocation_type type, MEMFLAGS flags) throw();
+
   void* operator new(size_t size, Arena *arena) throw();
-  void* operator new [](size_t size, Arena *arena) throw() = delete;
+
+  void* operator new [](size_t size, Arena *arena) throw();
 
   void* operator new(size_t size) throw() {
       address res = (address)resource_allocate_bytes(size);
@@ -433,16 +440,26 @@ protected:
       return res;
   }
 
+  void* operator new [](size_t size) throw() {
+       address res = (address)resource_allocate_bytes(size);
+       DEBUG_ONLY(res = add_type_to_header(res, RESOURCE_AREA);)
+       return res;
+   }
+
   void* operator new(size_t size, const std::nothrow_t& nothrow_constant) throw() {
       address res = (address)resource_allocate_bytes(size, AllocFailStrategy::RETURN_NULL);
       DEBUG_ONLY(if (res != NULL) _thread_last_allocated = RESOURCE_AREA;)
       return res;
   }
 
-  void* operator new [](size_t size) throw() = delete;
-  void* operator new [](size_t size, const std::nothrow_t& nothrow_constant) throw() = delete;
+  void* operator new [](size_t size, const std::nothrow_t& nothrow_constant) throw() {
+      address res = (address)resource_allocate_bytes(size, AllocFailStrategy::RETURN_NULL);
+      DEBUG_ONLY(if (res != NULL) res = add_type_to_header(res, RESOURCE_AREA);)
+      return res;
+  }
+
   void  operator delete(void* p);
-  void  operator delete [](void* p) = delete;
+  void  operator delete [](void* p);
 };
 
 // One of the following macros must be used when allocating an array

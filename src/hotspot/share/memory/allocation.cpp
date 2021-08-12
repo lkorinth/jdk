@@ -110,6 +110,12 @@ void* ResourceObj::operator new(size_t size, Arena *arena) throw() {
   return res;
 }
 
+void* ResourceObj::operator new [](size_t size, Arena *arena) throw() {
+  address res = (address)arena->Amalloc(size);
+  DEBUG_ONLY(res = add_type_to_header(res, ARENA);)
+  return res;
+}
+
 void* ResourceObj::operator new(size_t size, allocation_type type, MEMFLAGS flags) throw() {
   address res = NULL;
   switch (type) {
@@ -124,6 +130,12 @@ void* ResourceObj::operator new(size_t size, allocation_type type, MEMFLAGS flag
    default:
     ShouldNotReachHere();
   }
+  return res;
+}
+
+void* ResourceObj::operator new [](size_t size, allocation_type type, MEMFLAGS flags) throw() {
+  void* res = operator new(size DEBUG_ONLY(+sizeof(uintptr_t)), STACK_OR_EMBEDDED, flags);
+  DEBUG_ONLY(res = add_type_to_header(res, type);)
   return res;
 }
 
@@ -146,10 +158,28 @@ void* ResourceObj::operator new(size_t size, const std::nothrow_t&  nothrow_cons
   return res;
 }
 
+void* ResourceObj::operator new [](size_t size, const std::nothrow_t&  nothrow_constant,
+    allocation_type type, MEMFLAGS flags) throw() {
+  void* res = operator new(size DEBUG_ONLY(+sizeof(uintptr_t)), nothrow_constant, STACK_OR_EMBEDDED, flags);
+  DEBUG_ONLY(if (res != NULL) res = add_type_to_header(res, type);)
+  return res;
+}
+
 void ResourceObj::operator delete(void* p) {
-  assert(((ResourceObj *)p)->allocated_on_C_heap(),
-         "delete only allowed for C_HEAP objects");
+  if (p == NULL) {
+    return;
+  }
+  assert(((ResourceObj *)p)->allocated_on_C_heap(), "operator delete only allowed for C_HEAP objects");
   FreeHeap(p);
+}
+
+void ResourceObj::operator delete [](void* p) {
+  if (p == NULL) {
+    return;
+  }
+  uintptr_t* header = reinterpret_cast<uintptr_t*>(p) - 1;
+  assert(header[0] == C_HEAP, "operator delete [] only allowed for C_HEAP objects");
+  FreeHeap(header);
 }
 
 #ifdef ASSERT
