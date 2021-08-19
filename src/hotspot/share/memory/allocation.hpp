@@ -245,6 +245,7 @@ template <MEMFLAGS F> class CHeapObj ALLOCATION_SUPER_CLASS_SPEC {
 // Calling new or delete will result in fatal error.
 
 class StackObj ALLOCATION_SUPER_CLASS_SPEC {
+  friend class AllocationTest;
  private:
   void* operator new(size_t size) throw();
   void* operator new [](size_t size) throw();
@@ -280,6 +281,7 @@ class MetaspaceObj {
   //   void deallocate_contents(ClassLoaderData* loader_data);
 
   friend class VMStructs;
+  friend class AllocationTest;
   // When CDS is enabled, all shared metaspace objects are mapped
   // into a single contiguous memory block, so we can use these
   // two pointers to quickly determine if something is in the
