@@ -22,10 +22,13 @@
  */
 
 #include "precompiled.hpp"
+#include "classfile/classLoaderData.hpp"
 #include "memory/allocation.hpp"
+#include "memory/arena.hpp"
+#include "memory/resourceArea.hpp"
 #include "services/memTracker.hpp"
-
 #include "unittest.hpp"
+
 #include <new>
 
 // Test fixture to work with TEST_VM_F
@@ -75,7 +78,7 @@ protected:
     }
   }
 
-  static void* allocate(size_t size, AllocationDeallocationInformation ot) {
+  static void* allocate(size_t size, AllocationDeallocationInformation ot, Arena* arena) {
     switch (ot._object_type) {
     // ObjectType::CHeapObject
     case ObjectType::CHeapObject: switch (ot._array_type) {
@@ -107,8 +110,8 @@ protected:
     }
     // ObjectType::MetaspceObject
     case ObjectType::MetaspaceObject: switch ( ot._failure_behaviour) {
-      case FailureBehaviour::ReturnNull:     return MetaspaceObj::operator new(size /* unused */, nullptr, size, MetaspaceObj::ConstantPoolType);
-      case FailureBehaviour::Crash:          return MetaspaceObj::operator new(size /* unused */, nullptr, size, MetaspaceObj::ConstantPoolType, nullptr /* java thread*/ );
+      case FailureBehaviour::ReturnNull:     return MetaspaceObj::operator new(size /* unused */, ClassLoaderData::the_null_class_loader_data(), size, MetaspaceObj::ConstantPoolType);
+      case FailureBehaviour::Crash:          return MetaspaceObj::operator new(size /* unused */, ClassLoaderData::the_null_class_loader_data(), size, MetaspaceObj::ConstantPoolType, JavaThread::current());
     }
     // ObjectType::ResourceObject
     case ObjectType::ResourceObject: switch (ot._array_type) {
@@ -121,7 +124,7 @@ protected:
           case FailureBehaviour::Crash:      return ResourceObj::operator new(size, at(ot._location), mtNone);
           case FailureBehaviour::ReturnNull: return ResourceObj::operator new(size, std::nothrow, at(ot._location), mtNone);
         }
-        case Location::Arena: return ResourceObj::operator new(size, nullptr);
+        case Location::Arena: return ResourceObj::operator new(size, arena);
       }
       case Dimension::Vector: switch (ot._location) {
         case Location::Default: switch (ot._failure_behaviour) {
@@ -132,7 +135,7 @@ protected:
           case FailureBehaviour::Crash:      return ResourceObj::operator new[](size, at(ot._location), mtNone);
           case FailureBehaviour::ReturnNull: return ResourceObj::operator new[](size, std::nothrow, at(ot._location), mtNone);
         }
-        case Location::Arena: return ResourceObj::operator new[](size, nullptr);
+        case Location::Arena: return ResourceObj::operator new[](size, arena);
       }
     }
 
@@ -148,8 +151,8 @@ protected:
   static void deallocate(AllocationDeallocationInformation ot, void* ptr) {
       switch (ot._object_type) {
       case ObjectType::CHeapObject: switch (ot._array_type) {
-        case Dimension::Scalar: return (void) CHeapObj<mtTracing>::operator delete(ptr);
-        case Dimension::Vector: return (void) CHeapObj<mtTracing>::operator delete[](ptr);
+        case Dimension::Scalar: return (void) CHeapObj<mtNone>::operator delete(ptr);
+        case Dimension::Vector: return (void) CHeapObj<mtNone>::operator delete[](ptr);
       }
       case ObjectType::StackObject: switch (ot._array_type) {
         case Dimension::Scalar: return (void) StackObj::operator delete(ptr);
@@ -187,8 +190,8 @@ AllocationTest::AllocationDeallocationInformation AllocationTest::versions[] = {
   AllocationDeallocationInformation(ObjectType::StackObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Scalar,  StackLocation::Default, FailureBehaviour::Crash),
   AllocationDeallocationInformation(ObjectType::StackObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Vector, StackLocation::Default, FailureBehaviour::Crash),
   // MetaspaceObject
-  AllocationDeallocationInformation(ObjectType::MetaspaceObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Scalar,  StackLocation::Default, FailureBehaviour::Crash),
-  AllocationDeallocationInformation(ObjectType::MetaspaceObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Scalar,  StackLocation::Default, FailureBehaviour::ReturnNull),
+//  AllocationDeallocationInformation(ObjectType::MetaspaceObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Scalar,  StackLocation::Default, FailureBehaviour::Crash),
+//  AllocationDeallocationInformation(ObjectType::MetaspaceObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Scalar,  StackLocation::Default, FailureBehaviour::ReturnNull),
   // ResourceObject
   AllocationDeallocationInformation(ObjectType::ResourceObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Scalar, StackLocation::Default, FailureBehaviour::Crash),
   AllocationDeallocationInformation(ObjectType::ResourceObject, DeallocationStrategy::DeleteFails, Location::Default, Dimension::Scalar, StackLocation::Default, FailureBehaviour::ReturnNull),
@@ -207,8 +210,15 @@ AllocationTest::AllocationDeallocationInformation AllocationTest::versions[] = {
 };
 
 TEST_VM_F(AllocationTest, allocate_and_delete) {
+  Arena arena(mtNone, 1024);
+  ResourceMark rm;
   for (AllocationDeallocationInformation o: AllocationTest::versions) {
-    void* ptr = allocate(16, o);
+    if (o._object_type == ObjectType::StackObject) {
+//      ASSERT_DEATH({allocate(16, o);}, "new should crash");
+//      ASSERT_DEATH({deallocate(o, nullptr);}, "delete should crash");
+      continue;
+    }
+    void* ptr = allocate(16, o, &arena);
     ASSERT_TRUE(ptr != nullptr);
     ASSERT_TRUE((u(ptr) & 0b111) == 0); // 8 bytes alignment
 
