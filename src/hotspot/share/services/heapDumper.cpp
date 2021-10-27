@@ -58,7 +58,7 @@
 #include "services/threadService.hpp"
 #include "utilities/macros.hpp"
 #include "utilities/ostream.hpp"
-
+#include <algorithm>
 /*
  * HPROF binary format - description copied from:
  *   src/share/demo/jvmti/hprof/hprof_io.c
@@ -324,15 +324,6 @@
  */
 
 static bool should_dump_jni_oop(oop o);
-static int compare_ptrs(const void* a, const void* b) {
-  if (*(Symbol**)a > *(Symbol**)b) {
-    return 1;
-  } else if (*(Symbol**)a == *(Symbol**)b) {
-    return 0;
-  } else {
-    return -1;
-  }
-}
 
 class SymbolAddressRenamer : public SymbolClosure {
 private:
@@ -351,7 +342,7 @@ public:
     if (size > 0) {
       _table[_index++] = nullptr; // we need to handle the nullptr, even though SymbolTable::symbols_do will not enumerate it
       SymbolTable::symbols_do(this);
-      qsort(_table, _size /* #elements */, sizeof(_table[0]), compare_ptrs);
+      std::sort((void**)_table, (void**)(_table + _size)); // no swap for Symbol**
       log_debug(heap)("SymbolAddressRenamer created with symbol size: %d, and index: %d", _size, _index);
     }
   }
@@ -369,8 +360,8 @@ public:
     if (_size == 0) {
       return reinterpret_cast<uintptr_t>(symbol); // no renaming
     }
-    Symbol** element = static_cast<Symbol**>(bsearch(&symbol, _table, _size /* #elements */, sizeof(_table[0]), compare_ptrs));
-    assert(element != nullptr, "table should keep all symbols");
+    Symbol** element = std::lower_bound(_table, _table + _size, symbol);
+    assert(element != _table + _size, "table should keep all symbols");
     size_t index = (reinterpret_cast<uintptr_t>(element) - reinterpret_cast<uintptr_t>(_table)) / sizeof(symbol); // todo use pointerdiff utility somewhere
     assert(index <= UINT_MAX, "we should not rename if we have too many symbols");
     return index;
