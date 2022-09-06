@@ -69,7 +69,7 @@ void HeapRegionRemSet::clear_fcc() {
 }
 
 void HeapRegionRemSet::clear(bool only_cardset) {
-  MutexLocker x(&_m, Mutex::_no_safepoint_check_flag);
+  //MutexLocker x(&_m, Mutex::_no_safepoint_check_flag);
   clear_locked(only_cardset);
 }
 
@@ -114,12 +114,12 @@ void HeapRegionRemSet::add_code_root(nmethod* nm) {
 
 void HeapRegionRemSet::add_code_root_locked(nmethod* nm) {
   assert(nm != NULL, "sanity");
-  assert((CodeCache_lock->owned_by_self() ||
-         (SafepointSynchronize::is_at_safepoint() &&
-          (_m.owned_by_self() || Thread::current()->is_VM_thread()))),
-          "not safely locked. CodeCache_lock->owned_by_self(): %s, is_at_safepoint(): %s, _m.owned_by_self(): %s, Thread::current()->is_VM_thread(): %s",
-          BOOL_TO_STR(CodeCache_lock->owned_by_self()), BOOL_TO_STR(SafepointSynchronize::is_at_safepoint()),
-          BOOL_TO_STR(_m.owned_by_self()), BOOL_TO_STR(Thread::current()->is_VM_thread()));
+  //  assert((CodeCache_lock->owned_by_self() ||
+  //       (SafepointSynchronize::is_at_safepoint() &&
+  //        (_m.owned_by_self() || Thread::current()->is_VM_thread()))),
+  //        "not safely locked. CodeCache_lock->owned_by_self(): %s, is_at_safepoint(): %s, _m.owned_by_self(): %s, Thread::current()->is_VM_thread(): %s",
+  //        BOOL_TO_STR(CodeCache_lock->owned_by_self()), BOOL_TO_STR(SafepointSynchronize::is_at_safepoint()),
+  //        BOOL_TO_STR(_m.owned_by_self()), BOOL_TO_STR(Thread::current()->is_VM_thread()));
   _code_roots.add(nm);
 }
 
@@ -127,7 +127,7 @@ void HeapRegionRemSet::remove_code_root(nmethod* nm) {
   assert(nm != NULL, "sanity");
   assert_locked_or_safepoint(CodeCache_lock);
 
-  MutexLocker ml(CodeCache_lock->owned_by_self() ? NULL : &_m, Mutex::_no_safepoint_check_flag);
+  //MutexLocker ml(CodeCache_lock->owned_by_self() ? NULL : &_m, Mutex::_no_safepoint_check_flag);
   _code_roots.remove(nm);
 
   // Check that there were no duplicates

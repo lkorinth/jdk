@@ -22,7 +22,6 @@
  */
 
 #include "precompiled.hpp"
-#include "gc/g1/g1CodeRootSetTable.hpp"
 #include "gc/g1/g1CodeCacheRemSet.hpp"
 #include "unittest.hpp"
 
@@ -31,10 +30,6 @@ class G1CodeRootSetTest : public ::testing::Test {
 
   size_t threshold() {
     return G1CodeRootSet::Threshold;
-  }
-
-  G1CodeRootSetTable* purge_list() {
-    return G1CodeRootSetTable::_purge_list;
   }
 };
 
@@ -69,8 +64,8 @@ TEST_VM_F(G1CodeRootSetTest, g1_code_cache_rem_set) {
           << "After adding in total " << num_to_add << " distinct code roots, "
           "they need to be in the set, but there are only " << root_set.length();
 
-  ASSERT_NE(purge_list(), (G1CodeRootSetTable*) NULL)
-          << "should have grown to large hashtable";
+  //  ASSERT_NE(purge_list(), (G1CodeRootSetTable*) NULL)
+  //        << "should have grown to large hashtable";
 
   size_t num_popped = 0;
   for (size_t i = 1; i <= num_to_add; i++) {
@@ -84,11 +79,11 @@ TEST_VM_F(G1CodeRootSetTest, g1_code_cache_rem_set) {
   ASSERT_EQ(num_popped, num_to_add)
           << "Managed to pop " << num_popped << " code roots, but only "
           << num_to_add << " were added";
-  ASSERT_NE(purge_list(), (G1CodeRootSetTable*) NULL)
-          << "should have grown to large hashtable";
+  //ASSERT_NE(purge_list(), (G1CodeRootSetTable*) NULL)
+  //        << "should have grown to large hashtable";
 
-  G1CodeRootSet::purge();
+  //G1CodeRootSet::purge();
 
-  ASSERT_EQ(purge_list(), (G1CodeRootSetTable*) NULL)
-          << "should have purged old small tables";
+  //ASSERT_EQ(purge_list(), (G1CodeRootSetTable*) NULL)
+  //        << "should have purged old small tables";
 }

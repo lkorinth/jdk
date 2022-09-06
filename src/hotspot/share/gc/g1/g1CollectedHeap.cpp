@@ -3387,7 +3387,7 @@ void G1CollectedHeap::reset_hot_card_cache() {
 }
 
 void G1CollectedHeap::purge_code_root_memory() {
-  G1CodeRootSet::purge();
+  // do nothing TODO correct? lkorinth
 }
 
 class RebuildCodeRootClosure: public CodeBlobClosure {

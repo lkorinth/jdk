@@ -25,34 +25,86 @@
 #ifndef SHARE_GC_G1_G1CODECACHEREMSET_HPP
 #define SHARE_GC_G1_G1CODECACHEREMSET_HPP
 
+#include "utilities/concurrentHashTable.inline.hpp"
+#include "utilities/concurrentHashTableTasks.inline.hpp"
+
 class CodeBlobClosure;
-class G1CodeRootSetTable;
 class HeapRegion;
 class nmethod;
+
+class CounterContext {
+private:
+  volatile size_t _counter;
+public:
+  CounterContext() {
+    Atomic::store(&_counter, size_t(0));
+  };
+  void increment() {
+    Atomic::add(&_counter, size_t(1));
+  }
+  void decrement() {
+    Atomic::sub(&_counter, size_t(1));
+  }
+  size_t counter() const {
+    return Atomic::load(&_counter);
+  }
+};
+
+static uintx hash(const nmethod* n) {
+  return uintx(n) ^ (uintx(n) >> 7u);   // code heap blocks are 128 bytes aligned
+}
+
+class NmethodTableConfig : public StackObj {
+public:
+  typedef nmethod* Value;
+
+  static uintx get_hash(Value const& value, bool* is_dead) {
+    *is_dead = false;
+    return hash(value);
+  }
+  static void* allocate_node(void* context, size_t size, Value const& value) {
+    static_cast<CounterContext*>(context)->increment();
+    return AllocateHeap(size, mtGC);
+  }
+  static void free_node(void* context, void* memory, Value const& value) {
+    static_cast<CounterContext*>(context)->decrement();
+    FreeHeap(memory);
+  }
+};
+
+class NmethodTableLookup {
+private:
+  const nmethod* _value;
+
+public:
+  NmethodTableLookup(const nmethod* value)
+    : _value(value) {
+  }
+  uintx get_hash() const {
+    return hash(_value);
+  }
+  bool equals(nmethod** value, bool* is_dead) {
+    *is_dead = false;
+    return _value == *value;
+  }
+};
 
 // Implements storage for a set of code roots.
 // All methods that modify the set are not thread-safe except if otherwise noted.
 class G1CodeRootSet {
   friend class G1CodeRootSetTest;
  private:
-
+  CounterContext _cc;
+  ConcurrentHashTable<NmethodTableConfig, mtGC> _table;
   const static size_t SmallSize = 32;
   const static size_t Threshold = 24;
   const static size_t LargeSize = 512;
-
-  G1CodeRootSetTable* _table;
-  G1CodeRootSetTable* load_acquire_table();
-
-  size_t _length;
 
   void move_to_large();
   void allocate_small_table();
 
  public:
-  G1CodeRootSet() : _table(NULL), _length(0) {}
-  ~G1CodeRootSet();
-
-  static void purge();
+  G1CodeRootSet() : _cc{}, _table(log2i(SmallSize), log2i(LargeSize), 0 /* use cc counters to determine hash growth instead */, false /* statistics */, &_cc, 6/*services*/-3) {} // Uncommit_lock - 1
 
   static size_t static_mem_size();
 
@@ -70,14 +122,10 @@ class G1CodeRootSet {
   // Remove all nmethods which no longer contain pointers into our "owner" region
   void clean(HeapRegion* owner);
 
-  bool is_empty() {
-    bool empty = length() == 0;
-    assert(empty == (_table == NULL), "is empty only if table is deallocated");
-    return empty;
-  }
+  bool is_empty() const { return _cc.counter() == 0; }
 
   // Length in elements
-  size_t length() const { return _length; }
+  size_t length() const { return _cc.counter(); }
 
   // Memory size in bytes taken by this set.
   size_t mem_size();

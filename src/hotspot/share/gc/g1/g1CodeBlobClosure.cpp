@@ -124,6 +124,7 @@ public:
 };
 
 void G1CodeBlobClosure::do_code_blob(CodeBlob* cb) {
+  assert(cb != nullptr, "sanity");
   nmethod* nm = cb->as_nmethod_or_null();
   if (nm == NULL) {
     return;

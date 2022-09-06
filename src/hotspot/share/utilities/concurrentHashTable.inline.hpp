@@ -33,6 +33,7 @@
 #include "runtime/prefetch.inline.hpp"
 #include "runtime/safepoint.hpp"
 #include "utilities/globalCounter.inline.hpp"
+#include "utilities/growableArray.hpp"
 #include "utilities/numberSeq.hpp"
 #include "utilities/spinYield.hpp"
 
@@ -213,7 +214,7 @@ inline ConcurrentHashTable<CONFIG, F>::
 // ScopedCS
 template <typename CONFIG, MEMFLAGS F>
 inline ConcurrentHashTable<CONFIG, F>::
-  ScopedCS::ScopedCS(Thread* thread, ConcurrentHashTable<CONFIG, F>* cht)
+  ScopedCS::ScopedCS(Thread* thread, const ConcurrentHashTable<CONFIG, F>* cht)
     : _thread(thread),
       _cht(cht),
       _cs_context(GlobalCounter::critical_section_begin(_thread))
@@ -303,7 +304,7 @@ inline void ConcurrentHashTable<CONFIG, F>::
 
 template <typename CONFIG, MEMFLAGS F>
 inline bool ConcurrentHashTable<CONFIG, F>::
-  try_resize_lock(Thread* locker)
+  try_resize_lock(Thread* locker) const
 {
   if (_resize_lock->try_lock()) {
     if (_resize_lock_owner != NULL) {
@@ -322,7 +323,7 @@ inline bool ConcurrentHashTable<CONFIG, F>::
 
 template <typename CONFIG, MEMFLAGS F>
 inline void ConcurrentHashTable<CONFIG, F>::
-  lock_resize_lock(Thread* locker)
+  lock_resize_lock(Thread* locker) const
 {
   size_t i = 0;
   // If lock is hold by some other thread, the chances that it is return quick
@@ -347,7 +348,7 @@ inline void ConcurrentHashTable<CONFIG, F>::
 
 template <typename CONFIG, MEMFLAGS F>
 inline void ConcurrentHashTable<CONFIG, F>::
-  unlock_resize_lock(Thread* locker)
+  unlock_resize_lock(Thread* locker) const
 {
   _invisible_epoch = 0;
   assert(locker == _resize_lock_owner, "Not unlocked by locker.");
@@ -497,34 +498,36 @@ inline void ConcurrentHashTable<CONFIG, F>::
   // own read-side.
   GlobalCounter::CSContext cs_context = GlobalCounter::critical_section_begin(thread);
   for (size_t bucket_it = start_idx; bucket_it < stop_idx; bucket_it++) {
-    Bucket* bucket = table->get_bucket(bucket_it);
-    Bucket* prefetch_bucket = (bucket_it+1) < stop_idx ?
-                              table->get_bucket(bucket_it+1) : NULL;
+    for (;;) {
+      Bucket* bucket = table->get_bucket(bucket_it);
+      Bucket* prefetch_bucket = (bucket_it+1) < stop_idx ?
+                                table->get_bucket(bucket_it+1) : NULL;
 
-    if (!HaveDeletables<IsPointer<VALUE>::value, EVALUATE_FUNC>::
-        have_deletable(bucket, eval_f, prefetch_bucket)) {
-        // Nothing to remove in this bucket.
-        continue;
-    }
+      if (!HaveDeletables<IsPointer<VALUE>::value, EVALUATE_FUNC>::
+          have_deletable(bucket, eval_f, prefetch_bucket)) {
+          // Nothing to remove in this bucket.
+          break;
+      }
 
-    GlobalCounter::critical_section_end(thread, cs_context);
-    // We left critical section but the bucket cannot be removed while we hold
-    // the _resize_lock.
-    bucket->lock();
-    size_t nd = delete_check_nodes(bucket, eval_f, BULK_DELETE_LIMIT, ndel);
-    bucket->unlock();
-    if (is_mt) {
-      GlobalCounter::write_synchronize();
-    } else {
-      write_synchonize_on_visible_epoch(thread);
+      GlobalCounter::critical_section_end(thread, cs_context);
+      // We left critical section but the bucket cannot be removed while we hold
+      // the _resize_lock.
+      bucket->lock();
+      size_t nd = delete_check_nodes(bucket, eval_f, BULK_DELETE_LIMIT, ndel);
+      bucket->unlock();
+      if (is_mt) {
+        GlobalCounter::write_synchronize();
+      } else {
+        write_synchonize_on_visible_epoch(thread);
+      }
+      for (size_t node_it = 0; node_it < nd; node_it++) {
+        del_f(ndel[node_it]->value());
+        Node::destroy_node(_context, ndel[node_it]);
+        JFR_ONLY(safe_stats_remove();)
+        DEBUG_ONLY(ndel[node_it] = (Node*)POISON_PTR;)
+      }
+      cs_context = GlobalCounter::critical_section_begin(thread);
     }
-    for (size_t node_it = 0; node_it < nd; node_it++) {
-      del_f(ndel[node_it]->value());
-      Node::destroy_node(_context, ndel[node_it]);
-      JFR_ONLY(safe_stats_remove();)
-      DEBUG_ONLY(ndel[node_it] = (Node*)POISON_PTR;)
-    }
-    cs_context = GlobalCounter::critical_section_begin(thread);
   }
   GlobalCounter::critical_section_end(thread, cs_context);
 }
@@ -860,7 +863,7 @@ inline bool ConcurrentHashTable<CONFIG, F>::
 template <typename CONFIG, MEMFLAGS F>
 template <typename LOOKUP_FUNC>
 inline typename CONFIG::Value* ConcurrentHashTable<CONFIG, F>::
-  internal_get(Thread* thread, LOOKUP_FUNC& lookup_f, bool* grow_hint)
+  internal_get(Thread* thread, LOOKUP_FUNC& lookup_f, bool* grow_hint) const
 {
   bool clean = false;
   size_t loops = 0;
@@ -964,7 +967,7 @@ inline bool ConcurrentHashTable<CONFIG, F>::
 template <typename CONFIG, MEMFLAGS F>
 template <typename FUNC>
 inline void ConcurrentHashTable<CONFIG, F>::
-  do_scan_locked(Thread* thread, FUNC& scan_f)
+  do_scan_locked(Thread* thread, FUNC& scan_f) const
 {
   assert(_resize_lock_owner == thread, "Re-size lock not held");
   // We can do a critical section over the entire loop but that would block
@@ -1007,7 +1010,7 @@ inline size_t ConcurrentHashTable<CONFIG, F>::
 // Constructor
 template <typename CONFIG, MEMFLAGS F>
 inline ConcurrentHashTable<CONFIG, F>::
-ConcurrentHashTable(size_t log2size, size_t log2size_limit, size_t grow_hint, bool enable_statistics, void* context)
+ConcurrentHashTable(size_t log2size, size_t log2size_limit, size_t grow_hint, bool enable_statistics, void* context, int rank)
     : _context(context), _new_table(NULL), _log2_size_limit(log2size_limit),
       _log2_start_size(log2size), _grow_hint(grow_hint),
       _size_limit_reached(false), _resize_lock_owner(NULL),
@@ -1019,7 +1022,7 @@ ConcurrentHashTable(size_t log2size, size_t log2size_limit, size_t grow_hint, bo
     _stats_rate = nullptr;
   }
   _resize_lock =
-    new Mutex(Mutex::nosafepoint-2, "ConcurrentHashTableResize_lock");
+    new Mutex(Mutex::event - (-1 * rank), "ConcurrentHashTableResize_lock");
   _table = new InternalTable(log2size);
   assert(log2size_limit >= log2size, "bad ergo");
   _size_limit_reached = _table->_log2_size == _log2_size_limit;
@@ -1079,7 +1082,7 @@ inline bool ConcurrentHashTable<CONFIG, F>::
 template <typename CONFIG, MEMFLAGS F>
 template <typename LOOKUP_FUNC, typename FOUND_FUNC>
 inline bool ConcurrentHashTable<CONFIG, F>::
-  get(Thread* thread, LOOKUP_FUNC& lookup_f, FOUND_FUNC& found_f, bool* grow_hint)
+  get(Thread* thread, LOOKUP_FUNC& lookup_f, FOUND_FUNC& found_f, bool* grow_hint) const
 {
   bool ret = false;
   ScopedCS cs(thread, this);
@@ -1114,7 +1117,7 @@ inline bool ConcurrentHashTable<CONFIG, F>::
 template <typename CONFIG, MEMFLAGS F>
 template <typename SCAN_FUNC>
 inline bool ConcurrentHashTable<CONFIG, F>::
-  try_scan(Thread* thread, SCAN_FUNC& scan_f)
+  try_scan(Thread* thread, SCAN_FUNC& scan_f) const
 {
   if (!try_resize_lock(thread)) {
     return false;
@@ -1127,10 +1130,10 @@ inline bool ConcurrentHashTable<CONFIG, F>::
 template <typename CONFIG, MEMFLAGS F>
 template <typename SCAN_FUNC>
 inline void ConcurrentHashTable<CONFIG, F>::
-  do_scan(Thread* thread, SCAN_FUNC& scan_f)
+  do_scan(Thread* thread, SCAN_FUNC& scan_f) const
 {
-  assert(!SafepointSynchronize::is_at_safepoint(),
-         "must be outside a safepoint");
+  //assert(!SafepointSynchronize::is_at_safepoint(),
+  //       "must be outside a safepoint");
   assert(_resize_lock_owner != thread, "Re-size lock held");
   lock_resize_lock(thread);
   do_scan_locked(thread, scan_f);
@@ -1139,9 +1142,29 @@ inline void ConcurrentHashTable<CONFIG, F>::
 }
 
 template <typename CONFIG, MEMFLAGS F>
+template <typename FUNC>
+inline void ConcurrentHashTable<CONFIG, F>::
+  do_scan_on_copy(Thread* thread, FUNC& scan_f) const
+{
+  GrowableArrayCHeap<VALUE, F> tmp_copy(1000);
+  auto fill = [&tmp_copy](VALUE* v) {
+    tmp_copy.push(*v);
+    return true; // continue
+  };
+  do_scan(thread, fill);
+
+  for (VALUE v: tmp_copy) {
+    if (scan_f(&v) == false) {
+      break;
+    }
+  }
+}
+
+
+template <typename CONFIG, MEMFLAGS F>
 template <typename SCAN_FUNC>
 inline void ConcurrentHashTable<CONFIG, F>::
-  do_safepoint_scan(SCAN_FUNC& scan_f)
+  do_safepoint_scan(SCAN_FUNC& scan_f) const
 {
   // We only allow this method to be used during a safepoint.
   assert(SafepointSynchronize::is_at_safepoint(),
@@ -1206,8 +1229,8 @@ template <typename EVALUATE_FUNC, typename DELETE_FUNC>
 inline void ConcurrentHashTable<CONFIG, F>::
   bulk_delete(Thread* thread, EVALUATE_FUNC& eval_f, DELETE_FUNC& del_f)
 {
-  assert(!SafepointSynchronize::is_at_safepoint(),
-         "must be outside a safepoint");
+  //assert(!SafepointSynchronize::is_at_safepoint(),
+  //       "must be outside a safepoint");
   lock_resize_lock(thread);
   do_bulk_delete_locked(thread, eval_f, del_f);
   unlock_resize_lock(thread);

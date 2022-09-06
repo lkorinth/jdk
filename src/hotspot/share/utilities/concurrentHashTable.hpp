@@ -238,14 +238,14 @@ class ConcurrentHashTable : public CHeapObj<F> {
   // taking the mutex after a safepoint this bool is the actual state. After
   // acquiring the mutex you must check if this is already locked. If so you
   // must drop the mutex until the real lock holder grabs the mutex.
-  volatile Thread* _resize_lock_owner;
+  mutable volatile Thread* _resize_lock_owner;
 
   // Return true if lock mutex/state succeeded.
-  bool try_resize_lock(Thread* locker);
+  bool try_resize_lock(Thread* locker) const;
   // Returns when both mutex and state are proper locked.
-  void lock_resize_lock(Thread* locker);
+  void lock_resize_lock(Thread* locker) const;
   // Unlocks mutex and state.
-  void unlock_resize_lock(Thread* locker);
+  void unlock_resize_lock(Thread* locker) const;
 
   // This method sets the _invisible_epoch and do a write_synchronize.
   // Subsequent calls check the state of _invisible_epoch and determine if the
@@ -256,17 +256,17 @@ class ConcurrentHashTable : public CHeapObj<F> {
   // this field keep tracks if a version of the hash-table was ever been seen.
   // We the working thread pointer as tag for debugging. The _invisible_epoch
   // can only be used by the owner of _resize_lock.
-  volatile Thread* _invisible_epoch;
+  mutable volatile Thread* _invisible_epoch;
 
   // Scoped critical section, which also handles the invisible epochs.
   // An invisible epoch/version do not need a write_synchronize().
   class ScopedCS: public StackObj {
    protected:
     Thread* _thread;
-    ConcurrentHashTable<CONFIG, F>* _cht;
+    const ConcurrentHashTable<CONFIG, F>* _cht;
     GlobalCounter::CSContext _cs_context;
    public:
-    ScopedCS(Thread* thread, ConcurrentHashTable<CONFIG, F>* cht);
+    ScopedCS(Thread* thread, const ConcurrentHashTable<CONFIG, F>* cht);
     ~ScopedCS();
   };
 
@@ -323,7 +323,7 @@ class ConcurrentHashTable : public CHeapObj<F> {
   // Get a value.
   template <typename LOOKUP_FUNC>
   VALUE* internal_get(Thread* thread, LOOKUP_FUNC& lookup_f,
-                      bool* grow_hint = NULL);
+                      bool* grow_hint = NULL) const;
 
   // Insert and get current value.
   template <typename LOOKUP_FUNC, typename FOUND_FUNC>
@@ -344,7 +344,7 @@ class ConcurrentHashTable : public CHeapObj<F> {
   // current algorithm. To keep it simple caller will have locked
   // _resize_lock.
   template <typename FUNC>
-  void do_scan_locked(Thread* thread, FUNC& scan_f);
+  void do_scan_locked(Thread* thread, FUNC& scan_f) const;
 
   // Check for dead items in a bucket.
   template <typename EVALUATE_FUNC>
@@ -396,7 +396,8 @@ class ConcurrentHashTable : public CHeapObj<F> {
                       size_t log2size_limit = DEFAULT_MAX_SIZE_LOG2,
                       size_t grow_hint = DEFAULT_GROW_HINT,
                       bool enable_statistics = DEFAULT_ENABLE_STATISTICS,
-                      void* context = nullptr);
+                      void* context = nullptr,
+                      int rank = 21-2);
 
   explicit ConcurrentHashTable(void* context, size_t log2size = DEFAULT_START_SIZE_LOG2, bool enable_statistics = DEFAULT_ENABLE_STATISTICS) :
     ConcurrentHashTable(log2size, DEFAULT_MAX_SIZE_LOG2, DEFAULT_GROW_HINT, enable_statistics, context) {}
@@ -430,7 +431,7 @@ class ConcurrentHashTable : public CHeapObj<F> {
   // called.
   template <typename LOOKUP_FUNC, typename FOUND_FUNC>
   bool get(Thread* thread, LOOKUP_FUNC& lookup_f, FOUND_FUNC& foundf,
-           bool* grow_hint = NULL);
+           bool* grow_hint = NULL) const;
 
   // Returns true true if the item was inserted, duplicates are found with
   // LOOKUP_FUNC.
@@ -474,11 +475,14 @@ class ConcurrentHashTable : public CHeapObj<F> {
   // Visit all items with SCAN_FUNC if no concurrent resize. Takes the resize
   // lock to avoid concurrent resizes. Else returns false.
   template <typename SCAN_FUNC>
-  bool try_scan(Thread* thread, SCAN_FUNC& scan_f);
+  bool try_scan(Thread* thread, SCAN_FUNC& scan_f) const;
 
   // Visit all items with SCAN_FUNC when the resize lock is obtained.
   template <typename SCAN_FUNC>
-  void do_scan(Thread* thread, SCAN_FUNC& scan_f);
+  void do_scan(Thread* thread, SCAN_FUNC& scan_f) const;
+
+  template <typename FUNC>
+  void do_scan_on_copy(Thread* thread, FUNC& scan_f) const;
 
   // Visits nodes for buckets in range [start_idx, stop_id) with FUNC.
   template <typename FUNC>
@@ -488,7 +492,7 @@ class ConcurrentHashTable : public CHeapObj<F> {
   // It will assume there is no other thread accessing this
   // table during the safepoint. Must be called with VM thread.
   template <typename SCAN_FUNC>
-  void do_safepoint_scan(SCAN_FUNC& scan_f);
+  void do_safepoint_scan(SCAN_FUNC& scan_f) const;
 
   // Destroying items matching EVALUATE_FUNC, before destroying items
   // DELETE_FUNC is called, if resize lock is obtained. Else returns false.
