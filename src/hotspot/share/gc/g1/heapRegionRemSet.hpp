@@ -39,7 +39,6 @@ class outputStream;
 class HeapRegionRemSet : public CHeapObj<mtGC> {
   friend class VMStructs;
 
-  Mutex _m;
   // A set of code blobs (nmethods) whose code contains pointers into
   // the region that owns this RSet.
   G1CodeRootSet _code_roots;
@@ -121,6 +120,7 @@ public:
   // entries for this region in other remsets.
   void clear(bool only_cardset = false);
   void clear_locked(bool only_cardset = false);
+  void clear_unlocked(bool only_cardset = false);
 
   G1MonotonicArenaMemoryStats card_set_memory_stats() const;
 

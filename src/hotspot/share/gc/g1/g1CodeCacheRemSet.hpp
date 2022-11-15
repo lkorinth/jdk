@@ -25,6 +25,7 @@
 #ifndef SHARE_GC_G1_G1CODECACHEREMSET_HPP
 #define SHARE_GC_G1_G1CODECACHEREMSET_HPP
 
+#include "runtime/mutexLocker.hpp"
 #include "utilities/concurrentHashTable.inline.hpp"
 #include "utilities/concurrentHashTableTasks.inline.hpp"
 
@@ -104,7 +105,11 @@ class G1CodeRootSet {
   void allocate_small_table();
 
  public:
-  G1CodeRootSet() : _cc{}, _table(log2i(SmallSize), log2i(LargeSize), 0 /* use cc counters to determine hash growth instead */, false /* statistics */, &_cc, 6/*services*/-3) {} // Uncommit_lock - 1
+  //  G1CodeRootSet() : _cc{}, _table(log2i(SmallSize), log2i(LargeSize), 0, false /* statistics */, &_cc) {} // assert(false) failed: Attempting to acquire lock ConcurrentHashTableResize_lock/nosafepoint-2 out of order with lock CodeCache_lock/nosafepoint-2 -- possible deadlock
+  // G1CodeRootSet() : _cc{}, _table(log2i(SmallSize), log2i(LargeSize), 0, false /* statistics */, &_cc, (unsigned) Mutex::service - 1) {}  // assert(false) failed: Attempting to acquire lock ThreadsSMRDelete_lock/nosafepoint-3 out of order with lock ConcurrentHashTableResize_lock/service-1 -- possible deadlock
+  //  G1CodeRootSet() : _cc{}, _table(log2i(SmallSize), log2i(LargeSize), 0, false /* statistics */, &_cc, (unsigned) Mutex::nosafepoint - 1) {} //  assert(false) failed: Attempting to acquire lock ConcurrentHashTableResize_lock/nosafepoint-1 out of order with lock CodeCache_lock/nosafepoint-2 -- possible deadlock
+  G1CodeRootSet() : _cc{}, _table(log2i(SmallSize), log2i(LargeSize), 0, false /* statistics */, &_cc, (unsigned) Mutex::nosafepoint - 3) {} //  assert(false) failed: Attempting to acquire lock ThreadsSMRDelete_lock/nosafepoint-3 out of order with lock ConcurrentHashTableResize_lock/nosafepoint-3 -- possible deadlock
+
 
   static size_t static_mem_size();
 
@@ -116,6 +121,7 @@ class G1CodeRootSet {
   bool contains(nmethod* method);
 
   void clear();
+  void clear_unlocked();
 
   void nmethods_do(CodeBlobClosure* blk) const;
 

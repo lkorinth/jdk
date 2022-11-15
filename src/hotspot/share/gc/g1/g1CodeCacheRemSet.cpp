@@ -33,6 +33,7 @@
 #include "oops/oop.inline.hpp"
 #include "runtime/atomic.hpp"
 #include "services/memTracker.hpp"
+#include "utilities/concurrentHashTable.hpp"
 #include "utilities/stack.inline.hpp"
 
 auto void_f = [](nmethod** val){};
@@ -42,6 +43,9 @@ size_t G1CodeRootSet::static_mem_size() {
 }
 
 void G1CodeRootSet::add(nmethod* method) {
+  if (_cc.counter() > Threshold) {
+    _table.grow(Thread::current(), log2i(LargeSize));
+  }
   NmethodTableLookup lookup(method);
   _table.insert(Thread::current(), lookup, method);
 }
@@ -62,6 +66,11 @@ void G1CodeRootSet::clear() {
   _table.shrink(Thread::current(), log2i(SmallSize));
 }
 
+void G1CodeRootSet::clear_unlocked() {
+  this->~G1CodeRootSet();
+  new (this) G1CodeRootSet();
+}
+
 size_t G1CodeRootSet::mem_size() {
   return sizeof(*this) + _table.get_mem_size(Thread::current()) - sizeof(_table) /* _table counted in both *this and _table.get_mem_size() */
     + _cc.counter() * _table.get_node_size();
@@ -72,7 +81,7 @@ void G1CodeRootSet::nmethods_do(CodeBlobClosure* blk) const {
     blk->do_code_blob(*nm);
     return true; // continue
   };
-  _table.do_scan_on_copy(Thread::current(), f);
+  _table.do_safepoint_scan(f);
 }
 
 class CleanCallback : public StackObj {
@@ -114,7 +123,4 @@ class CleanCallback : public StackObj {
 void G1CodeRootSet::clean(HeapRegion* owner) {
   CleanCallback should_clean(owner);
   _table.bulk_delete(Thread::current(), should_clean, void_f);
-  if (_cc.counter() > Threshold) {
-    _table.grow(Thread::current(), log2i(LargeSize));
-  }
 }

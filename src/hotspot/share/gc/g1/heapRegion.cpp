@@ -126,7 +126,7 @@ void HeapRegion::hr_clear(bool clear_space) {
   set_free();
   reset_pre_dummy_top();
 
-  rem_set()->clear_locked();
+  rem_set()->clear_unlocked(); // lkorinth
 
   init_top_at_mark_start();
   if (clear_space) clear(SpaceDecorator::Mangle);

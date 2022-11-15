@@ -57,7 +57,7 @@ void HeapRegionRemSet::initialize(MemRegion reserved) {
 
 HeapRegionRemSet::HeapRegionRemSet(HeapRegion* hr,
                                    G1CardSetConfiguration* config) :
-  _m(Mutex::service - 1, FormatBuffer<128>("HeapRegionRemSet#%u_lock", hr->hrm_index())),
+  //_m(Mutex::service - 1, FormatBuffer<128>("HeapRegionRemSet#%u_lock", hr->hrm_index())),
   _code_roots(),
   _card_set_mm(config, G1MonotonicArenaFreePool::free_list_pool()),
   _card_set(config, &_card_set_mm),
@@ -76,6 +76,16 @@ void HeapRegionRemSet::clear(bool only_cardset) {
 void HeapRegionRemSet::clear_locked(bool only_cardset) {
   if (!only_cardset) {
     _code_roots.clear();
+  }
+  clear_fcc();
+  _card_set.clear();
+  set_state_empty();
+  assert(occupied() == 0, "Should be clear.");
+}
+
+void HeapRegionRemSet::clear_unlocked(bool only_cardset) {
+  if (!only_cardset) {
+    _code_roots.clear_unlocked();
   }
   clear_fcc();
   _card_set.clear();
@@ -107,7 +117,7 @@ void HeapRegionRemSet::add_code_root(nmethod* nm) {
           BOOL_TO_STR(CodeCache_lock->owned_by_self()), BOOL_TO_STR(SafepointSynchronize::is_at_safepoint()));
   // Optimistic unlocked contains-check
   if (!_code_roots.contains(nm)) {
-    MutexLocker ml(&_m, Mutex::_no_safepoint_check_flag);
+    //MutexLocker ml(&_m, Mutex::_no_safepoint_check_flag);
     add_code_root_locked(nm);
   }
 }
