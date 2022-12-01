@@ -486,7 +486,7 @@ inline void ConcurrentHashTable<CONFIG, F>::
   // table. Can do this in parallel if we want.
   assert((is_mt && _resize_lock_owner != NULL) ||
          (!is_mt && _resize_lock_owner == thread), "Re-size lock not held");
-  Node* ndel[BULK_DELETE_LIMIT];
+  Node* ndel_stack[BULK_DELETE_LIMIT];
   InternalTable* table = get_table();
   assert(start_idx < stop_idx, "Must be");
   assert(stop_idx <= _table->_size, "Must be");
@@ -511,7 +511,10 @@ inline void ConcurrentHashTable<CONFIG, F>::
     // We left critical section but the bucket cannot be removed while we hold
     // the _resize_lock.
     bucket->lock();
-    size_t nd = delete_check_nodes(bucket, eval_f, BULK_DELETE_LIMIT, ndel);
+    Node** ndel_heap = nullptr;
+    size_t nd = delete_check_nodes(bucket, eval_f, BULK_DELETE_LIMIT, ndel_stack, &ndel_heap);
+    Node** ndel = (ndel_heap == nullptr) ? ndel_stack : ndel_heap;
+
     bucket->unlock();
     if (is_mt) {
       GlobalCounter::write_synchronize();
@@ -524,6 +527,7 @@ inline void ConcurrentHashTable<CONFIG, F>::
       JFR_ONLY(safe_stats_remove();)
       DEBUG_ONLY(ndel[node_it] = (Node*)POISON_PTR;)
     }
+    FREE_C_HEAP_ARRAY(Node*, ndel_heap);
     cs_context = GlobalCounter::critical_section_begin(thread);
   }
   GlobalCounter::critical_section_end(thread, cs_context);
@@ -982,20 +986,28 @@ template <typename CONFIG, MEMFLAGS F>
 template <typename EVALUATE_FUNC>
 inline size_t ConcurrentHashTable<CONFIG, F>::
   delete_check_nodes(Bucket* bucket, EVALUATE_FUNC& eval_f,
-                     size_t num_del, Node** ndel)
+                     size_t num_del, Node** ndel, Node*** ndel_heap)
 {
   size_t dels = 0;
   Node* const volatile * rem_n_prev = bucket->first_ptr();
   Node* rem_n = bucket->first();
+
+  size_t bucket_size = 0;
+  for (Node* n = rem_n; n != NULL; n = n ->next()) {
+    bucket_size++;
+  }
+
+  if (bucket_size > num_del) {
+    *ndel_heap = NEW_C_HEAP_ARRAY(Node*, bucket_size, F);
+    ndel = *ndel_heap;
+  }
+
   while (rem_n != NULL) {
     if (eval_f(rem_n->value())) {
       ndel[dels++] = rem_n;
       Node* next_node = rem_n->next();
       bucket->release_assign_node_ptr(rem_n_prev, next_node);
       rem_n = next_node;
-      if (dels == num_del) {
-        break;
-      }
     } else {
       rem_n_prev = rem_n->next_ptr();
       rem_n = rem_n->next();
