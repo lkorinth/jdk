@@ -286,7 +286,7 @@ class ResourceHashtableBase : public STORAGE {
     const unsigned sz = table_size();
     for (unsigned index = 0; index < sz; index++) {
       Node** ptr = bucket_at(index);
-      while (*ptr != NULL) {
+      while (*ptr != nullptr) {
         Node* node = *ptr;
         bool clean = should_remove(node->_key, node->_value);
         if (clean) {
