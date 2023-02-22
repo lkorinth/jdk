@@ -48,10 +48,8 @@ hotspot_gc = \
 # TODO add JFR tests to this
 # vmTestbase/gc/ArrayJuggle -- slow as shit
 
-hotspot_gci2 = \
-  ../../jdk/jdk/jfr/event/gc/
-
 hotspot_gci = \
+  :hotspot_gc \
   compiler/gcbarriers \
   compiler/jsr292/InvokerGC.java \
   runtime/ClassUnload/UnloadTestWithVerifyDuringGC.java \
@@ -319,6 +317,20 @@ ctw_3 = \
   applications/ctw/modules/jdk_compiler.java \
   applications/ctw/modules/jdk_localedata.java \
   applications/ctw/modules/jdk_localedata_2.java
+
+hotspot_gc_slow = \
+  gc/g1/ihop/TestIHOPErgo.java \
+  gc/logging/TestUnifiedLoggingSwitchStress.java \
+  gc/stress \
+  gc/metaspace/CompressedClassSpaceSizeInJmapHeap.java \
+  - :tier1_gc_gcold \
+  - :tier1_gc_gcbasher
+
+hotspot_gc_fast = \
+  gc/ \
+  - :hotspot_gc_slow \
+  -gc/shenandoah \
+  -gc/epsilon
 
 tier1_gc = \
   :tier1_gc_1 \
