@@ -319,18 +319,12 @@ ctw_3 = \
   applications/ctw/modules/jdk_localedata_2.java
 
 hotspot_gc_slow = \
-  gc/g1/ihop/TestIHOPErgo.java \
-  gc/logging/TestUnifiedLoggingSwitchStress.java \
-  gc/stress \
-  gc/metaspace/CompressedClassSpaceSizeInJmapHeap.java \
-  - :tier1_gc_gcold \
-  - :tier1_gc_gcbasher
+  gc/stress
 
 hotspot_gc_fast = \
   gc/ \
   - :hotspot_gc_slow \
-  -gc/shenandoah \
-  -gc/epsilon
+  -gc/shenandoah
 
 tier1_gc = \
   :tier1_gc_1 \
