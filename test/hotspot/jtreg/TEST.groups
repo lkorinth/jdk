@@ -323,7 +323,7 @@ hotspot_gc_slow = \
 
 hotspot_gc_fast = \
   gc/ \
-  - :hotspot_gc_slow \
+  -:hotspot_gc_slow \
   -gc/shenandoah
 
 tier1_gc = \
