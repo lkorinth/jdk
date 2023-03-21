@@ -318,13 +318,12 @@ ctw_3 = \
   applications/ctw/modules/jdk_localedata.java \
   applications/ctw/modules/jdk_localedata_2.java
 
-hotspot_gc_slow = \
+hotspot_gc_stress = \
   gc/stress
 
-hotspot_gc_fast = \
+hotspot_gc_no_stress = \
   gc/ \
-  -:hotspot_gc_slow \
-  -gc/shenandoah
+  -:hotspot_gc_stress
 
 tier1_gc = \
   :tier1_gc_1 \
