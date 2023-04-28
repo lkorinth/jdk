@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, 2020, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,17 +23,12 @@
 
 
 /*
- * @test
- * @key stress randomness
- *
- * @summary converted from VM Testbase gc/memory/Array/ArrayJuggle/Juggle2.
+ * summary converted from VM Testbase gc/memory/Array/ArrayJuggle/Juggle2.
  * VM Testbase keywords: [gc, stress, stressopt, nonconcurrent]
- *
- * @library /vmTestbase
- *          /test/lib
- * @run main/othervm -Xlog:gc=debug:gc.log gc.ArrayJuggle.Juggle2
- * @run main/othervm -Xlog:gc=debug:gc.log gc.ArrayJuggle.Juggle2 -tg
  */
+
+/* @test @key stress randomness @library /vmTestbase /test/lib @run main/othervm -Xlog:gc=debug:gc.log gc.ArrayJuggle.Juggle2 */
+/* @test @key stress randomness @library /vmTestbase /test/lib @run main/othervm -Xlog:gc=debug:gc.log gc.ArrayJuggle.Juggle2 -tg */
 
 package gc.ArrayJuggle;
 
