@@ -463,8 +463,8 @@ public final class ProcessTools {
      * @param command Arguments to pass to the java command.
      * @return The ProcessBuilder instance representing the java command.
      */
-    public static ProcessBuilder createJavaProcessBuilder(List<String> command) {
-        return createJavaProcessBuilder(command.toArray(String[]::new));
+    public static ProcessBuilder createJavaProcessBuilder(TestVMOptions options, List<String> command) {
+        return createJavaProcessBuilder(options, command.toArray(String[]::new));
     }
 
     /**
@@ -473,7 +473,11 @@ public final class ProcessTools {
      * @param command Arguments to pass to the java command.
      * @return The ProcessBuilder instance representing the java command.
      */
-    public static ProcessBuilder createJavaProcessBuilder(String... command) {
+    public static ProcessBuilder createJavaProcessBuilder(TestVMOptions options, String... command) {
+        if (options == TestVMOptions.PrependTestJavaOpts) {
+            command = Utils.prependTestJavaOpts(command);
+        }
+
         String javapath = JDKToolFinder.getJDKTool("java");
 
         ArrayList<String> args = new ArrayList<>();
@@ -518,77 +522,27 @@ public final class ProcessTools {
     }
 
     /**
-     * Create ProcessBuilder using the java launcher from the jdk to be tested.
-     * The default jvm options from jtreg, test.vm.opts and test.java.opts, are added.
-     * <p>
-     * The command line will be like:
-     * {test.jdk}/bin/java {test.vm.opts} {test.java.opts} cmds
-     * Create ProcessBuilder using the java launcher from the jdk to be tested.
+     * Executes a java process, waits for it to finish and returns the process output.
      *
-     * @param command Arguments to pass to the java command.
-     * @return The ProcessBuilder instance representing the java command.
-     */
-    public static ProcessBuilder createTestJvm(List<String> command) {
-        return createTestJvm(command.toArray(String[]::new));
-    }
-
-    /**
-     * Create ProcessBuilder using the java launcher from the jdk to be tested.
-     * The default jvm options from jtreg, test.vm.opts and test.java.opts, are added.
-     * <p>
-     * The command line will be like:
-     * {test.jdk}/bin/java {test.vm.opts} {test.java.opts} cmds
-     * Create ProcessBuilder using the java launcher from the jdk to be tested.
+     * <p> The command line will be like:
+     * <li>
+     *  <le>IgnoreTestJavaOpts: {test.jdk}/bin/java cmds</le>
+     *  <le>PrependTestJavaOpts:  {test.jdk}/bin/java {test.vm.opts} {test.java.opts} cmds</le>
+     * </li>
      *
-     * @param command Arguments to pass to the java command.
-     * @return The ProcessBuilder instance representing the java command.
-     */
-    public static ProcessBuilder createTestJvm(String... command) {
-        return createJavaProcessBuilder(Utils.prependTestJavaOpts(command));
-    }
-
-    /**
-     * Executes a test jvm process, waits for it to finish and returns the process output.
-     * The default jvm options from jtreg, test.vm.opts and test.java.opts, are added.
-     * The java from the test.jdk is used to execute the command.
-     * <p>
-     * The command line will be like:
-     * {test.jdk}/bin/java {test.vm.opts} {test.java.opts} cmds
-     * <p>
-     * The jvm process will have exited before this method returns.
+     * <p> The jvm process will have exited before this method returns.
      *
+     * @param options Process creation option
      * @param cmds User specified arguments.
      * @return The output from the process.
      */
-    public static OutputAnalyzer executeTestJvm(List<String> cmds) throws Exception {
-        return executeTestJvm(cmds.toArray(String[]::new));
+    public static OutputAnalyzer executeJavaProcess(TestVMOptions options, List<String> cmds) throws Exception {
+        return executeJavaProcess(options, cmds.toArray(String[]::new));
     }
 
-    /**
-     * Executes a test jvm process, waits for it to finish and returns the process output.
-     * The default jvm options from jtreg, test.vm.opts and test.java.opts, are added.
-     * The java from the test.jdk is used to execute the command.
-     * <p>
-     * The command line will be like:
-     * {test.jdk}/bin/java {test.vm.opts} {test.java.opts} cmds
-     * <p>
-     * The jvm process will have exited before this method returns.
-     *
-     * @param cmds User specified arguments.
-     * @return The output from the process.
-     */
-    public static OutputAnalyzer executeTestJvm(String... cmds) throws Exception {
-        ProcessBuilder pb = createTestJvm(cmds);
+    public static OutputAnalyzer executeJavaProcess(TestVMOptions options, String... cmds) throws Exception {
+        ProcessBuilder pb = createJavaProcessBuilder(options, cmds);
         return executeProcess(pb);
-    }
-
-    /**
-     * @param cmds User specified arguments.
-     * @return The output from the process.
-     * @see #executeTestJvm(String...)
-     */
-    public static OutputAnalyzer executeTestJava(String... cmds) throws Exception {
-        return executeTestJvm(cmds);
     }
 
     /**
