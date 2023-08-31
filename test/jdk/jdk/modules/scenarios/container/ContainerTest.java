@@ -137,7 +137,7 @@ public class ContainerTest {
     public void testContainer() throws Exception {
 
         int exitValue
-            = executeTestJava("--module-path", MLIB_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MLIB_DIR.toString(),
                               "-m", CONTAINER_MODULE)
                 .outputTo(System.out)
                 .errorTo(System.err)

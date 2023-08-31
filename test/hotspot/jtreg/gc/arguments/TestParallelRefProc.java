@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestParallelRefProc
  * @summary Test defaults processing for -XX:+ParallelRefProcEnabled.
@@ -77,7 +80,7 @@ public class TestParallelRefProc {
         result.addAll(Arrays.asList(args));
         result.add("-XX:+PrintFlagsFinal");
         result.add("-version");
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(result);
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, result);
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 

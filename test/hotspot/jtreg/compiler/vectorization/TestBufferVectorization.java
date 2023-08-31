@@ -50,6 +50,7 @@ import java.nio.IntBuffer;
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestBufferVectorization {
@@ -224,7 +225,7 @@ public class TestBufferVectorization {
         ProcessBuilder pb;
         OutputAnalyzer out;
         try {
-            pb = ProcessTools.createJavaProcessBuilder("-XX:-BackgroundCompilation",
+            pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:-BackgroundCompilation",
                                                        "-XX:+TraceNewVectors",
                                                        "compiler.vectorization.TestBufferVectorization",
                                                        testName,

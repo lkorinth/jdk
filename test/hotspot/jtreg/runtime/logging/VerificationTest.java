@@ -34,6 +34,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class VerificationTest {
 
@@ -63,16 +64,16 @@ public class VerificationTest {
     }
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:verification=info",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:verification=info",
                                                                   InternalClass.class.getName());
         analyzeOutputOn(pb, true);
 
-        pb = ProcessTools.createJavaProcessBuilder("-Xlog:verification=off",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:verification=off",
                                                    InternalClass.class.getName());
         analyzeOutputOff(pb);
 
         // logging level 'debug' should output stackmaps and bytecode data.
-        pb = ProcessTools.createJavaProcessBuilder("-Xlog:verification=debug",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:verification=debug",
                                                    InternalClass.class.getName());
         analyzeOutputOn(pb, false);
     }

@@ -31,6 +31,7 @@
 import jdk.test.lib.Asserts;
 import jdk.test.lib.hprof.HprofParser;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import java.io.File;
@@ -53,7 +54,7 @@ public class TestHeapDumpPath {
         String heapdumpPath = "dumps";
         File dumpDirectory = new File(heapdumpPath);
         dumpDirectory.mkdir();
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+HeapDumpOnOutOfMemoryError",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+HeapDumpOnOutOfMemoryError",
                 "-Xmx64m", "-XX:HeapDumpPath=" + heapdumpPath, TestHeapDumpPath.class.getName(), "OOME");
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());

@@ -53,6 +53,7 @@ import jdk.test.lib.JDKToolLauncher;
 import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.util.JarUtils;
 
@@ -274,7 +275,7 @@ class DynamicLoadWarningTest {
                 Stream<String> s2 = Stream.of("Application", Integer.toString(listener.getLocalPort()));
                 String[] opts = Stream.concat(s1, s2).toArray(String[]::new);
                 OutputAnalyzer outputAnalyzer = ProcessTools
-                        .executeTestJava(opts)
+                        .executeJavaProcess(PrependTestJavaOpts, opts)
                         .outputTo(System.out)
                         .errorTo(System.out);
                 assertEquals(0, outputAnalyzer.getExitValue());

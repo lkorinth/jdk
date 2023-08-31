@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.Map;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class StackTraceLogging {
     static void analyzeOutputOn(ProcessBuilder pb) throws Exception {
@@ -51,7 +52,7 @@ public class StackTraceLogging {
 
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:stacktrace=info",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:stacktrace=info",
                                                                   "-XX:MaxJavaStackTraceDepth=1024",
                                                                   "--add-opens",
                                                                   "java.base/java.lang=ALL-UNNAMED",

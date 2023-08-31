@@ -31,6 +31,7 @@ import jdk.test.lib.jfr.EventNames;
 import jdk.test.lib.jfr.SimpleEvent;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -104,7 +105,7 @@ public class TestRetransformUsingLog {
         }
         System.out.println();
         System.out.println();
-        ProcessBuilder pb = ProcessTools.createTestJvm(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, args);
         OutputAnalyzer out = ProcessTools.executeProcess(pb);
         System.out.println(out.getOutput());
         verifier.accept(out);

@@ -69,7 +69,7 @@ public class TestPermission {
      */
     @Test
     public void runTest() throws Exception {
-        int exitValue = executeTestJava("--module-path", MODS_DIR.toString(),
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                                         "--add-modules", "m1",
                                         "-Djava.security.manager=allow",
                                         "-m", "test/jdk.test.Main")

@@ -40,6 +40,7 @@
 
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.FileUtils;
 import jdk.test.lib.util.JarUtils;
 
@@ -202,7 +203,7 @@ public class PackageFromManifest {
                     "runTest", options[options.length - 1] };
         }
 
-        ProcessTools.executeTestJava(cmds).outputTo(System.out)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, cmds).outputTo(System.out)
                 .errorTo(System.err).shouldHaveExitValue(0);
     }
 

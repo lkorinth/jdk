@@ -37,6 +37,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 
@@ -48,7 +49,7 @@ public class ReserveMemory {
       // expected to crash
       WhiteBox.getWhiteBox().readReservedMemory();
     } else {
-      ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+      ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xbootclasspath/a:.",
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:+WhiteBoxAPI",

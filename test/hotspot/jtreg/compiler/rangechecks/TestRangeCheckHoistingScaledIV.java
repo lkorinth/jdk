@@ -41,6 +41,7 @@ import jdk.incubator.vector.ByteVector;
 import jdk.incubator.vector.VectorSpecies;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestRangeCheckHoistingScaledIV {
 
@@ -82,7 +83,7 @@ public class TestRangeCheckHoistingScaledIV {
     }
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "--enable-preview", "--add-modules", "jdk.incubator.vector",
                 "-Xbatch", "-XX:+TraceLoopPredicate", Launcher.class.getName());
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());

@@ -33,6 +33,7 @@ package gc.x;
 
 import java.util.LinkedList;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestHighUsage {
     static class Test {
@@ -85,7 +86,7 @@ public class TestHighUsage {
     }
 
     public static void main(String[] args) throws Exception {
-        ProcessTools.executeTestJvm("-XX:+UseZGC",
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:+UseZGC",
                                     "-XX:-ZGenerational",
                                     "-XX:-ZProactive",
                                     "-Xms128M",

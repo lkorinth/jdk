@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,7 +48,7 @@ public class MakeJavaSecurityTest {
     public static void main(String[] args) throws Exception {
         Path toolPath = getMakeJavaSecPath();
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 toolPath.toString(),
                 TEST_SRC + "/raw_java_security",
                 "outfile",

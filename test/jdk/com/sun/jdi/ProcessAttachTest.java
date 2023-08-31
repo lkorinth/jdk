@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import com.sun.jdi.Bootstrap;
 import com.sun.jdi.VirtualMachine;
@@ -69,7 +70,7 @@ public class ProcessAttachTest {
     }
 
     private static void runTest(String jdwpArg) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 jdwpArg,
                 "ProcessAttachTestTarg");
         Process p = null;

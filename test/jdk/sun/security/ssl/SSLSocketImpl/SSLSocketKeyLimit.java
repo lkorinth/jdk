@@ -68,6 +68,7 @@ import java.util.Arrays;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 import jdk.test.lib.hexdump.HexPrinter;
 
@@ -134,7 +135,7 @@ public class SSLSocketKeyLimit {
             System.out.println("test.java.opts: " +
                     System.getProperty("test.java.opts"));
 
-            ProcessBuilder pb = ProcessTools.createTestJvm(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     Utils.addTestJavaOpts("SSLSocketKeyLimit", "p", args[1],
                             args[2]));
 

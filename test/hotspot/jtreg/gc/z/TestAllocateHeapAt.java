@@ -33,6 +33,7 @@ package gc.z;
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestAllocateHeapAt {
     public static void main(String[] args) throws Exception {
@@ -41,7 +42,7 @@ public class TestAllocateHeapAt {
         final String heapBackingFile = "Heap Backing File: " + directory;
         final String failedToCreateFile = "Failed to create file " + directory;
 
-        ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(
+        ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:+UseZGC",
                 "-XX:+ZGenerational",
                 "-Xlog:gc*",

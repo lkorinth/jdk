@@ -30,6 +30,7 @@ import java.util.List;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public final class LogJvm {
     private final static String LOGGING_ENABLED= "LOGGING_ENABLED";
@@ -85,7 +86,7 @@ public final class LogJvm {
         args.add("java.base/jdk.internal.event=ALL-UNNAMED");
         args.add(clazz.getName());
         System.out.println(args);
-        OutputAnalyzer out = ProcessTools.executeTestJava(args.toArray(new String[0]));
+        OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args.toArray(new String[0]));
         out.shouldHaveExitValue(0);
         return out;
     }

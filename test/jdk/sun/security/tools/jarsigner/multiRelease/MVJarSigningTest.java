@@ -68,6 +68,7 @@ import jdk.test.lib.Utils;
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 
 public class MVJarSigningTest {
@@ -120,7 +121,7 @@ public class MVJarSigningTest {
                 "-Djava.security.policy=" +
                 TEST_SRC + File.separator + POLICY_FILE,
                 "version.Main"};
-        ProcessTools.executeTestJvm(cmd)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, cmd)
             .shouldHaveExitValue(0)
             .shouldContain(VERSION_MESSAGE);
     }

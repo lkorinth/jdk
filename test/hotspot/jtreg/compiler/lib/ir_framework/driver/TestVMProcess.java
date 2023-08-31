@@ -33,6 +33,7 @@ import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -146,7 +147,7 @@ public class TestVMProcess {
     }
 
     private void start() {
-        ProcessBuilder process = ProcessTools.createJavaProcessBuilder(cmds);
+        ProcessBuilder process = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmds);
         try {
             // Calls 'main' of TestVM to run all specified tests with commands 'cmds'.
             // Use executeProcess instead of executeTestJvm as we have already added the JTreg VM and

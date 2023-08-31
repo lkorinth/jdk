@@ -40,6 +40,7 @@ import java.util.Map;
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class BlackholeIntrinsicTest {
@@ -134,7 +135,7 @@ public class BlackholeIntrinsicTest {
         cmdline.add("compiler.blackhole.BlackholeIntrinsicTest");
         cmdline.add(test);
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(cmdline);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmdline);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
         output.stderrShouldBeEmpty();

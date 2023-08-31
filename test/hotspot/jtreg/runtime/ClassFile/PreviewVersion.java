@@ -36,6 +36,7 @@ import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.ByteCodeLoader;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class PreviewVersion {
@@ -54,21 +55,21 @@ public class PreviewVersion {
 
         // Run the test. This should fail because --enable-preview is not specified.
         ClassFileInstaller.writeClassToDisk("PVTest", klassbuf, System.getProperty("test.classes"));
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-cp", "." + File.pathSeparator + System.getProperty("test.classes"), "PVTest");
         OutputAnalyzer oa = new OutputAnalyzer(pb.start());
         oa.shouldContain("Preview features are not enabled");
         oa.shouldHaveExitValue(1);
 
         // This should be successful because --enable-preview is specified.
-        pb = ProcessTools.createJavaProcessBuilder("--enable-preview",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "--enable-preview",
             "-cp", "." + File.pathSeparator + System.getProperty("test.classes"), "PVTest");
         oa = new OutputAnalyzer(pb.start());
         oa.shouldContain("Hi!");
         oa.shouldHaveExitValue(0);
 
         // Test -Xlog:class+preview
-        pb = ProcessTools.createJavaProcessBuilder("--enable-preview", "-Xlog:class+preview",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "--enable-preview", "-Xlog:class+preview",
             "-cp", "." + File.pathSeparator + System.getProperty("test.classes"), "PVTest");
         oa = new OutputAnalyzer(pb.start());
         oa.shouldContain("[info][class,preview] Loading class PVTest that depends on preview features");

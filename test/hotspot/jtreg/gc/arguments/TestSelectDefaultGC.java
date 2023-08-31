@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestSelectDefaultGC
  * @summary Test selection of GC when no GC option is specified
@@ -44,7 +47,7 @@ public class TestSelectDefaultGC {
 
     public static void testDefaultGC(boolean actAsServer) throws Exception {
         // Start VM without specifying GC
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:" + (actAsServer ? "+" : "-") + "AlwaysActAsServerClassMachine",
             "-XX:" + (actAsServer ? "-" : "+") + "NeverActAsServerClassMachine",
             "-XX:+PrintFlagsFinal",

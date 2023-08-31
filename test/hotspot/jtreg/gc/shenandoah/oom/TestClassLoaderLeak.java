@@ -37,6 +37,7 @@ import java.nio.file.*;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestClassLoaderLeak {
 
@@ -99,7 +100,7 @@ public class TestClassLoaderLeak {
         pbArgs.add(TestClassLoaderLeak.class.getName());
         pbArgs.add("test");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(pbArgs.toArray(new String[0]));
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, pbArgs.toArray(new String[0]));
 
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 

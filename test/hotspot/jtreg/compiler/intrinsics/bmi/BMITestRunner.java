@@ -26,6 +26,7 @@ package compiler.intrinsics.bmi;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 import java.io.IOException;
@@ -146,7 +147,7 @@ public class BMITestRunner {
                 new Integer(iterations).toString()
             });
 
-        OutputAnalyzer outputAnalyzer = ProcessTools.executeTestJvm(vmOpts);
+        OutputAnalyzer outputAnalyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, vmOpts);
 
         outputAnalyzer.shouldHaveExitValue(0);
 

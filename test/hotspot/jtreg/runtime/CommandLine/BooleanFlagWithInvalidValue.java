@@ -33,18 +33,19 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class BooleanFlagWithInvalidValue {
   public static void main(String[] args) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:+PrintWarnings=8", "-version");
 
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     output.shouldContain("Improperly specified VM option 'PrintWarnings=8'");
     output.shouldHaveExitValue(1);
 
-    pb = ProcessTools.createJavaProcessBuilder(
+    pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:-PrintWarnings=8", "-version");
 
     output = new OutputAnalyzer(pb.start());

@@ -26,6 +26,7 @@ package sun.hotspot.tools.ctw;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.Pair;
 
 import java.io.BufferedReader;
@@ -183,7 +184,7 @@ public class CtwRunner {
         while (!done) {
             String[] cmd = cmd(classStart, classStop);
             try {
-                ProcessBuilder pb = ProcessTools.createTestJvm(cmd);
+                ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmd);
                 String commandLine = pb.command()
                         .stream()
                         .collect(Collectors.joining(" "));

@@ -24,6 +24,7 @@ package jdk.jfr.startupargs;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -70,7 +71,7 @@ public class TestJFCWarnings {
     }
 
     private static void launch(String commandLine, String expectedOutput) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(commandLine, "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, commandLine, "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain(expectedOutput);
     }

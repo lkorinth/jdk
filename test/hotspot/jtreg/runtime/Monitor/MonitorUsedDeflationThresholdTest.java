@@ -24,6 +24,7 @@
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -73,7 +74,7 @@ public class MonitorUsedDeflationThresholdTest {
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             // Without args we invoke the test in a java sub-process:
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 // Test doesn't need much Java heap:
                 "-Xmx100M",
                 // AvgMonitorsPerThreadEstimate == 1 means we'll start with

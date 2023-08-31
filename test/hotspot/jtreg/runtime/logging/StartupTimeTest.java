@@ -34,6 +34,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class StartupTimeTest {
     static void analyzeOutputOn(ProcessBuilder pb) throws Exception {
@@ -52,11 +53,11 @@ public class StartupTimeTest {
     }
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:startuptime",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:startuptime",
                                                                   InnerClass.class.getName());
         analyzeOutputOn(pb);
 
-        pb = ProcessTools.createJavaProcessBuilder("-Xlog:startuptime=off",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:startuptime=off",
                                                    InnerClass.class.getName());
         analyzeOutputOff(pb);
     }

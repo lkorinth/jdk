@@ -25,6 +25,7 @@ package compiler.debug;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Asserts;
 
 /*
@@ -48,7 +49,7 @@ public class TestStressIGVNAndCCP {
             "-XX:CompileOnly=" + className + "::sum", "-XX:+" + traceOption,
             "-XX:+" + stressOption, "-XX:StressSeed=" + stressSeed,
             className, "10"};
-        ProcessBuilder pb  = ProcessTools.createJavaProcessBuilder(procArgs);
+        ProcessBuilder pb  = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, procArgs);
         OutputAnalyzer out = new OutputAnalyzer(pb.start());
         out.shouldHaveExitValue(0);
         return out.getStdout();

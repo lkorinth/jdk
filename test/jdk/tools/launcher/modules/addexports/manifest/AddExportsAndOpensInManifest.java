@@ -42,6 +42,7 @@ import java.util.jar.Manifest;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 
 import org.testng.annotations.BeforeMethod;
@@ -88,7 +89,7 @@ public class AddExportsAndOpensInManifest {
                 Paths.get("Test1.class"), Paths.get("Test2.class"));
 
         // java -jar test.jar
-        return ProcessTools.executeTestJava("-jar", jarfile.toString())
+        return ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-jar", jarfile.toString())
                 .outputTo(System.out)
                 .errorTo(System.out);
     }

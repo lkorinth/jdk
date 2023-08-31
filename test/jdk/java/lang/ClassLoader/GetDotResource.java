@@ -37,6 +37,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class GetDotResource {
 
@@ -49,7 +50,7 @@ public class GetDotResource {
         if (args.length == 0) {
             createJar(JAR_FILENAME, DOT_FILENAME);
 
-            ProcessTools.executeTestJava("-cp", CP,
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-cp", CP,
                                          GetDotResource.class.getName(),
                                          DOT_FILENAME)
                         .outputTo(System.out)

@@ -24,6 +24,7 @@
 import jdk.test.lib.Utils;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -95,7 +96,7 @@ public class CustomLauncherTest {
             System.out.println("  PID           : " + serverPrc.pid());
             System.out.println("  shutdown port : " + port.get());
 
-            ProcessBuilder client = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder client = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-cp",
                 Utils.TEST_CLASS_PATH,
                 "--add-exports", "jdk.management.agent/jdk.internal.agent=ALL-UNNAMED",

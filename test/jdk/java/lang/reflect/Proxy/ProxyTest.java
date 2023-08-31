@@ -72,7 +72,7 @@ public class ProxyTest {
      */
     @Test
     public void runTest() throws Exception {
-        int exitValue = executeTestJava("-cp", CPATH_DIR.toString(),
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, "-cp", CPATH_DIR.toString(),
                                         "--module-path", MODS_DIR.toString(),
                                         "-m", "test/jdk.test.Main")
                             .outputTo(System.out)
@@ -88,7 +88,7 @@ public class ProxyTest {
      */
     @Test
     public void runDefaultMethodsTest() throws Exception {
-        int exitValue = executeTestJava("-cp", CPATH_DIR.toString(),
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, "-cp", CPATH_DIR.toString(),
                 "--module-path", MODS_DIR.toString(),
                 "-m", "test/jdk.test.DefaultMethods")
                 .outputTo(System.out)

@@ -89,7 +89,7 @@ public class SystemPropertyTests {
     @Test(dataProvider="data")
     public void runTest(String extprop, String defLoc,
                         String defFmtLoc, String defDspLoc) throws Exception {
-        int exitValue = executeTestJava(LANGPROP, SCPTPROP, CTRYPROP,
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, LANGPROP, SCPTPROP, CTRYPROP,
                                     extprop, "DefaultLocaleTest", defLoc, defFmtLoc, defDspLoc)
                             .outputTo(System.out)
                             .errorTo(System.out)

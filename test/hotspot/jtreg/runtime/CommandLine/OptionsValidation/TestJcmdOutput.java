@@ -38,6 +38,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.management.DynamicVMOption;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.dcmd.PidJcmdExecutor;
 
 public class TestJcmdOutput {
@@ -51,7 +52,7 @@ public class TestJcmdOutput {
         OutputAnalyzer output;
 
         System.out.println("Verify jcmd error message and that jcmd does not write errors to the target process output");
-        output = new OutputAnalyzer((ProcessTools.createJavaProcessBuilder(
+        output = new OutputAnalyzer((ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Dtest.jdk=" + System.getProperty("test.jdk"),
                 "-XX:MinHeapFreeRatio=20", "-XX:MaxHeapFreeRatio=80", runJcmd.class.getName())).start());
 

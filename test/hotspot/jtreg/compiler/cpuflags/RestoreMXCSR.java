@@ -35,13 +35,14 @@ package compiler.cpuflags;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class RestoreMXCSR {
     public static void main(String[] args) throws Exception {
         ProcessBuilder pb;
         OutputAnalyzer out;
 
-        pb = ProcessTools.createJavaProcessBuilder("-XX:+RestoreMXCSROnJNICalls", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+RestoreMXCSROnJNICalls", "-version");
         out = new OutputAnalyzer(pb.start());
         out.shouldHaveExitValue(0);
     }

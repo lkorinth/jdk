@@ -42,6 +42,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.util.JarUtils;
 
@@ -55,7 +56,7 @@ public class IsCompatibleWithDriver {
         }
         Files.delete(classes.resolve("p").resolve("A.class"));
 
-        OutputAnalyzer analyzer = ProcessTools.executeTestJava("-cp",
+        OutputAnalyzer analyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-cp",
                 "test.jar" + pathSeparator + classes.toString(), "IsCompatibleWith");
         System.out.println(analyzer.getOutput());
         analyzer.shouldHaveExitValue(0);

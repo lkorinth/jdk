@@ -115,7 +115,7 @@ public class AddReadsTestWarningError {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(new BufferedOutputStream(baos));
         OutputAnalyzer outputAnalyzer =
-            executeTestJava("--add-reads", value,
+            executeJavaProcess(PrependTestJavaOpts, "--add-reads", value,
                             "--module-path", MODS_DIR.toString(),
                             "-m", M1_MAIN)
                 .outputTo(ps)
@@ -152,7 +152,7 @@ public class AddReadsTestWarningError {
     @Test(dataProvider = "illFormedAddReads")
     public void testIllFormedAddReads(String value, String msg) throws Exception {
         int exitValue =
-            executeTestJava("--add-reads", value,
+            executeJavaProcess(PrependTestJavaOpts, "--add-reads", value,
                             "--module-path", MODS_DIR.toString(),
                             "-m", M4_MAIN)
                 .outputTo(System.out)
@@ -184,7 +184,7 @@ public class AddReadsTestWarningError {
     @Test(dataProvider = "unknownNames")
     public void testUnknownNames(String value, String msg) throws Exception {
         int exitValue =
-            executeTestJava("--add-reads", value,
+            executeJavaProcess(PrependTestJavaOpts, "--add-reads", value,
                             "--module-path", MODS_DIR.toString(),
                             "-m", M4_MAIN)
                 .outputTo(System.out)
@@ -214,7 +214,7 @@ public class AddReadsTestWarningError {
     public void testEmptyArgument(String[] options, String msg) throws Exception {
         String[] args = Stream.concat(Arrays.stream(options), Stream.of("-version"))
                               .toArray(String[]::new);
-        int exitValue = executeTestJava(args)
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, args)
             .outputTo(System.out)
             .errorTo(System.out)
             .shouldContain(msg)

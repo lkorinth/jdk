@@ -40,6 +40,7 @@ import java.nio.file.Paths;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class XbootcpVisibility {
@@ -104,7 +105,7 @@ public class XbootcpVisibility {
         Files.delete(Paths.get(System.getProperty("test.classes") +  File.separator +
                                                                "p2" + File.separator + "Vis1_C.class"));
 
-        new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(
+        new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Xbootclasspath/a:nonexistent.jar",
                 "-Xbootclasspath/a:mods1",
                 "Vis1_A")

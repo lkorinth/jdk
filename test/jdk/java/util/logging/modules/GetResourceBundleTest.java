@@ -85,7 +85,7 @@ public class GetResourceBundleTest {
 
     @Test
     public void runWithoutSecurityManager() throws Exception {
-        int exitValue = executeTestJava(
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, 
                 "-cp", PKG_DEST_DIR.toString(),
                 "--module-path", MOD_DEST_DIR.toString(),
                 "--add-modules", String.join(",", modules),
@@ -98,7 +98,7 @@ public class GetResourceBundleTest {
 
     @Test
     public void runWithSecurityManager() throws Exception {
-        int exitValue = executeTestJava(
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, 
                 "-Djava.security.manager",
                 "-cp", PKG_DEST_DIR.toString(),
                 "--module-path", MOD_DEST_DIR.toString(),

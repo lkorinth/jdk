@@ -35,6 +35,7 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class CompressedKlassPointerAndOops {
@@ -50,7 +51,7 @@ public class CompressedKlassPointerAndOops {
         ProcessBuilder pb;
         OutputAnalyzer output;
 
-        pb = ProcessTools.createJavaProcessBuilder(
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UseCompressedClassPointers",
             "-XX:+UseCompressedOops",
             "-XX:ObjectAlignmentInBytes=" + alignment,

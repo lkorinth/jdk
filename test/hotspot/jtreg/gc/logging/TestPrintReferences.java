@@ -38,6 +38,7 @@ import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -67,7 +68,7 @@ public class TestPrintReferences {
     }
 
     public static void testRefs() throws Exception {
-        ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder("-Xlog:gc+ref+phases=debug",
+        ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:gc+ref+phases=debug",
                                                                           "-XX:+UseG1GC",
                                                                           "-Xmx32M",
                                                                           GCTest.class.getName());
@@ -95,7 +96,7 @@ public class TestPrintReferences {
     }
 
     public static void testPhases(boolean parallelRefProcEnabled) throws Exception {
-        ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder("-Xlog:gc+phases+ref=debug",
+        ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:gc+phases+ref=debug",
                                                                           "-XX:+UseG1GC",
                                                                           "-Xmx32M",
                                                                           "-XX:" + (parallelRefProcEnabled ? "+" : "-") + "ParallelRefProcEnabled",

@@ -51,6 +51,7 @@ import java.util.regex.Pattern;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class SecondaryErrorTest {
 
@@ -78,7 +79,7 @@ public class SecondaryErrorTest {
     // We also check, optionally, that +ErrorLogSecondaryErrorDetails produces callstacks for
     // the secondary error.
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:+UnlockDiagnosticVMOptions",
         "-Xmx100M",
         "-XX:-CreateCoredumpOnCrash",

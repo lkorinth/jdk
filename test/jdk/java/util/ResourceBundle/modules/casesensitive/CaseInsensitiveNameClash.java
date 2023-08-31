@@ -35,6 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.compiler.CompilerUtils;
 
 import org.testng.annotations.BeforeTest;
@@ -65,7 +66,7 @@ public class CaseInsensitiveNameClash {
 
     @Test
     public void test() throws Exception {
-        assertTrue(ProcessTools.executeTestJava("--module-path", MODS_DIR.toString(),
+        assertTrue(ProcessTools.executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                                                 "-m", MAIN_CLASS)
                                .outputTo(System.out)
                                .errorTo(System.out)

@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -110,7 +111,7 @@ public final class MinimumSizeDPIVariation {
 
     private static void runProcess(String dpi, String comp, int w, int h)
             throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Dsun.java2d.uiScale=" + dpi,
                 MinimumSizeDPIVariation.class.getSimpleName(), comp,
                 String.valueOf(w), String.valueOf(h), dpi);

@@ -33,6 +33,7 @@
 
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestNativeStack {
@@ -51,7 +52,7 @@ public class TestNativeStack {
     public static void main(String[] args) throws Throwable {
         // case 1: Trigger a JNI warning with Xcheck:jni
         OutputAnalyzer oa =
-            ProcessTools.executeTestJvm("-Xcheck:jni",
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Xcheck:jni",
                                         "-Djava.library.path=" + Utils.TEST_NATIVE_PATH,
                                         "TestNativeStack$Main");
         oa.shouldHaveExitValue(0);
@@ -60,7 +61,7 @@ public class TestNativeStack {
         oa.reportDiagnosticSummary();
 
         // Case 2: Trigger a JNI FatalError call
-        oa = ProcessTools.executeTestJvm("-XX:-CreateCoredumpOnCrash",
+        oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:-CreateCoredumpOnCrash",
                                          "-Djava.library.path=" + Utils.TEST_NATIVE_PATH,
                                          "TestNativeStack$Main",
                                          "error");

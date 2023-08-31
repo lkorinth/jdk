@@ -37,6 +37,7 @@ import jdk.test.lib.JDKToolLauncher;
 import jdk.test.lib.JDKToolFinder;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.SA.SATestUtils;
 import jdk.test.lib.Utils;
@@ -98,7 +99,7 @@ public class TestDefaultMethods {
                             String[] instanceKlassNames,
                             long lingeredAppPid) throws Exception {
         // Start a new process to attach to the lingered app
-        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "--add-modules=jdk.hotspot.agent",
             "--add-exports=jdk.hotspot.agent/sun.jvm.hotspot=ALL-UNNAMED",
             "--add-exports=jdk.hotspot.agent/sun.jvm.hotspot.utilities=ALL-UNNAMED",

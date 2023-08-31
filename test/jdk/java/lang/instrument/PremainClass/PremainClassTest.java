@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 /*
@@ -44,7 +45,7 @@ public class PremainClassTest {
                 System.getProperty("test.src"),
                 System.getProperty("test.classes", "."));
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 Utils.addTestJavaOpts(testArgs.split("\\s+")));
         System.out.println("testjvm.cmd:" + Utils.getCommandLine(pb));
 

@@ -31,6 +31,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -73,7 +74,7 @@ public class TestDScenarios {
         } else {
             // Test invalid -DScenario flag.
             OutputAnalyzer oa;
-            ProcessBuilder process = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder process = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-Dtest.jdk=" + Utils.TEST_JDK, "-DScenarios=a,1,b,10",
                     "ir_framework.tests.TestDScenarios", " test3");
             oa = ProcessTools.executeProcess(process);

@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.io.IOException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -82,7 +83,7 @@ public class BasicTestLauncher {
      */
     private static OutputAnalyzer RunTest(String timeZone) throws IOException{
         // Build and run Basic class with correct configuration
-        ProcessBuilder pb = ProcessTools.createTestJvm(JAVA_OPTS, TEST_CLASS);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, JAVA_OPTS, TEST_CLASS);
         pb.environment().put("TZ", timeZone);
         Process process = pb.start();
         return new OutputAnalyzer(process);

@@ -36,6 +36,7 @@ import java.nio.file.Paths;
 
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import org.testng.annotations.BeforeTest;
@@ -139,7 +140,7 @@ public class ListModsTest {
      * java args... returning the OutputAnalyzer to analyzer the output
      */
     private OutputAnalyzer exec(String... args) throws Exception {
-        return ProcessTools.executeTestJava(args)
+        return ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out);
     }

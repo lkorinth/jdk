@@ -31,12 +31,13 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestBasicLogOutput {
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:all=trace", "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:all=trace", "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldMatch("\\[logging *\\]"); // expected tag(s)
         output.shouldContain("Log configuration fully initialized."); // expected message

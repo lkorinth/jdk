@@ -36,6 +36,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 
@@ -43,7 +44,7 @@ public class TestEscapeCondy {
     public static void main(String args[]) throws Throwable {
         // 1. Test escape analysis of a method that contains
         //    a ldc instruction of a condy whose return type is an array of boolean
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
              "-XX:CompileCommand=dontinline,runtime.condy.TestEscapeThroughInvokeWithCondy::create",
              "runtime.condy.TestEscapeThroughInvokeWithCondy");
         OutputAnalyzer oa = new OutputAnalyzer(pb.start());

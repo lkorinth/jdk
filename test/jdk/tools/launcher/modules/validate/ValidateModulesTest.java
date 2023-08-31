@@ -37,6 +37,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.util.JarUtils;
 
@@ -142,7 +143,7 @@ public class ValidateModulesTest {
      * Runs the java launcher with the given arguments, expecting a 0 exit code
      */
     private OutputAnalyzer test(String... args) throws Exception {
-        OutputAnalyzer analyzer = ProcessTools.executeTestJava(args)
+        OutputAnalyzer analyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out);
         assertTrue(analyzer.getExitValue() == 0);
@@ -153,7 +154,7 @@ public class ValidateModulesTest {
      * Runs the java launcher with the given arguments, expecting a non-0 exit code
      */
     private OutputAnalyzer testExpectingError(String... args) throws Exception {
-        OutputAnalyzer analyzer = ProcessTools.executeTestJava(args)
+        OutputAnalyzer analyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out);
         assertTrue(analyzer.getExitValue() != 0);

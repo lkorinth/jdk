@@ -37,6 +37,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.JDKToolFinder;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class SABase extends CiReplayBase {
     private static final String REPLAY_FILE_COPY = "replay_vm.txt";
@@ -71,7 +72,7 @@ public class SABase extends CiReplayBase {
         }
         ProcessBuilder pb;
         try {
-            pb = ProcessTools.createTestJvm("--add-modules", "jdk.hotspot.agent",
+            pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "--add-modules", "jdk.hotspot.agent",
                    "--add-exports=jdk.hotspot.agent/sun.jvm.hotspot=ALL-UNNAMED",
                     "sun.jvm.hotspot.CLHSDB", JDKToolFinder.getTestJDKTool("java"),
                     TEST_CORE_FILE_NAME);

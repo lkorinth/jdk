@@ -35,6 +35,7 @@
 import jdk.internal.agent.ConnectorAddressLink;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -439,7 +440,7 @@ public class HashedPasswordFileTest {
         pbArgs.add("jdk.management.agent/jdk.internal.agent=ALL-UNNAMED");
         pbArgs.add(TestApp.class.getSimpleName());
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 pbArgs.toArray(new String[0]));
         Process process = ProcessTools.startProcess(
                 TestApp.class.getSimpleName(),
@@ -481,7 +482,7 @@ public class HashedPasswordFileTest {
         pbArgs.add("jdk.management.agent/jdk.internal.agent=ALL-UNNAMED");
         pbArgs.add(TestApp.class.getSimpleName());
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 pbArgs.toArray(new String[0]));
         Process process = ProcessTools.startProcess(
                 TestApp.class.getSimpleName(),

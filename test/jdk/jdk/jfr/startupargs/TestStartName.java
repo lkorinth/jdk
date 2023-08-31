@@ -27,6 +27,7 @@ import jdk.jfr.Recording;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -45,7 +46,7 @@ public class TestStartName {
     }
 
     private static void testName(String recordingName, boolean validName) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-XX:StartFlightRecording:name=" + recordingName, TestName.class.getName(), recordingName);
         OutputAnalyzer out = ProcessTools.executeProcess(pb);
 

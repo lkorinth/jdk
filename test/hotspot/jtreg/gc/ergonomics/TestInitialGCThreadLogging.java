@@ -35,6 +35,7 @@ package gc.ergonomics;
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jtreg.SkippedException;
 import jdk.test.whitebox.gc.GC;
@@ -70,7 +71,7 @@ public class TestInitialGCThreadLogging {
 
   private static void testInitialGCThreadLogging(String gcFlag, String threadName) throws Exception {
     // Base test with gc and +UseDynamicNumberOfGCThreads:
-    ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:+UnlockExperimentalVMOptions",
         "-XX:+" + gcFlag,
         "-Xmx10M",

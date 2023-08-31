@@ -40,6 +40,7 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 
 /**
@@ -77,7 +78,7 @@ public class Driver {
         String name = mref.descriptor().name();
 
         // launch the test with the JAR file on the module path
-        if (ProcessTools.executeTestJava("-p", jarFile.toString(),
+        if (ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-p", jarFile.toString(),
                                          "--add-modules", name,
                                          "-cp", TEST_CLASSES,
                                          "Main", name)

@@ -38,6 +38,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.jfr.EventNames;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -89,7 +90,7 @@ public class TestDumpReason {
 
     private static long runProcess(Class<?> crasher) throws Exception {
         System.out.println("Test case for " + crasher.getName());
-        Process p = ProcessTools.createTestJvm(
+        Process p = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-Xmx64m",
                 "-XX:-CreateCoredumpOnCrash",
                 "--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED",

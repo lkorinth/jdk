@@ -38,11 +38,12 @@ package compiler.startup;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class NumCompilerThreadsCheck {
 
   public static void main(String[] args) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:CICompilerCount=-1");
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:CICompilerCount=-1");
     OutputAnalyzer out = new OutputAnalyzer(pb.start());
 
     String expectedOutput = "outside the allowed range";

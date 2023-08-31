@@ -36,6 +36,7 @@ import java.util.List;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class PrintCompilation {
 
@@ -47,7 +48,7 @@ public class PrintCompilation {
         options.add("-XX:CompileCommand=compileonly," + getTestClass() + "::*");
         options.add(getTestClass());
 
-        OutputAnalyzer oa = ProcessTools.executeTestJvm(options);
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
 
         oa.shouldHaveExitValue(0)
         .shouldContain(getTestMethod("method1"))

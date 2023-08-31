@@ -43,6 +43,7 @@ import java.awt.event.WindowAdapter;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class Basic {
 
@@ -72,7 +73,7 @@ public class Basic {
     public void test(String testcase, int exitValue, String hook, String finalizer)
             throws Exception {
         System.out.println("Test " + testcase);
-        ProcessTools.executeTestJava("Basic", testcase)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "Basic", testcase)
                 .shouldHaveExitValue(exitValue)
                 .stdoutShouldMatch(
                     hook + (hook.isEmpty() ? "" : System.lineSeparator()) + finalizer);

@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestOnSpinWaitAArch64 {
     public static void main(String[] args) throws Exception {
@@ -71,7 +72,7 @@ public class TestOnSpinWaitAArch64 {
         command.add("-XX:CompileCommand=compileonly," + Launcher.class.getName() + "::" + "test");
         command.add(Launcher.class.getName());
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(command);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, command);
 
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 

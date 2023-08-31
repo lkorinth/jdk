@@ -36,6 +36,7 @@ import jdk.internal.org.objectweb.asm.*;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -261,7 +262,7 @@ public abstract class TestConstantsInError implements OutputProcessor {
         c1Args.addAll(List.of("-XX:+TieredCompilation", "-XX:TieredStopAtLevel=1", "-XX:+TracePatching"));
         c1Args.addAll(commonArgs);
 
-        OutputAnalyzer outputC1 = ProcessTools.executeTestJvm(c1Args)
+        OutputAnalyzer outputC1 = ProcessTools.executeJavaProcess(PrependTestJavaOpts, c1Args)
                 .shouldHaveExitValue(0);
 
         test.process(outputC1, true);
@@ -270,7 +271,7 @@ public abstract class TestConstantsInError implements OutputProcessor {
         c2Args.add("-XX:-TieredCompilation");
         c2Args.addAll(commonArgs);
 
-        OutputAnalyzer outputC2 = ProcessTools.executeTestJvm(c2Args)
+        OutputAnalyzer outputC2 = ProcessTools.executeJavaProcess(PrependTestJavaOpts, c2Args)
                 .shouldHaveExitValue(0);
 
         test.process(outputC2, false);

@@ -45,6 +45,7 @@ import java.util.List;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import gc.g1.ihop.lib.IhopUtils;
 
@@ -129,7 +130,7 @@ public class TestIHOPErgo {
     }
 
     private static OutputAnalyzer executeTest(List<String> options) throws Throwable, RuntimeException {
-        OutputAnalyzer out = ProcessTools.executeTestJvm(options);
+        OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
         if (out.getExitValue() != 0) {
             System.out.println(out.getOutput());
             throw new RuntimeException("AppIHOP failed with exit code" + out.getExitValue());

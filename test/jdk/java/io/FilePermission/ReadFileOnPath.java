@@ -40,6 +40,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.util.JarUtils;
 
@@ -87,7 +88,7 @@ public class ReadFileOnPath {
         cmds.addAll(List.of(
                 "x", "modules/m", "modules/m/base", "modules/m/p/child",
                 "-", "child", "/base", "../base"));
-        ProcessTools.executeTestJvm(cmds.toArray(new String[cmds.size()]))
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, cmds.toArray(new String[cmds.size()]))
                 .shouldHaveExitValue(0);
     }
 }

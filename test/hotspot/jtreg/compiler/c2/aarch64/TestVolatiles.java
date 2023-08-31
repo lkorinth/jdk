@@ -56,6 +56,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 // runner class that spawns a new JVM to exercises a combination of
@@ -132,7 +133,7 @@ public class TestVolatiles {
 
 
     public void runtest(String classname, String testType, boolean useCompressedOops, String[] procArgs) throws Throwable {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(procArgs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, procArgs);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
         output.stderrShouldBeEmptyIgnoreVMWarnings();

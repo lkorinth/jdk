@@ -38,6 +38,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 // package access top-level classes to avoid problem with RedefineClassHelper
@@ -84,7 +85,7 @@ public class RedefinePreviousVersions {
         if (args.length > 0) {
 
             // java -javaagent:redefineagent.jar -Xlog:stuff RedefinePreviousVersions
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder( "-javaagent:redefineagent.jar",
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts,  "-javaagent:redefineagent.jar",
                "-Xlog:redefine+class+iklass+add=trace,redefine+class+iklass+purge=trace",
                "RedefinePreviousVersions");
             new OutputAnalyzer(pb.start())

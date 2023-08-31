@@ -44,6 +44,7 @@ import java.util.LinkedList;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import static jdk.test.lib.Asserts.*;
 
 class RefHolder {
@@ -92,7 +93,7 @@ class TestEagerReclaimHumongousRegionsWithRefsReclaimRegionFast {
 public class TestEagerReclaimHumongousRegionsWithRefs {
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UseG1GC",
             "-Xms128M",
             "-Xmx128M",

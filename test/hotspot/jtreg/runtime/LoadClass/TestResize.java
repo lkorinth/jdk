@@ -37,6 +37,7 @@
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.Process;
@@ -131,7 +132,7 @@ public class TestResize {
     // that will allow us to calculate the table's load factor.
     // -Xlog:safepoint+cleanup will print out cleanup details at safepoint
     // that will allow us to detect if the system dictionary resized.
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+PrintClassLoaderDataGraphAtExit",
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+PrintClassLoaderDataGraphAtExit",
                                                               "-Xlog:safepoint+cleanup,class+loader+data",
                                                               "TriggerResize",
                                                               String.valueOf(CLASSES_TO_LOAD));

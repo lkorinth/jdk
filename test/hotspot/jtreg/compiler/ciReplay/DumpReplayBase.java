@@ -26,6 +26,7 @@ package compiler.ciReplay;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -79,7 +80,7 @@ public abstract class DumpReplayBase extends CiReplayBase {
             options.add("-XX:CompileCommand=compileonly," + getTestClass() + "::" + getTestMethod());
             options.add("-Xbatch");
             options.add(getTestClass());
-            oa = ProcessTools.executeProcess(ProcessTools.createTestJvm(options));
+            oa = ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, options));
             Asserts.assertEquals(oa.getExitValue(), 0, "Crash JVM exits gracefully");
             replayFiles = Files.list(Paths.get("."))
                                     .map(Path::toFile)

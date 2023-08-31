@@ -35,6 +35,7 @@ package compiler.arguments;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.List;
@@ -48,7 +49,7 @@ public class TestCompileThresholdScaling {
     }
 
     static void checkCompileThresholdScaling(double value, boolean fail) throws Throwable {
-        OutputAnalyzer out = ProcessTools.executeTestJvm("-XX:CompileThresholdScaling=" + value, "--version");
+        OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:CompileThresholdScaling=" + value, "--version");
         out.shouldHaveExitValue(0);
         String output = out.getOutput();
 

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.whitebox.gc.GC;
 
@@ -189,7 +190,7 @@ public class UseCompressedOops {
 
         args.add("-version");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
         return new OutputAnalyzer(pb.start());
     }
 }

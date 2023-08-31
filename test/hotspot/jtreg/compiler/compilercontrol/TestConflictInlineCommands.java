@@ -36,10 +36,11 @@ package compiler.compilercontrol;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestConflictInlineCommands {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:CompileCommand=inline,*TestConflictInlineCommands::caller",
                 "-XX:CompileCommand=dontinline,*TestConflictInlineCommands::caller",
                 "-XX:CompileCommand=quiet", "-XX:CompileCommand=compileonly,*Launcher::main",
@@ -51,7 +52,7 @@ public class TestConflictInlineCommands {
         analyzer.shouldContain("disallowed by CompileCommand");
         analyzer.shouldNotContain("force inline by CompileCommand");
 
-        pb = ProcessTools.createJavaProcessBuilder(
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:CompileCommand=dontinline,*TestConflictInlineCommands::*caller",
                 "-XX:CompileCommand=inline,*TestConflictInlineCommands::caller",
                 "-XX:CompileCommand=quiet", "-XX:CompileCommand=compileonly,*Launcher::main",

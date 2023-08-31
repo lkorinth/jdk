@@ -41,6 +41,7 @@ import jdk.test.lib.Platform;
 import jdk.test.lib.JDKToolFinder;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public abstract class CtwTest {
     private static final String LOG_FILE = "ctw.log";
@@ -103,7 +104,7 @@ public abstract class CtwTest {
                 }
             }
         }
-        ProcessBuilder pb = ProcessTools.createTestJvm(cmd);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmd);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         dump(output, "compile");
         output.shouldHaveExitValue(0);

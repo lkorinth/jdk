@@ -35,10 +35,11 @@ package compiler.loopstripmining;
 
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class CheckLoopStripMining {
     public static void main(String args[]) throws Exception {
-        ProcessTools.executeTestJvm("-XX:+UnlockDiagnosticVMOptions",
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:+UnlockDiagnosticVMOptions",
                                     "-XX:+SafepointTimeout",
                                     "-XX:+SafepointALot",
                                     "-XX:+AbortVMOnSafepointTimeout",
@@ -54,7 +55,7 @@ public class CheckLoopStripMining {
             .shouldHaveExitValue(0)
             .stdoutShouldContain("sum: 715827882");
 
-        ProcessTools.executeTestJvm("-XX:+UnlockDiagnosticVMOptions",
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:+UnlockDiagnosticVMOptions",
                                     "-XX:+SafepointTimeout",
                                     "-XX:+SafepointALot",
                                     "-XX:+AbortVMOnSafepointTimeout",

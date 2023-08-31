@@ -78,7 +78,7 @@ public class BasicModularXMLParserTest {
      */
     public void testDefault() throws Exception {
         int exitValue
-            = executeTestJava("-cp", CLASSES_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "-cp", CLASSES_DIR.toString(),
                               "Main")
                 .outputTo(System.out)
                 .errorTo(System.out)
@@ -92,7 +92,7 @@ public class BasicModularXMLParserTest {
      */
     public void testWithOneProvider() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MOD_DIR1.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MOD_DIR1.toString(),
                               "-cp", CLASSES_DIR.toString(),
                               "Main", "xmlprovider1")
                 .outputTo(System.out)
@@ -107,7 +107,7 @@ public class BasicModularXMLParserTest {
      */
     public void testWithTwoProvider() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MOD_DIR1.toString() + File.pathSeparator + MOD_DIR2.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MOD_DIR1.toString() + File.pathSeparator + MOD_DIR2.toString(),
                               "-cp", CLASSES_DIR.toString(),
                               "Main", "xmlprovider1", "xmlprovider2")
                 .outputTo(System.out)

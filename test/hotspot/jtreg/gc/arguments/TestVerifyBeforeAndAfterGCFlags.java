@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestVerifyBeforeAndAfterGCFlags
  * @bug 8000831
@@ -99,7 +102,7 @@ public class TestVerifyBeforeAndAfterGCFlags {
                                                       : "-XX:-VerifyAfterGC"),
                                        GarbageProducer.class.getName(),
                                        doFullGC ? "t" : "f" });
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(vmOpts);
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOpts);
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 
         analyzer.shouldHaveExitValue(0);

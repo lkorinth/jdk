@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 import jdk.test.lib.cds.CDSTestUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Platform;
 
 public class MaxMetaspaceSize {
@@ -52,7 +53,7 @@ public class MaxMetaspaceSize {
     }
 
     String msg = "OutOfMemoryError: ((Metaspace)|(Compressed class space))";
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(processArgs);
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, processArgs);
     CDSTestUtils.executeAndLog(pb, "dump").shouldMatch(msg).shouldHaveExitValue(1);
   }
 }

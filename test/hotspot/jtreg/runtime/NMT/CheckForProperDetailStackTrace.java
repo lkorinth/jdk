@@ -34,6 +34,7 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -91,7 +92,7 @@ public class CheckForProperDetailStackTrace {
         // If modules in the system image have been archived in CDS, they will not be
         // created again at run time. Explicitly use an external module to make sure
         // we have a runtime-defined ModuleEntry
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:NativeMemoryTracking=detail",
             "-XX:+PrintNMTStatistics",

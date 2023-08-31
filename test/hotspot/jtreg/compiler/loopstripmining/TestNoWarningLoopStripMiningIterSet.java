@@ -79,6 +79,7 @@
 
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.function.Consumer;
 import java.util.Arrays;
@@ -94,7 +95,7 @@ public class TestNoWarningLoopStripMiningIterSet {
         System.arraycopy(args, 0, cmds, 1, args.length);
         cmds[args.length + 1] = "-XX:+PrintFlagsFinal";
         cmds[args.length + 2] = "-version";
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(cmds);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmds);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
 

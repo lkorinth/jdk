@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -73,7 +74,7 @@ public class FileEncodingTest {
         var cmds = fileEncoding.isEmpty()
                 ? List.of(FileEncodingTest.class.getName(), expected)
                 : List.of("-Dfile.encoding=" + fileEncoding, FileEncodingTest.class.getName(), expected);
-        var pb = ProcessTools.createTestJvm(cmds);
+        var pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmds);
         var env = pb.environment();
         env.put("LANG", "C");
         env.put("LC_ALL", "C");

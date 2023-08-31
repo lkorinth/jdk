@@ -35,6 +35,7 @@ import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleDescriptor.Builder;
 import java.util.stream.Stream;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.util.JarUtils;
 import jdk.test.lib.util.ModuleInfoWriter;
@@ -186,7 +187,7 @@ public class JaasModularClientTest {
             }
             return !s.isEmpty();
         }).toArray(String[]::new);
-        OutputAnalyzer out = ProcessTools.executeTestJvm(safeArgs);
+        OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, safeArgs);
         // Handle response.
         if (out.getExitValue() != 0) {
             System.out.printf("OUTPUT: %s", out.getOutput());

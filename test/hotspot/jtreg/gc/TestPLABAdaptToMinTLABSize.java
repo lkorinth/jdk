@@ -39,6 +39,7 @@ import java.util.Collections;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestPLABAdaptToMinTLABSize {
     private static void runTest(boolean shouldSucceed, String... extraArgs) throws Exception {
@@ -48,7 +49,7 @@ public class TestPLABAdaptToMinTLABSize {
         Collections.addAll(testArguments, extraArgs);
         testArguments.add("-version");
 
-        ProcessBuilder pb = ProcessTools.createTestJvm(testArguments);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, testArguments);
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 

@@ -47,6 +47,7 @@ import gc.g1.plab.lib.PlabInfo;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * Test checks PLAB promotion of different size objects.
@@ -116,7 +117,7 @@ public class TestPLABPromotion {
             testCase.print(System.out);
             List<String> options = PLABUtils.prepareOptions(testCase.toOptions());
             options.add(AppPLABPromotion.class.getName());
-            OutputAnalyzer out = ProcessTools.executeTestJvm(options);
+            OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
             PLABUtils.commonCheck(out);
             output = out.getOutput();
             checkResults(testCase);

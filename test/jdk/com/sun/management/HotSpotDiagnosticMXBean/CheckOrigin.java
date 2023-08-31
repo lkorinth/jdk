@@ -42,6 +42,7 @@ import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.util.Map;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import sun.tools.attach.HotSpotVirtualMachine;
 
 public class CheckOrigin {
@@ -59,7 +60,7 @@ public class CheckOrigin {
             }
 
             ProcessBuilder pb = ProcessTools.
-                createJavaProcessBuilder(
+                createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "--add-exports", "jdk.attach/sun.tools.attach=ALL-UNNAMED",
                     "-XX:+UseG1GC",  // this will cause MaxNewSize to be FLAG_SET_ERGO
                     "-XX:+UseCodeCacheFlushing",

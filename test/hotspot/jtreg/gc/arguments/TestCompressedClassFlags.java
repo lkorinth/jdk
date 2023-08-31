@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 
@@ -50,7 +53,7 @@ public class TestCompressedClassFlags {
     }
 
     private static OutputAnalyzer runJava(String ... args) throws Exception {
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(args);
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
         return new OutputAnalyzer(pb.start());
     }
 }

@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 /*
@@ -35,7 +36,7 @@ import jdk.test.lib.process.OutputAnalyzer;
 
 public class MaxMetaspaceSizeTest {
     public static void main(String... args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xmx1g",
             "-XX:MaxMetaspaceSize=4K",
             "-XX:+UseCompressedClassPointers",

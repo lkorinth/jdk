@@ -42,6 +42,7 @@ import java.lang.Math;
 import java.util.Collections;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.Platform;
 import jdk.test.whitebox.WhiteBox;
@@ -123,7 +124,7 @@ public class TestLargePageUseForAuxMemory {
         ProcessBuilder pb;
 
         // Test with large page enabled.
-        pb = ProcessTools.createJavaProcessBuilder(getOpts(heapsize, true));
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, getOpts(heapsize, true));
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
@@ -138,7 +139,7 @@ public class TestLargePageUseForAuxMemory {
         output.shouldHaveExitValue(0);
 
         // Test with large page disabled.
-        pb = ProcessTools.createJavaProcessBuilder(getOpts(heapsize, false));
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, getOpts(heapsize, false));
 
         output = new OutputAnalyzer(pb.start());
         checkSmallTables(output, smallPageSize);

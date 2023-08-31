@@ -43,6 +43,7 @@ import java.io.File;
 import jdk.test.lib.BuildHelper;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import jdk.test.whitebox.code.Compiler;
@@ -160,7 +161,7 @@ public class CommandLineFlagCombo {
         }
         String[] args = new String[] {
             "-cp", jarFile, "-XX:ArchiveClassesAtExit=" + dynName, "-XX:DumpLoadedClassList=" + dumpedListName, "Hello"};
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
         OutputAnalyzer output = TestCommon.executeAndLog(pb, "combo");
         output.shouldHaveExitValue(0)
               .shouldContain(HELLO_WORLD);

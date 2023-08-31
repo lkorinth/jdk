@@ -42,6 +42,7 @@ import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.AttachingConnector;
 import com.sun.jdi.connect.Connector;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 
 public class ShMemLongName {
@@ -94,7 +95,7 @@ public class ShMemLongName {
     // creates target process builder for the specified shmem transport name
     private static ProcessBuilder getTarget(String shmemName) throws IOException {
         log("starting target with shmem name: '" + shmemName + "'...");
-        return ProcessTools.createJavaProcessBuilder(
+        return ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Xrunjdwp:transport=" + transport + ",server=y,suspend=n,address=" + shmemName,
                 "ShMemLongName$Target");
     }

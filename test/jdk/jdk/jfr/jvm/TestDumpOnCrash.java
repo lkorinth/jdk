@@ -35,6 +35,7 @@ import jdk.jfr.consumer.RecordingFile;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -131,7 +132,7 @@ public class TestDumpOnCrash {
         }
         options.add(crasher.getName());
         options.add(signal);
-        Process p = ProcessTools.createTestJvm(options).start();
+        Process p = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, options).start();
 
         OutputAnalyzer output = new OutputAnalyzer(p);
         System.out.println("========== Crasher process output:");

@@ -35,6 +35,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.util.Scanner;
 
 public class ShortLivedSymbolCleanup {
@@ -89,11 +90,11 @@ public class ShortLivedSymbolCleanup {
   }
 
   public static void main(String[] args) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:symboltable=trace",
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:symboltable=trace",
                                                               "-version");
     int size = getSymbolTableSize(pb);
 
-    pb = ProcessTools.createJavaProcessBuilder("-XX:+PrintSymbolTableSizeHistogram",
+    pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+PrintSymbolTableSizeHistogram",
                                                LotsOfTempSymbols.class.getName(),
                                                Integer.toString(size));
     analyzeOutputOn(size, pb);

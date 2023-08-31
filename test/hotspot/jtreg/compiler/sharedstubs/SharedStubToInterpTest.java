@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class SharedStubToInterpTest {
     private final static int ITERATIONS_TO_HEAT_LOOP = 20_000;
@@ -61,7 +62,7 @@ public class SharedStubToInterpTest {
         command.add("-XX:CompileCommand=dontinline," + testClassName + "::" + "log02");
         command.add(testClassName);
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(command);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, command);
 
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 

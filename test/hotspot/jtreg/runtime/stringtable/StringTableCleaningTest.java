@@ -50,6 +50,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.gc.GC;
 
 public class StringTableCleaningTest {
@@ -58,7 +59,7 @@ public class StringTableCleaningTest {
         subargs.addAll(List.of("-Xlog:gc,gc+start,stringtable*=trace", "-Xmx1g"));
         subargs.add(Tester.class.getName());
         subargs.addAll(Arrays.asList(args));
-        OutputAnalyzer output = ProcessTools.executeTestJvm(subargs);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, subargs);
         output.shouldHaveExitValue(0);
         checkOutput(output);
     }

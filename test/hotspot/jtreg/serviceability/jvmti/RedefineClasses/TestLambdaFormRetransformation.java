@@ -49,6 +49,7 @@ import java.util.Arrays;
 import jdk.test.lib.process.ExitCode;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestLambdaFormRetransformation {
     private static String MANIFEST = String.format("Manifest-Version: 1.0\n" +
@@ -60,7 +61,7 @@ public class TestLambdaFormRetransformation {
 
     public static void main(String args[]) throws Throwable {
         Path agent = TestLambdaFormRetransformation.buildAgent();
-        OutputAnalyzer oa = ProcessTools.executeTestJvm("-javaagent:" +
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-javaagent:" +
                                 agent.toAbsolutePath().toString(), "-version");
         oa.shouldHaveExitValue(ExitCode.OK.value);
     }

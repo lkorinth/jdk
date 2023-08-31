@@ -36,6 +36,7 @@ import jdk.jfr.Recording;
 import jdk.jfr.consumer.EventStream;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -81,7 +82,7 @@ public class TestStreamingRemote {
             c[1] = "-Djava.security.policy=" + escapeBackslashes(policy.toString());
             c[2] = Test.class.getName();
             c[3] = repository;
-            OutputAnalyzer oa = ProcessTools.executeTestJvm(c);
+            OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, c);
             oa.shouldContain(SUCCESS);
         }
     }

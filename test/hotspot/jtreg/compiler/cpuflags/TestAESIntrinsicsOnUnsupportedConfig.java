@@ -40,6 +40,7 @@ package compiler.cpuflags;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.cli.predicate.NotPredicate;
 import static jdk.test.lib.cli.CommandLineOptionTest.*;
 
@@ -65,7 +66,7 @@ public class TestAESIntrinsicsOnUnsupportedConfig extends AESIntrinsicsBase {
      * @throws Throwable
      */
     private void testUseAESIntrinsics() throws Throwable {
-        OutputAnalyzer outputAnalyzer = ProcessTools.executeTestJvm(
+        OutputAnalyzer outputAnalyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 AESIntrinsicsBase.prepareArguments(prepareBooleanFlag(
                         AESIntrinsicsBase.USE_AES_INTRINSICS, true)));
         final String errorMessage = "Case testUseAESIntrinsics failed";
@@ -89,7 +90,7 @@ public class TestAESIntrinsicsOnUnsupportedConfig extends AESIntrinsicsBase {
      * @throws Throwable
      */
     private void testUseAES() throws Throwable {
-        OutputAnalyzer outputAnalyzer = ProcessTools.executeTestJvm(
+        OutputAnalyzer outputAnalyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 AESIntrinsicsBase.prepareArguments(prepareBooleanFlag
                         (AESIntrinsicsBase.USE_AES, true)));
         final String errorMessage = "Case testUseAES failed";

@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestStressG1Humongous{
@@ -72,7 +73,7 @@ public class TestStressG1Humongous{
                 "-Dregionsize=" + regionSize,
                 TestStressG1HumongousImpl.class.getName()
         );
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(options);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, options);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
     }

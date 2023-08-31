@@ -33,6 +33,7 @@ package gc.z;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestZForceDiscontiguousHeapReservations {
 
@@ -45,7 +46,7 @@ public class TestZForceDiscontiguousHeapReservations {
          */
         final int XmxInM = 2000;
         final int XmsInM = Math.min(16 * XmxInM / (n + 1), XmxInM);
-        OutputAnalyzer oa = ProcessTools.executeProcess(ProcessTools.createTestJvm(
+        OutputAnalyzer oa = ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                                                         "-XX:+UseZGC",
                                                         "-XX:+ZGenerational",
                                                         "-Xms" + XmsInM + "M",

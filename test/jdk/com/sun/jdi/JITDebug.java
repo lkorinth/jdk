@@ -41,6 +41,7 @@ import com.sun.jdi.connect.*;
 import jdk.test.lib.JDKToolFinder;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.util.*;
 
@@ -104,7 +105,7 @@ public class JITDebug {
     }
 
     void testLaunch() {
-        ProcessBuilder pb = ProcessTools.createTestJvm();
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, );
         List largs = pb.command();
         largs.add("-classpath");
         largs.add(Utils.TEST_CLASSES);

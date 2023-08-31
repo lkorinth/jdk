@@ -42,6 +42,7 @@ import java.util.Arrays;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestRedefineWithUnresolvedClass {
 
@@ -79,7 +80,7 @@ public class TestRedefineWithUnresolvedClass {
     }
 
     private static void launchTest() throws Throwable {
-        OutputAnalyzer output = ProcessTools.executeTestJvm(
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
             "-javaagent:" + testClasses + "UnresolvedClassAgent.jar",
             "-Dtest.classes=" + testClasses,
             "UnresolvedClassAgent");

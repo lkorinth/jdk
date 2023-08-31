@@ -34,6 +34,7 @@ import jdk.internal.misc.Unsafe;
 import jdk.jfr.Event;
 import jdk.test.lib.jfr.StreamingUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import com.sun.tools.attach.VirtualMachine;
 
@@ -66,7 +67,7 @@ public final class TestProcess implements AutoCloseable {
                 "-XX:" + (createCore ? "+" : "-") + "CreateCoredumpOnCrash",
                 TestProcess.class.getName(), path.toString()
             };
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
         process = ProcessTools.startProcess(name, pb);
     }
 

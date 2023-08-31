@@ -35,6 +35,7 @@
 
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestJVMCISavedProperties {
@@ -45,7 +46,7 @@ public class TestJVMCISavedProperties {
             System.out.println("DONE IN MAIN");
             return;
         }
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockExperimentalVMOptions",
             "-XX:+EagerJVMCI",
             "-XX:+UseJVMCICompiler",

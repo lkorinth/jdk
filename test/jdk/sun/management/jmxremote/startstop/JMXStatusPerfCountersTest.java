@@ -33,6 +33,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 
 /**
@@ -59,7 +60,7 @@ public class JMXStatusPerfCountersTest {
 
     @BeforeClass
     public static void setupClass() throws Exception {
-        testAppPb = ProcessTools.createJavaProcessBuilder(
+        testAppPb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UsePerfData",
             "-cp", System.getProperty("test.class.path"),
             TEST_APP_NAME

@@ -44,7 +44,7 @@ public class IllegalAccessTest {
         throws Exception
     {
         var outputAnalyzer = ProcessTools
-            .executeTestJava(vmopts)
+            .executeJavaProcess(PrependTestJavaOpts, vmopts)
             .outputTo(System.out)
             .errorTo(System.out);
         outputAnalyzer.shouldContain(text);

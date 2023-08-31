@@ -42,6 +42,7 @@ import jdk.test.lib.Asserts;
 import jdk.vm.ci.hotspot.CompilerToVMHelper;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -63,7 +64,7 @@ public class GetFlagValueTest {
         ProcessBuilder pb;
         OutputAnalyzer out;
 
-        pb = ProcessTools.createJavaProcessBuilder(
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockExperimentalVMOptions",
             "-XX:+EnableJVMCI",
             "-XX:+PrintFlagsFinal",

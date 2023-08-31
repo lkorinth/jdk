@@ -32,18 +32,19 @@
 import jdk.test.lib.JDKToolFinder;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class JMX {
 
     public static void main(String args[]) throws Exception {
         ProcessBuilder pb;
 
-        pb = ProcessTools.createJavaProcessBuilder("-minimal", "-XX:+ManagementServer", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-minimal", "-XX:+ManagementServer", "-version");
         new OutputAnalyzer(pb.start())
                 .shouldContain("ManagementServer is not supported in this VM.")
                 .shouldHaveExitValue(1);
 
-        pb = ProcessTools.createJavaProcessBuilder("-minimal", "-Dcom.sun.management ", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-minimal", "-Dcom.sun.management ", "-version");
         new OutputAnalyzer(pb.start())
                 .shouldContain("-Dcom.sun.management is not supported in this VM.")
                 .shouldHaveExitValue(1);

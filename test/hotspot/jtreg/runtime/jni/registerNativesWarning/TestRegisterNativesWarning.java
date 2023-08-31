@@ -24,6 +24,7 @@
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -65,14 +66,14 @@ public class TestRegisterNativesWarning {
 
         String cp = Utils.TEST_CLASS_PATH;
         String libp = Utils.TEST_NATIVE_PATH;
-        OutputAnalyzer output = ProcessTools.executeTestJvm("-Djava.library.path=" + libp,
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djava.library.path=" + libp,
                                                             Tester.class.getName());
         output.shouldContain(warning);
         output.shouldHaveExitValue(0);
         output.reportDiagnosticSummary();
 
         // If we run everything from the "boot" loader there should be no warning
-        output = ProcessTools.executeTestJvm("-Djava.library.path=" + libp,
+        output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djava.library.path=" + libp,
                                              "-Xbootclasspath/a:" + cp,
                                              "-Dsun.boot.library.path=" + libp,
                                              Tester.class.getName());

@@ -26,6 +26,7 @@ package lib.jdb;
 import jdk.test.lib.JDWP;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -110,7 +111,7 @@ public class Debuggee implements Closeable {
                     + ",server=y,suspend=" + (suspended ? "y" : "n"));
             debuggeeArgs.addAll(options);
             debuggeeArgs.add(mainClass);
-            return ProcessTools.createTestJvm(debuggeeArgs);
+            return ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, debuggeeArgs);
         }
 
         public Debuggee launch(String name) {

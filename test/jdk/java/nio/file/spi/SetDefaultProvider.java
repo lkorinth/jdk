@@ -43,6 +43,7 @@ import java.util.spi.ToolProvider;
 import java.util.stream.Stream;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -217,7 +218,7 @@ public class SetDefaultProvider {
      * Invokes the java launcher with the given arguments, returning the exit code.
      */
     private int exec(String... args) throws Exception {
-       return ProcessTools.executeTestJava(args)
+       return ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .getExitValue();

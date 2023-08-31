@@ -32,11 +32,12 @@ package gc;
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestAllocateHeapAt {
   public static void main(String args[]) throws Exception {
-    ProcessBuilder pb = ProcessTools.createTestJvm(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
         "-XX:AllocateHeapAt=" + System.getProperty("test.dir", "."),
         "-Xlog:gc+heap=info",
         "-Xmx32m",

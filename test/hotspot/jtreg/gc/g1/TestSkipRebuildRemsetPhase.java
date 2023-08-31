@@ -36,11 +36,12 @@ package gc.g1;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 public class TestSkipRebuildRemsetPhase {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xbootclasspath/a:.",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xbootclasspath/a:.",
                                                                   "-XX:+UseG1GC",
                                                                   "-XX:+UnlockExperimentalVMOptions",
                                                                   "-XX:+UnlockDiagnosticVMOptions",

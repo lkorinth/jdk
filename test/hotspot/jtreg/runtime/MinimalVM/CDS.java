@@ -32,23 +32,24 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class CDS {
 
     public static void main(String args[]) throws Exception {
         ProcessBuilder pb;
 
-        pb = ProcessTools.createJavaProcessBuilder("-minimal", "-Xshare:dump");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-minimal", "-Xshare:dump");
         new OutputAnalyzer(pb.start())
                 .shouldContain("Shared spaces are not supported in this VM")
                 .shouldHaveExitValue(1);
 
-        pb = ProcessTools.createJavaProcessBuilder("-minimal", "-Xshare:on");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-minimal", "-Xshare:on");
         new OutputAnalyzer(pb.start())
                 .shouldContain("Shared spaces are not supported in this VM")
                 .shouldHaveExitValue(1);
 
-        pb = ProcessTools.createJavaProcessBuilder("-minimal", "-Xshare:auto", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-minimal", "-Xshare:auto", "-version");
         new OutputAnalyzer(pb.start())
                 .shouldContain("Shared spaces are not supported in this VM")
                 .shouldHaveExitValue(0);

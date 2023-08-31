@@ -35,10 +35,11 @@
 import java.lang.ref.WeakReference;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class VMOperationTest {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:vmoperation=debug",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:vmoperation=debug",
                                                                   "-Xmx128m",
                                                                   "-Xms128m",
                                                                   InternalClass.class.getName());

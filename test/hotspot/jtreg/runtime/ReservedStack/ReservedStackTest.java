@@ -119,6 +119,7 @@
 import java.util.concurrent.locks.ReentrantLock;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class ReservedStackTest {
@@ -254,7 +255,7 @@ public class ReservedStackTest {
         // In order to dynamicaly determine if the platform supports the reserved
         // stack area, run with -XX:StackReservedPages=1 and see if we get the
         // expected warning message for platforms that don't support it.
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:StackReservedPages=1", "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:StackReservedPages=1", "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         System.out.println("StackReservedPages=1 log: [" + output.getOutput() + "]");
         if (output.getExitValue() != 0) {

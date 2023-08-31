@@ -35,6 +35,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class MaxMetaspaceSizeEnvVarTest {
@@ -81,7 +82,7 @@ public class MaxMetaspaceSizeEnvVarTest {
         test++;
 
         report("Test " + test + ": normal command-line flag");
-        pb = ProcessTools.createJavaProcessBuilder(flag, main, max);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, flag, main, max);
         output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
         output.reportDiagnosticSummary();
@@ -96,7 +97,7 @@ public class MaxMetaspaceSizeEnvVarTest {
 
         for (String envVar :  envVars) {
             report("Test " + test + ": " + envVar + " env-var");
-            pb = ProcessTools.createJavaProcessBuilder(main, max);
+            pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, main, max);
             pb.environment().put(envVar, flag);
             output = new OutputAnalyzer(pb.start());
             output.shouldHaveExitValue(0);
@@ -112,7 +113,7 @@ public class MaxMetaspaceSizeEnvVarTest {
         PrintWriter pw = new PrintWriter(rcFile);
         pw.println(flagRaw);
         pw.close();
-        pb = ProcessTools.createJavaProcessBuilder(rcFileFlag, main, max);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, rcFileFlag, main, max);
         output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
         output.reportDiagnosticSummary();

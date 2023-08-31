@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.cpuinfo.CPUInfo;
 
 public class TestOnSpinWaitAArch64DefaultFlags {
@@ -87,9 +88,9 @@ public class TestOnSpinWaitAArch64DefaultFlags {
         final String cpuModel = cpuFeatures.get(0);
 
         if (isCPUModelNeoverseN1(cpuModel)) {
-            checkFinalFlagsEqualTo(ProcessTools.createJavaProcessBuilder("-XX:+UnlockDiagnosticVMOptions", "-XX:+PrintFlagsFinal", "-version"),
+            checkFinalFlagsEqualTo(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UnlockDiagnosticVMOptions", "-XX:+PrintFlagsFinal", "-version"),
                 "isb", "1");
-            checkFinalFlagsEqualTo(ProcessTools.createJavaProcessBuilder("-XX:+UnlockDiagnosticVMOptions", "-XX:OnSpinWaitInstCount=2", "-XX:+PrintFlagsFinal", "-version"),
+            checkFinalFlagsEqualTo(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UnlockDiagnosticVMOptions", "-XX:OnSpinWaitInstCount=2", "-XX:+PrintFlagsFinal", "-version"),
                 "isb", "2");
         } else {
             System.out.println("Skip because no defaults for CPU model: " + cpuModel);

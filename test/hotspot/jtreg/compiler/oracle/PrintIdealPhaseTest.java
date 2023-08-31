@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class PrintIdealPhaseTest {
 
@@ -81,7 +82,7 @@ public class PrintIdealPhaseTest {
         options.add("-XX:CompileCommand=PrintIdealPhase," + getTestClass() + "::test," + cmdPhases);
         options.add(getTestClass());
 
-        OutputAnalyzer oa = ProcessTools.executeTestJvm(options);
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
         if (valid) {
             oa.shouldHaveExitValue(0)
             .shouldContain("CompileCommand: PrintIdealPhase compiler/oracle/PrintIdealPhaseTest$TestMain.test const char* PrintIdealPhase = '"+cmdPhases.replace(',', ' ')+"'")

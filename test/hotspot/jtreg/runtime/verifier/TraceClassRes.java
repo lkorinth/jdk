@@ -32,13 +32,14 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 // Test that the verifier outputs the classes it loads if -Xlog:class+resove=debug is specified"
 public class TraceClassRes {
   public static void main(String[] args) throws Exception {
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-Xlog:class+resolve=debug", "-verify", "-Xshare:off", "-version");
 
     OutputAnalyzer output = new OutputAnalyzer(pb.start());

@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestArrayAllocatorMallocLimit
  * @summary Sanity check that the ArrayAllocatorMallocLimit flag can be set.
@@ -51,7 +54,7 @@ public class TestArrayAllocatorMallocLimit {
   private static final String printFlagsFinalPattern = " *size_t *" + flagName + " *:?= *(\\d+) *\\{experimental\\} *";
 
   public static void testDefaultValue()  throws Exception {
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "-XX:+UnlockExperimentalVMOptions", "-XX:+PrintFlagsFinal", "-version");
 
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
@@ -77,7 +80,7 @@ public class TestArrayAllocatorMallocLimit {
   public static void testSetValue() throws Exception {
     long flagValue = 2048;
 
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "-XX:+UnlockExperimentalVMOptions", "-XX:" + flagName + "=" + flagValue, "-XX:+PrintFlagsFinal", "-version");
 
     OutputAnalyzer output = new OutputAnalyzer(pb.start());

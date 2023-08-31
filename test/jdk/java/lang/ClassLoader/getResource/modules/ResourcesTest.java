@@ -78,7 +78,7 @@ public class ResourcesTest {
      */
     public void runTest() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MODS_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                               "--add-modules", "m1,m2",
                               "-cp", CLASSES_DIR.toString(),
                               "-Djava.security.manager=allow",

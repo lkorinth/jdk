@@ -32,6 +32,7 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.JDKToolFinder;
 
@@ -50,13 +51,13 @@ public class JcmdWithNMTDisabled {
 
       // First run without enabling NMT (not in debug, where NMT is by default on)
       if (!Platform.isDebugBuild()) {
-        pb = ProcessTools.createJavaProcessBuilder("-Dtest.jdk=" + testjdkPath, "JcmdWithNMTDisabled");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Dtest.jdk=" + testjdkPath, "JcmdWithNMTDisabled");
         output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
       }
 
       // Then run with explicitly disabling NMT, should not be any difference
-      pb = ProcessTools.createJavaProcessBuilder("-Dtest.jdk=" + testjdkPath, "-XX:NativeMemoryTracking=off", "JcmdWithNMTDisabled");
+      pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Dtest.jdk=" + testjdkPath, "-XX:NativeMemoryTracking=off", "JcmdWithNMTDisabled");
       output = new OutputAnalyzer(pb.start());
       output.shouldHaveExitValue(0);
 

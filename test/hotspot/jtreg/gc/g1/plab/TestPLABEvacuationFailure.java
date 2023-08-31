@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 import gc.g1.plab.lib.LogParser;
@@ -108,7 +109,7 @@ public class TestPLABEvacuationFailure {
                 "-XX:" + (plabIsFixed ? "-" : "+") + "ResizePLAB",
                 "-XX:MaxHeapSize=" + heapSize + "m");
         testOptions.add(AppPLABEvacuationFailure.class.getName());
-        OutputAnalyzer out = ProcessTools.executeTestJvm(testOptions);
+        OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, testOptions);
 
         appPlabEvacFailureOutput = out.getOutput();
         if (out.getExitValue() != 0) {

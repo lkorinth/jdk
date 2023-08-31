@@ -32,6 +32,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestJVMCIPrintProperties {
@@ -42,7 +43,7 @@ public class TestJVMCIPrintProperties {
     }
 
     static void test(String enableFlag) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockExperimentalVMOptions",
             enableFlag, "-Djvmci.Compiler=null",
             "-XX:+JVMCIPrintProperties");

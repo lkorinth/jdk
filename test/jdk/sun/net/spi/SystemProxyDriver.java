@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -44,7 +45,7 @@ public class SystemProxyDriver {
                 "-Djava.net.useSystemProxies=true",
                 "SystemProxyTest"
         };
-        final ProcessBuilder pb = ProcessTools.createTestJvm(commandArgs);
+        final ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, commandArgs);
         pb.inheritIO();
         pb.environment().put("http_proxy", "foo://"); // intentionally use a value without host/port
         final Process p = pb.start();

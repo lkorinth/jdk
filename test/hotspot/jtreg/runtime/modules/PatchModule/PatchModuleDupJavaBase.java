@@ -32,12 +32,13 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class PatchModuleDupJavaBase {
   // The VM should exit initialization if java.base is specified
   // more than once to --patch-module.
   public static void main(String args[]) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "--patch-module=java.base=javabase_dir",
       "--patch-module=java.base=javabase_dir",
       "-version");

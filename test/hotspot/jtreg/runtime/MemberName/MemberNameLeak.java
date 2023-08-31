@@ -41,6 +41,7 @@ import java.text.*;
 import java.util.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 import jdk.test.whitebox.WhiteBox;
 import jdk.test.whitebox.code.Compiler;
@@ -126,7 +127,7 @@ public class MemberNameLeak {
         Path gcLogPath = createGcLogPath("gc." + gc + "." + doConcurrent);
         System.err.println("test(" + gc + ", " + doConcurrent + ")" + " " + dateFormat.format(new Date()));
         // Run this Leak class with logging
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                                       "-Xlog:membername+table=trace,gc+verify=debug,gc:" + gcLogPath + ":time,utctime,uptime,pid,level,tags",
                                       "-XX:+UnlockExperimentalVMOptions",
                                       "-XX:+UnlockDiagnosticVMOptions",

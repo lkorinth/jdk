@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class BlackholeNonStaticWarningTest {
@@ -64,14 +65,14 @@ public class BlackholeNonStaticWarningTest {
     }
 
     public static void shouldFail(String... args) throws IOException {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(cmdline(args));
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmdline(args));
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
         output.shouldContain(MSG);
     }
 
     public static void shouldPass(String... args) throws IOException {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(cmdline(args));
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmdline(args));
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
         output.shouldNotContain(MSG);

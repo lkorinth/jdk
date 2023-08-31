@@ -121,7 +121,7 @@ public class PatchTest {
     @Test
     public void testExtendAutomaticModuleOnModulePath() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MODULE_PATH,
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODULE_PATH,
                               "--patch-module", MODULE_NAME + "=" + SOMELIB_EXTEND_PATCH_CLASSES,
                               "-m", APP_NAME + "/" + APP_MAIN, "patch1")
                 .outputTo(System.out)
@@ -134,7 +134,7 @@ public class PatchTest {
     @Test
     public void testAugmentAutomaticModuleOnModulePath() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MODULE_PATH,
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODULE_PATH,
                               "--patch-module", MODULE_NAME + "=" + SOMELIB_AUGMENT_PATCH_CLASSES,
                               "-m", APP_NAME + "/" + APP_MAIN, "patch2")
                 .outputTo(System.out)
@@ -147,7 +147,7 @@ public class PatchTest {
     @Test
     public void testExtendAutomaticModuleAsInitialModule() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", SOMELIB_JAR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", SOMELIB_JAR.toString(),
                               "--patch-module", MODULE_NAME + "=" + SOMELIB_EXTEND_PATCH_CLASSES,
                               "-m", MODULE_NAME + "/" + EXTEND_PATCH_MAIN)
                 .outputTo(System.out)
@@ -160,7 +160,7 @@ public class PatchTest {
     @Test
     public void testAugmentAutomaticModuleAsInitialModule() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", SOMELIB_JAR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", SOMELIB_JAR.toString(),
                               "--patch-module", MODULE_NAME + "=" + SOMELIB_AUGMENT_PATCH_CLASSES,
                               "-m", MODULE_NAME + "/" + AUGMENT_PATCH_MAIN)
                 .outputTo(System.out)

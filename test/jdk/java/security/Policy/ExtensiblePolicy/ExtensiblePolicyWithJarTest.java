@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.AccessController;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 
 /**
@@ -94,7 +95,7 @@ public class ExtensiblePolicyWithJarTest {
             "-Djava.security.manager",
             "-Djava.security.policy=" + POL,
             "ExtensiblePolicyTest_orig$TestMain"};
-            ProcessTools.executeTestJvm(cmd).shouldHaveExitValue(0);
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, cmd).shouldHaveExitValue(0);
         } catch (Exception ex) {
             System.out.println("ExtensiblePolicyWithJarTest Failed");
         }

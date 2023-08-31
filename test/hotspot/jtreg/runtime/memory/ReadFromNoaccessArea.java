@@ -36,6 +36,7 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.whitebox.WhiteBox;
 import jtreg.SkippedException;
@@ -44,7 +45,7 @@ public class ReadFromNoaccessArea {
 
   public static void main(String args[]) throws Exception {
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
           "-Xbootclasspath/a:.",
           "-XX:+UnlockDiagnosticVMOptions",
           "-XX:+WhiteBoxAPI",

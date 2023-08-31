@@ -43,6 +43,7 @@ import java.nio.file.Paths;
 import java.security.ProtectionDomain;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class RetransformClassesZeroLength {
@@ -56,7 +57,7 @@ public class RetransformClassesZeroLength {
     public static void main(String args[]) throws Throwable {
         String agentJar = buildAgent();
         ProcessTools.executeProcess(
-                ProcessTools.createJavaProcessBuilder(
+                ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                         "-javaagent:" + agentJar,
                         "-version")
         ).shouldHaveExitValue(0);

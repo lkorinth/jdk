@@ -41,6 +41,7 @@ package gc.g1.numa;
 import java.util.LinkedList;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 public class TestG1NUMATouchRegions {
@@ -181,7 +182,7 @@ public class TestG1NUMATouchRegions {
             return;
         }
 
-        ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb_enabled = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                                               "-Xbootclasspath/a:.",
                                               "-Xlog:pagesize,gc+heap+region=trace",
                                               "-XX:+UseG1GC",

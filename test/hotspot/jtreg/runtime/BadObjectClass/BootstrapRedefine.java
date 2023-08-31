@@ -33,6 +33,7 @@
 
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
@@ -51,7 +52,7 @@ public class BootstrapRedefine {
                                         "--patch-module=java.base"),
                                         "mods/java.base");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("--patch-module=java.base=mods/java.base", "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "--patch-module=java.base=mods/java.base", "-version");
         new OutputAnalyzer(pb.start())
             .shouldContain("Incompatible definition of java.lang.Object")
             .shouldHaveExitValue(1);

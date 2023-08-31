@@ -37,6 +37,7 @@ import java.nio.file.Paths;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class PatchModuleClassList {
@@ -64,7 +65,7 @@ public class PatchModuleClassList {
         String moduleJar = BasicJarBuilder.getTestJar("javanaming.jar");
 
         String classList = "javanaming.list";
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-XX:DumpLoadedClassList=" + classList,
             "--patch-module=java.naming=" + moduleJar,
             "PatchModuleMain", BOOT_CLASS.replace('/', '.'));
@@ -98,7 +99,7 @@ public class PatchModuleClassList {
         moduleJar = BasicJarBuilder.getTestJar("javasql.jar");
 
         classList = "javasql.list";
-        pb = ProcessTools.createTestJvm(
+        pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-XX:DumpLoadedClassList=" + classList,
             "--patch-module=java.sql=" + moduleJar,
             "PatchModuleMain", PLATFORM_CLASS.replace('/', '.'));
@@ -130,7 +131,7 @@ public class PatchModuleClassList {
         moduleJar = BasicJarBuilder.getTestJar("hello.jar");
 
         classList = "hello.list";
-        pb = ProcessTools.createTestJvm(
+        pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-XX:DumpLoadedClassList=" + classList,
             "-Xbootclasspath/a:" + moduleJar,
             "Hello");

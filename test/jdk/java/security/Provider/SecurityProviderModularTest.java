@@ -39,6 +39,7 @@ import java.io.OutputStream;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleDescriptor.Builder;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 import jdk.test.lib.util.ModuleInfoWriter;
 
@@ -257,7 +258,7 @@ public class SecurityProviderModularTest {
             }
             return !s.isEmpty();
         }).toArray(String[]::new);
-        String out = ProcessTools.executeTestJvm(safeArgs).getOutput();
+        String out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, safeArgs).getOutput();
         // Handle response.
         if ((msgKey != null && out.contains(MSG_MAP.get(msgKey)))) {
             System.out.printf("PASS: Expected Result: %s.%n",

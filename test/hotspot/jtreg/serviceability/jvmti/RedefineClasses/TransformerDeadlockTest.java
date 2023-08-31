@@ -35,6 +35,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 import java.lang.instrument.ClassFileTransformer;
@@ -57,7 +58,7 @@ public class TransformerDeadlockTest {
     public static void main(String args[]) throws Throwable {
         String agentJar = buildAgent();
         ProcessTools.executeProcess(
-                ProcessTools.createJavaProcessBuilder(
+                ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                         "-javaagent:" + agentJar,
                         TransformerDeadlockTest.Agent.class.getName())
         ).shouldHaveExitValue(0);

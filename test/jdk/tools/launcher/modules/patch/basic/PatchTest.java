@@ -143,7 +143,7 @@ public class PatchTest {
         String arg = Stream.of(CLASSES).collect(Collectors.joining(","));
 
         int exitValue
-            =  executeTestJava("--patch-module", "java.base=" + basePatches,
+            =  executeJavaProcess(PrependTestJavaOpts, "--patch-module", "java.base=" + basePatches,
                                "--patch-module", "jdk.naming.dns=" + dnsPatches,
                                "--patch-module", "jdk.compiler=" + compilerPatches,
                                "--add-exports", "java.base/java.lang2=test",

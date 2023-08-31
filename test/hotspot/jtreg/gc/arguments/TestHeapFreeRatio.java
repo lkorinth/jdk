@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestHeapFreeRatio
  * @bug 8025661
@@ -47,7 +50,7 @@ public class TestHeapFreeRatio {
   }
 
   private static void testMinMaxFreeRatio(String min, String max, Validation type) throws Exception {
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-Xminf" + min,
         "-Xmaxf" + max,
         "-version");

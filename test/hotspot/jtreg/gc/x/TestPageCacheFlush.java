@@ -33,6 +33,7 @@ package gc.x;
 
 import java.util.LinkedList;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestPageCacheFlush {
     static class Test {
@@ -68,7 +69,7 @@ public class TestPageCacheFlush {
     }
 
     public static void main(String[] args) throws Exception {
-        ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(
+        ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                                     "-XX:+UseZGC",
                                     "-XX:-ZGenerational",
                                     "-Xms128M",

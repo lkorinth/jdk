@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import static jdk.test.lib.Asserts.*;
 
@@ -59,7 +60,7 @@ public class TestPLABOutput {
             GCTest.class.getName()
             };
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(arguments);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, arguments);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
         output.shouldHaveExitValue(0);

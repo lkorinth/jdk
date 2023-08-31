@@ -40,6 +40,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.util.JarUtils;
 
@@ -131,7 +132,7 @@ public class ExecJarWithAgent {
      * java -jar app.jar, returning the OutputAnalyzer to analyze the output
      */
     private OutputAnalyzer exec(Path appJar) throws Exception {
-        return ProcessTools.executeTestJava("-jar", appJar.toString())
+        return ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-jar", appJar.toString())
                 .outputTo(System.out)
                 .errorTo(System.out);
     }

@@ -48,6 +48,7 @@ package vm.compiler.CodeCacheInfo;
 import jdk.test.whitebox.WhiteBox;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class Test {
     private static final String SEG_REGEXP;
@@ -69,7 +70,7 @@ public class Test {
     public static void main(String[] args) throws Exception {
         {
             System.out.println("SegmentedCodeCache is enabled");
-            var pb = ProcessTools.createTestJvm(
+            var pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     "-XX:+SegmentedCodeCache",
                     "-XX:+PrintCodeCache",
                     "-version");
@@ -79,7 +80,7 @@ public class Test {
         }
         {
             System.out.println("SegmentedCodeCache is disabled");
-            var pb = ProcessTools.createTestJvm(
+            var pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     "-XX:-SegmentedCodeCache",
                     "-XX:+PrintCodeCache",
                     "-version");

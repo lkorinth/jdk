@@ -24,6 +24,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 import jdk.test.whitebox.WhiteBox;
@@ -42,7 +43,7 @@ import jdk.test.whitebox.WhiteBox;
 public class HandshakeTimeoutTest {
     public static void main(String[] args) throws Exception {
         ProcessBuilder pb =
-            ProcessTools.createTestJvm(
+            ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     "-Xbootclasspath/a:.",
                     "-XX:+UnlockDiagnosticVMOptions",
                     "-XX:+WhiteBoxAPI",

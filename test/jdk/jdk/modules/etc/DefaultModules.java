@@ -40,6 +40,7 @@ import java.nio.file.Path;
 import java.util.spi.ToolProvider;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * This test compiles and runs the following tests on the class path:
@@ -60,7 +61,7 @@ public class DefaultModules {
 
         // $JDK_HOME/bin/java TestModules.java
         String source = Path.of(testSrc, "TestRootModules.java").toString();
-        ProcessTools.executeTestJava("--add-exports", "java.base/jdk.internal.module=ALL-UNNAMED", source)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "--add-exports", "java.base/jdk.internal.module=ALL-UNNAMED", source)
                 .outputTo(System.out)
                 .errorTo(System.err)
                 .shouldHaveExitValue(0);

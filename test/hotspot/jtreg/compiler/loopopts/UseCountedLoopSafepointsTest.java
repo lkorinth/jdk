@@ -39,6 +39,7 @@ package compiler.loopopts;
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.List;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class UseCountedLoopSafepointsTest {
     private static void check(boolean enabled) {
         OutputAnalyzer oa;
         try {
-            oa = ProcessTools.executeTestJvm("-XX:+UnlockDiagnosticVMOptions", "-Xbootclasspath/a:.",
+            oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:+UnlockDiagnosticVMOptions", "-Xbootclasspath/a:.",
                                              "-XX:" + (enabled ? "+" : "-") + "UseCountedLoopSafepoints",
                                              "-XX:+WhiteBoxAPI",
                     "-XX:-Inline", "-Xbatch", "-XX:+PrintIdeal", "-XX:LoopUnrollLimit=0",

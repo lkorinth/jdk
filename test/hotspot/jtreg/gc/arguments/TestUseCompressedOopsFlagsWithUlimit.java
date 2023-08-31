@@ -45,6 +45,7 @@ import java.util.Arrays;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestUseCompressedOopsFlagsWithUlimit {
 
@@ -59,7 +60,7 @@ public class TestUseCompressedOopsFlagsWithUlimit {
     // Convert bytes to kbytes for ulimit -v
     var ulimit_prefix = "ulimit -v " + (ulimit / 1024);
 
-    String cmd = ProcessTools.getCommandLine(ProcessTools.createTestJvm(args.toArray(String[]::new)));
+    String cmd = ProcessTools.getCommandLine(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, args.toArray(String[]::new)));
     ProcessBuilder pb = new ProcessBuilder("sh", "-c", ulimit_prefix + ";" + cmd);
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     output.shouldHaveExitValue(0);

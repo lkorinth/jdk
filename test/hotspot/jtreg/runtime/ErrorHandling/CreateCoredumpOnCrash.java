@@ -32,6 +32,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.internal.misc.Unsafe;
@@ -59,7 +60,7 @@ public class CreateCoredumpOnCrash {
     }
     public static OutputAnalyzer runTest(String option) throws Exception {
         return new OutputAnalyzer(
-            ProcessTools.createJavaProcessBuilder(
+            ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xmx128m", "--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED", option, Crasher.class.getName())
             .start());
     }

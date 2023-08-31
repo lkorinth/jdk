@@ -32,6 +32,7 @@
 import java.util.List;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestCheckedJniExceptionCheck {
@@ -205,7 +206,7 @@ public class TestCheckedJniExceptionCheck {
         }
 
         // launch and check output
-        checkOuputForCorrectWarnings(ProcessTools.executeTestJvm("-Xcheck:jni",
+        checkOuputForCorrectWarnings(ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Xcheck:jni",
                                                                  "-Djava.library.path=" + Utils.TEST_NATIVE_PATH,
                                                                  "TestCheckedJniExceptionCheck"));
     }

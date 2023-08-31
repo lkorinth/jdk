@@ -34,12 +34,13 @@
 
 import java.io.File;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class Bad_NCDFE_Msg {
 
     public static void main(String args[]) throws Throwable {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-cp", System.getProperty("test.classes") + File.separator + "pkg", "C");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain("java.lang.NoClassDefFoundError: C (wrong name: pkg/C");

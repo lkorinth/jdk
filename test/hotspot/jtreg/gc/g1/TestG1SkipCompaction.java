@@ -42,6 +42,7 @@ import java.util.List;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestG1SkipCompaction {
     public static void runTest() throws Exception {
@@ -54,7 +55,7 @@ public class TestG1SkipCompaction {
             "-XX:G1HeapRegionSize=1m",
             GCTest.class.getName()
             };
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(arguments);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, arguments);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         System.out.println(output.getStdout());
 

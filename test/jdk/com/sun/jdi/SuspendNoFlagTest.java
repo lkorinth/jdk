@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /* @test
  * @bug 4914611
@@ -38,7 +39,7 @@ public class SuspendNoFlagTest {
             "test.classes", ".");
 
     public static void main(String[] args) throws Throwable {
-        OutputAnalyzer output = ProcessTools.executeTestJvm("-classpath",
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-classpath",
                 TEST_CLASSES,
                 "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n",
                 "HelloWorld");

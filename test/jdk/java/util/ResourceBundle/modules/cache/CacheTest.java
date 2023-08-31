@@ -78,13 +78,13 @@ public class CacheTest {
      */
     @Test
     public void loadCacheFirst() throws Exception {
-        assertTrue(executeTestJava("--module-path", MODS_DIR.toString(),
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                                    "-m", MAIN, "cache")
                         .outputTo(System.out)
                         .errorTo(System.out)
                         .getExitValue() == 0);
 
-        assertTrue(executeTestJava("--class-path", MODS_DIR.resolve(TEST_MODULE).toString(),
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, "--class-path", MODS_DIR.resolve(TEST_MODULE).toString(),
                                    "--module-path", MODS_DIR.resolve(MAIN_BUNDLES_MODULE).toString(),
                                    "--add-modules", MAIN_BUNDLES_MODULE,
                                    MAIN_CLASS, "cache")
@@ -100,13 +100,13 @@ public class CacheTest {
      */
     @Test
     public void loadNonExistentBundleInCache() throws Exception {
-        assertTrue(executeTestJava("--module-path", MODS_DIR.toString(),
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                                    "-m", MAIN)
                         .outputTo(System.out)
                         .errorTo(System.out)
                         .getExitValue() == 0);
 
-        assertTrue(executeTestJava("--class-path", MODS_DIR.resolve(TEST_MODULE).toString(),
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, "--class-path", MODS_DIR.resolve(TEST_MODULE).toString(),
                                    "--module-path", MODS_DIR.resolve(MAIN_BUNDLES_MODULE).toString(),
                                    "--add-modules", MAIN_BUNDLES_MODULE,
                                    MAIN_CLASS)

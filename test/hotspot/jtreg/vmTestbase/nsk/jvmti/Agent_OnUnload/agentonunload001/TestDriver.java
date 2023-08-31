@@ -50,10 +50,11 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestDriver {
     public static void main(String[] args) throws Exception {
-        OutputAnalyzer oa = ProcessTools.executeTestJvm(
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 "-agentlib:agentonunload001=-waittime=5",
                 nsk.jvmti.Agent_OnUnload.agentonunload001.class.getName());
         oa.shouldHaveExitValue(95);

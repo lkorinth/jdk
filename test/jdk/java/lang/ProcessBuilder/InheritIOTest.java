@@ -34,6 +34,7 @@ import java.util.List;
 import static java.lang.ProcessBuilder.Redirect.INHERIT;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -54,7 +55,7 @@ public class InheritIOTest {
 
     @Test(dataProvider = "testCases")
     public void testInheritWithoutRedirect(List<String> arguments) throws Throwable {
-        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(arguments);
+        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, arguments);
         OutputAnalyzer outputAnalyzer = ProcessTools.executeCommand(processBuilder);
         outputAnalyzer.shouldHaveExitValue(0);
         assertEquals(outputAnalyzer.getStdout(), EXPECTED_RESULT_STDOUT);

@@ -31,12 +31,13 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestDefaultLogOutput {
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:badTag");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:badTag");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.stdoutShouldMatch("\\[error *\\]\\[logging *\\]");
         output.shouldHaveExitValue(1);

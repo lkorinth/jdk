@@ -31,13 +31,14 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class PrintNMTStatistics {
 
     public static void main(String args[]) throws Exception {
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "-XX:+UnlockDiagnosticVMOptions",
       "-XX:+PrintNMTStatistics",
       "-XX:NativeMemoryTracking=detail",
@@ -55,7 +56,7 @@ public class PrintNMTStatistics {
     // Make sure memory reserved for Module processing is recorded.
     output_detail.shouldContain(" Module (reserved=");
 
-    ProcessBuilder pb1 = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb1 = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "-XX:+UnlockDiagnosticVMOptions",
       "-XX:+PrintNMTStatistics",
       "-XX:NativeMemoryTracking=summary",

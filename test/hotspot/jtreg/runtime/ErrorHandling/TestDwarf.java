@@ -37,6 +37,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import sun.misc.Unsafe;
 
@@ -120,7 +121,7 @@ public class TestDwarf {
 
     private static void runAndCheck(Flags flags, DwarfConstraint... constraints) throws Exception {
         OutputAnalyzer crashOut;
-        crashOut = ProcessTools.executeProcess(ProcessTools.createTestJvm(flags.getFlags()));
+        crashOut = ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, flags.getFlags()));
         String crashOutputString = crashOut.getOutput();
         Asserts.assertNotEquals(crashOut.getExitValue(), 0, "Crash JVM should not exit gracefully");
         System.out.println(crashOutputString);

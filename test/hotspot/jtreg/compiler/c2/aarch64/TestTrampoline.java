@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test TestTrampoline
@@ -57,7 +58,7 @@ public class TestTrampoline {
         command.add("-XX:ReservedCodeCacheSize=130M");
         command.add("-XX:+SegmentedCodeCache");
         command.add(testClassName);
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(command);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, command);
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
         analyzer.shouldHaveExitValue(0);
         System.out.println(analyzer.getOutput());

@@ -46,6 +46,7 @@ import javax.net.ssl.SSLSocketFactory;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 public class ResumptionUpdateBoundValues extends SSLContextTemplate {
@@ -188,7 +189,7 @@ public class ResumptionUpdateBoundValues extends SSLContextTemplate {
             System.out.println("test.java.opts: " +
                     System.getProperty("test.java.opts"));
 
-            ProcessBuilder pb = ProcessTools.createTestJvm(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     Utils.addTestJavaOpts("ResumptionUpdateBoundValues", "p"));
 
             OutputAnalyzer output = ProcessTools.executeProcess(pb);

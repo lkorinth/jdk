@@ -43,6 +43,7 @@ import java.util.Random;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 // An object that has a few references to other instances to slow down marking.
@@ -119,7 +120,7 @@ class TestEagerReclaimHumongousRegionsClearMarkBitsReclaimRegionFast {
 
 public class TestEagerReclaimHumongousRegionsClearMarkBits {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UseG1GC",
             "-Xms128M",
             "-Xmx128M",

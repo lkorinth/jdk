@@ -30,6 +30,7 @@ import java.util.Map;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestDriver {
     private final Map<String, Long> expectedVectorizationNumbers
@@ -44,7 +45,7 @@ public class TestDriver {
     }
 
     private List<String> executeApplication() throws Throwable {
-        OutputAnalyzer outputAnalyzer = ProcessTools.executeTestJvm(
+        OutputAnalyzer outputAnalyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
             "-Xbatch",
             "-XX:-TieredCompilation",
             "-XX:+PrintCompilation",

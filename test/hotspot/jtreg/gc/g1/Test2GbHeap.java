@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class Test2GbHeap {
   public static void main(String[] args) throws Exception {
@@ -49,7 +50,7 @@ public class Test2GbHeap {
     testArguments.add("-Xmx2g");
     testArguments.add("-version");
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(testArguments);
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, testArguments);
 
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     output.shouldHaveExitValue(0);

@@ -37,6 +37,7 @@ import java.security.cert.*;
 import java.security.cert.Certificate;
 import java.util.*;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 // Load and store entries in domain keystores
@@ -80,7 +81,7 @@ public class DKSTest {
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             // Environment variable and system properties referred in domains.cfg used by this Test.
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(List.of(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, List.of(
                     "-Dtest.src=" + TEST_SRC , "-Duser.dir=" + USER_DIR, "DKSTest", "run"));
             pb.environment().putAll(System.getenv());
             pb.environment().put("KEYSTORE_PWD", "test12");

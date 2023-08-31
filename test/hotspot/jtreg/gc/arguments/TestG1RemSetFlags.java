@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestG1RemSetFlags
  * @requires vm.gc.G1
@@ -48,7 +51,7 @@ public class TestG1RemSetFlags {
     flagList.add("-XX:+PrintFlagsFinal");
     flagList.add("-version");
 
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(flagList);
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, flagList);
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     output.shouldHaveExitValue(exitValue);
   }

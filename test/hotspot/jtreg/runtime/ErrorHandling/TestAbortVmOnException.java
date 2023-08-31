@@ -31,6 +31,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.IOException;
 
@@ -59,12 +60,12 @@ public class TestAbortVmOnException {
 
     private static Process runProcess(String exceptionName, boolean withMessage, String exceptionMessage) throws IOException {
         if (exceptionMessage == null) {
-            return ProcessTools.createJavaProcessBuilder("-XX:+UnlockDiagnosticVMOptions",
+            return ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UnlockDiagnosticVMOptions",
                 "-XX:AbortVMOnException=" + exceptionName, "-Xcomp", "-XX:TieredStopAtLevel=3", "-XX:-CreateCoredumpOnCrash",
                 "-XX:CompileCommand=compileonly,TestAbortVmOnException::*", TestAbortVmOnException.class.getName(),
                 withMessage ? "throwExceptionWithMessage" : "throwException").start();
         } else {
-            return ProcessTools.createJavaProcessBuilder("-XX:+UnlockDiagnosticVMOptions",
+            return ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UnlockDiagnosticVMOptions",
                 "-XX:AbortVMOnException=" + exceptionName, "-XX:AbortVMOnExceptionMessage=" + exceptionMessage,
                 "-Xcomp", "-XX:TieredStopAtLevel=3", "-XX:-CreateCoredumpOnCrash", "-XX:CompileCommand=compileonly,TestAbortVmOnException::*",
                 TestAbortVmOnException.class.getName(),withMessage ? "throwExceptionWithMessage" : "throwException").start();

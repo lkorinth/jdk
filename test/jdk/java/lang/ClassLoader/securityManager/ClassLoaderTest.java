@@ -53,6 +53,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 import jdk.test.lib.util.ModuleInfoWriter;
 
@@ -241,7 +242,7 @@ public class ClassLoaderTest {
                     if (s.contains(" ")) { throw new RuntimeException("No spaces in args");}
                     return !s.isEmpty();
                 }).toArray(String[]::new);
-        String out = ProcessTools.executeTestJvm(safeArgs).getOutput();
+        String out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, safeArgs).getOutput();
         // Handle response.
         if ("PASS".equals(status) && out.contains(msg)) {
             System.out.println("PASS: Expected Result: " + msg);

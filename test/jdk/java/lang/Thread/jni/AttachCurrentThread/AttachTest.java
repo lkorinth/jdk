@@ -46,6 +46,7 @@
 
 import java.util.stream.Stream;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class AttachTest {
@@ -60,7 +61,7 @@ public class AttachTest {
                         Stream.of(args))
                 .toArray(String[]::new);
         OutputAnalyzer outputAnalyzer = ProcessTools
-                .executeTestJava(opts)
+                .executeJavaProcess(PrependTestJavaOpts, opts)
                 .outputTo(System.out)
                 .errorTo(System.out);
         outputAnalyzer.shouldHaveExitValue(0);

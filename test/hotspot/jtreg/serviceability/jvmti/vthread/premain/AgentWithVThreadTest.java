@@ -22,6 +22,7 @@
  */
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 
 /*
@@ -37,7 +38,7 @@ import jdk.test.lib.process.ProcessTools;
 public class AgentWithVThreadTest {
     public static void main(String[] args) throws Exception  {
 
-        ProcessBuilder pb = ProcessTools.createTestJvm("-javaagent:agent.jar",  "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-javaagent:agent.jar",  "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.stdoutShouldContain("passed");
     }

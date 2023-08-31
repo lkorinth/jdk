@@ -78,6 +78,7 @@ import java.nio.*;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.security.SecurityUtils;
 
 public class DebugReportsOneExtraByte extends SSLEngineTemplate {
@@ -93,7 +94,7 @@ public class DebugReportsOneExtraByte extends SSLEngineTemplate {
     public static void main(String args[]) throws Exception {
 
         if (args.length == 0) {
-            OutputAnalyzer output = ProcessTools.executeTestJvm(
+            OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 "-Dtest.src=" + System.getProperty("test.src"),
                 "-Djavax.net.debug=all", "DebugReportsOneExtraByte", "p");
             output.shouldContain("WRITE: TLSv1 application_data, length = 8");

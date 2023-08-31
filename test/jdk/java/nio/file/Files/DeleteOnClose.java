@@ -46,6 +46,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import static java.nio.file.StandardOpenOption.READ;
 import static java.nio.file.StandardOpenOption.WRITE;
@@ -56,7 +57,7 @@ public class DeleteOnClose {
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             Path file = Files.createTempFile("blah", "tmp");
-            ProcessTools.executeTestJava(DeleteOnClose.class.getName(),
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, DeleteOnClose.class.getName(),
                                          file.toAbsolutePath().toString())
                         .shouldHaveExitValue(0);
             runTest(file);

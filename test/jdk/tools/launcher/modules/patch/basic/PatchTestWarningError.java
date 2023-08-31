@@ -122,7 +122,7 @@ public class PatchTestWarningError {
      */
     public void testDuplicateModule() throws Exception {
         int exitValue =
-            executeTestJava("--patch-module", "java.base=" + PATCHES1_DIR.resolve("java.base"),
+            executeJavaProcess(PrependTestJavaOpts, "--patch-module", "java.base=" + PATCHES1_DIR.resolve("java.base"),
                             "--patch-module", "java.base=" + PATCHES2_DIR.resolve("java.base"),
                             "--module-path", MODS_DIR.toString(),
                             "-m", "test/jdk.test.Main")
@@ -157,7 +157,7 @@ public class PatchTestWarningError {
         String arg = Stream.of(CLASSES).collect(Collectors.joining(","));
 
         int exitValue =
-            executeTestJava("--patch-module", value,
+            executeJavaProcess(PrependTestJavaOpts, "--patch-module", value,
                             "--add-exports", "java.base/java.lang2=test",
                             "--module-path", MODS_DIR.toString(),
                             "-m", "test/jdk.test.Main", arg)
@@ -176,7 +176,7 @@ public class PatchTestWarningError {
         String arg = Stream.of(CLASSES).collect(Collectors.joining(","));
 
         int exitValue =
-            executeTestJava("--patch-module", "DoesNotExist=tmp",
+            executeJavaProcess(PrependTestJavaOpts, "--patch-module", "DoesNotExist=tmp",
                             "--patch-module", "java.base=" + PATCHES_PATH,
                             "--add-exports", "java.base/java.lang2=test",
                             "--module-path", MODS_DIR.toString(),
@@ -213,7 +213,7 @@ public class PatchTestWarningError {
     @Test(dataProvider = "badArguments")
     public void testBadArgument(String value, String msg) throws Exception {
         int exitValue =
-            executeTestJava("--patch-module", value,
+            executeJavaProcess(PrependTestJavaOpts, "--patch-module", value,
                             "--module-path", MODS_DIR.toString(),
                             "-m", "test/jdk.test.Main")
                 .outputTo(System.out)

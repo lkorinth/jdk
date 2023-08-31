@@ -84,7 +84,7 @@ public class AddReadsTest {
     }
 
     private OutputAnalyzer run(String... options) throws Exception {
-        return executeTestJava(options)
+        return executeJavaProcess(PrependTestJavaOpts, options)
             .outputTo(System.out)
             .errorTo(System.out);
     }

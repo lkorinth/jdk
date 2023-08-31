@@ -57,6 +57,7 @@ import java.util.stream.Collectors;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.cds.CDSTestUtils;
 
 public class TestDumpClassListSource {
@@ -112,7 +113,7 @@ public class TestDumpClassListSource {
                 "-cp",
                 jarFile,
                 mainInvokeClass};
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(launchArgs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, launchArgs);
         OutputAnalyzer output = TestCommon.executeAndLog(pb, "invoke-class");
 
         checkFileExistence("Archive", fileArchive);
@@ -137,7 +138,7 @@ public class TestDumpClassListSource {
                 jarFile,
                 mainCutomClass,
                 "1"};
-        pb = ProcessTools.createJavaProcessBuilder(launchArgs);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, launchArgs);
         output = TestCommon.executeAndLog(pb, "custom-nosource");
 
         checkFileExistence("Archive", fileArchive);
@@ -163,7 +164,7 @@ public class TestDumpClassListSource {
                 jarFile,
                 mainCutomClass,
                 "2"};
-        pb = ProcessTools.createJavaProcessBuilder(launchArgs);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, launchArgs);
         output = TestCommon.executeAndLog(pb, "custom-nosource");
 
         checkFileExistence("Archive", fileArchive);
@@ -184,7 +185,7 @@ public class TestDumpClassListSource {
                 jarFile,
                 mainCutomClass,
                 "3"};
-        pb = ProcessTools.createJavaProcessBuilder(launchArgs);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, launchArgs);
         output = TestCommon.executeAndLog(pb, "custom-dump-classlist");
 
         checkFileExistence("ClassList", fileList);
@@ -205,7 +206,7 @@ public class TestDumpClassListSource {
                 jarFile,
                 mainCutomClass,
                 "3"};
-        pb = ProcessTools.createJavaProcessBuilder(launchArgs);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, launchArgs);
         output = TestCommon.executeAndLog(pb, "custom-dump");
 
         checkFileExistence("Archive", archiveFile);
@@ -225,7 +226,7 @@ public class TestDumpClassListSource {
                 jarFile,
                 mainCutomClass,
                 "3"};
-        pb = ProcessTools.createJavaProcessBuilder(launchArgs);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, launchArgs);
         output = TestCommon.executeAndLog(pb, "custom-share");
 
         checkFileExistence("ClassList", newFile);

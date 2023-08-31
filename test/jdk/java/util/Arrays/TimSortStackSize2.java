@@ -40,6 +40,7 @@ import java.util.function.Consumer;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 public class TimSortStackSize2 {
@@ -67,7 +68,7 @@ public class TimSortStackSize2 {
 
             System.out.printf("compressedOops: %s; Test will be started with \"%s %s\"%n",
                               compressedOops, xmsValue, xmxValue);
-            OutputAnalyzer output = ProcessTools.executeTestJava(xmsValue,
+            OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, xmsValue,
                                                                  xmxValue,
                                                                  "TimSortStackSize2",
                                                                  "67108864");

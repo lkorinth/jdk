@@ -38,6 +38,7 @@
 import jdk.test.lib.Asserts;
 import jdk.test.lib.hprof.HprofParser;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import java.io.File;
@@ -61,7 +62,7 @@ public class TestGZippedHeapDumpOnOutOfMemoryError {
     }
 
     static void test(int level) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+HeapDumpOnOutOfMemoryError",
             "-XX:HeapDumpGzipLevel=" + level,
             "-Xmx128M",

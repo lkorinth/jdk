@@ -34,6 +34,7 @@ import java.nio.file.Path;
 import java.util.regex.Pattern;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class FoldMultilinesTest {
 
@@ -79,15 +80,15 @@ public class FoldMultilinesTest {
         ProcessBuilder pb;
 
         Xlog = XLOG_BASE + out +  "::foldmultilines=true";
-        pb = ProcessTools.createJavaProcessBuilder(Xlog, InternalClass.class.getName());
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, Xlog, InternalClass.class.getName());
         analyzeFoldMultilinesOn(pb, out);
 
         Xlog = XLOG_BASE + out + "::foldmultilines=false";
-        pb = ProcessTools.createJavaProcessBuilder(Xlog, InternalClass.class.getName());
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, Xlog, InternalClass.class.getName());
         analyzeFoldMultilinesOff(pb, out);
 
         Xlog = XLOG_BASE + out + "::foldmultilines=invalid";
-        pb = ProcessTools.createJavaProcessBuilder(Xlog, InternalClass.class.getName());
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, Xlog, InternalClass.class.getName());
         analyzeFoldMultilinesInvalid(pb);
     }
 

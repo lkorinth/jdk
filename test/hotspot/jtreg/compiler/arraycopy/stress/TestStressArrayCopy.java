@@ -31,6 +31,7 @@ import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import jdk.test.whitebox.cpuinfo.CPUInfo;
 
@@ -173,7 +174,7 @@ public class TestStressArrayCopy {
             for (String className : classNames) {
                 // Start a new job
                 {
-                    ProcessBuilder pb = ProcessTools.createTestJvm(mix(c, "-Xmx256m", className));
+                    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, mix(c, "-Xmx256m", className));
                     Process p = pb.start();
                     OutputAnalyzer oa = new OutputAnalyzer(p);
                     forks.add(new Fork(p, oa));

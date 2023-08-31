@@ -36,13 +36,14 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class FindClassFromBoot {
     public static void main(String... args) throws Exception {
         Path patches = Paths.get(System.getProperty("test.classes"), "patches", "java.base");
         String syspaths = System.getProperty("sun.boot.library.path") +
                               File.pathSeparator + System.getProperty("java.library.path");
-        ProcessTools.executeTestJvm("-Dsun.boot.library.path=" + syspaths,
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Dsun.boot.library.path=" + syspaths,
                                     "--patch-module", "java.base=" + patches.toString(),
                                     "BootLoaderTest")
                     .shouldHaveExitValue(0);

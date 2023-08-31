@@ -36,6 +36,7 @@ import jdk.test.lib.JDKToolLauncher;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.SA.SATestUtils;
 
 /**
@@ -77,7 +78,7 @@ public class JMapHProfLargeHeapTest {
     private static void testHProfFileFormat(String vmArgs, long heapSize,
             String expectedFormat) throws Exception, IOException,
             InterruptedException, FileNotFoundException {
-        ProcessBuilder procBuilder = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder procBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "--add-exports=java.management/sun.management=ALL-UNNAMED", vmArgs, "JMapHProfLargeHeapProc", String.valueOf(heapSize));
         procBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
         Process largeHeapProc = procBuilder.start();

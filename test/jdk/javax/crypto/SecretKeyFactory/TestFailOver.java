@@ -29,6 +29,7 @@ import java.util.List;
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -63,7 +64,7 @@ public class TestFailOver {
         }
         params.add(0, "-Djava.security.properties=" + SEC_PROP);
         params.add(JF_NAME);
-        OutputAnalyzer oa = ProcessTools.executeTestJava(
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 params.toArray(String[]::new));
         System.out.println(oa.getOutput());
         oa.shouldHaveExitValue(0);

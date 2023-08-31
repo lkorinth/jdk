@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestG1ConcRefinementThreads
  * @bug 8047976
@@ -69,7 +72,7 @@ public class TestG1ConcRefinementThreads {
     }
     Collections.addAll(vmOpts, "-XX:+UseG1GC", "-XX:+PrintFlagsFinal", "-version");
 
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(vmOpts);
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOpts);
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
     output.shouldHaveExitValue(0);

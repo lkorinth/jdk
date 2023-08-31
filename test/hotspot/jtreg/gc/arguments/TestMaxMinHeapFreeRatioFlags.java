@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestMaxMinHeapFreeRatioFlags
  * @summary Verify that heap size changes according to max and min heap free ratios.
@@ -98,7 +101,7 @@ public class TestMaxMinHeapFreeRatioFlags {
                 Boolean.toString(shrinkHeapInSteps)
         );
 
-        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(vmOptions);
+        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOptions);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
         analyzer.shouldHaveExitValue(0);
     }
@@ -123,7 +126,7 @@ public class TestMaxMinHeapFreeRatioFlags {
                 "--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED",
                 "-version"
         );
-        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(vmOptions);
+        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOptions);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
         analyzer.shouldHaveExitValue(1);
         analyzer.shouldContain("Error: Could not create the Java Virtual Machine.");

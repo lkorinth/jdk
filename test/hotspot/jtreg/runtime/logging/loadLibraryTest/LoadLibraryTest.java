@@ -33,6 +33,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jtreg.SkippedException;
 
@@ -118,7 +119,7 @@ public class LoadLibraryTest {
 
 
     public static void main(String... args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xbootclasspath/a:.", "-XX:+UnlockDiagnosticVMOptions",
             "-XX:+WhiteBoxAPI", "-Xmn8m", "-Xlog:library=info",
             "-Djava.library.path=" + System.getProperty("java.library.path"),

@@ -42,6 +42,7 @@
 package compiler.jvmci;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.vm.ci.services.JVMCIServiceLocator;
 import jdk.vm.ci.runtime.JVMCICompiler;
@@ -83,7 +84,7 @@ public class TestUncaughtErrorInCompileMethod extends JVMCIServiceLocator {
     }
 
     static void testSubprocess(boolean fatalError) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockExperimentalVMOptions",
             "-XX:+UseJVMCICompiler", "-Djvmci.Compiler=ErrorCompiler",
             "-XX:-TieredCompilation",

@@ -30,6 +30,7 @@ import java.util.Map;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * Utilities for process operations.
@@ -42,7 +43,7 @@ public class ProcUtils {
      */
     public static OutputAnalyzer java(Path javaPath, Class<?> clazz,
             Map<String, String> props) {
-        ProcessBuilder pb = createJavaProcessBuilder(javaPath, clazz, props);
+        ProcessBuilder pb = createJavaProcessBuilder(IgnoreTestJavaOpts, javaPath, clazz, props);
         try {
             return ProcessTools.executeCommand(pb);
         } catch (Throwable e) {
@@ -50,7 +51,7 @@ public class ProcUtils {
         }
     }
 
-    private static ProcessBuilder createJavaProcessBuilder(Path javaPath,
+    private static ProcessBuilder createJavaProcessBuilder(IgnoreTestJavaOpts, Path javaPath,
             Class<?> clazz, Map<String, String> props) {
         List<String> cmds = new ArrayList<>();
         cmds.add(javaPath.toString());

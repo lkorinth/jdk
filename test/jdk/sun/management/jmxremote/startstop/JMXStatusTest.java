@@ -30,6 +30,7 @@ import org.testng.annotations.*;
 import static org.testng.Assert.*;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -89,7 +90,7 @@ abstract public class JMXStatusTest {
         args.add("-XX:+UsePerfData");
         args.addAll(getCustomVmArgs());
         args.add(TEST_APP_NAME);
-        testAppPb = ProcessTools.createJavaProcessBuilder(args.toArray(new String[args.size()]));
+        testAppPb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args.toArray(new String[args.size()]));
 
         jcmd = new ManagementAgentJcmd(TEST_APP_NAME, false);
     }

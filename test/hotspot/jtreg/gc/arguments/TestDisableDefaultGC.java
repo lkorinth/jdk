@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestDisableDefaultGC
  * @summary Test that the VM complains when the default GC is disabled and no other GC is specified
@@ -40,7 +43,7 @@ import jdk.test.lib.process.OutputAnalyzer;
 public class TestDisableDefaultGC {
     public static void main(String[] args) throws Exception {
         // Start VM, disabling all possible default GCs
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder("-XX:-UseSerialGC",
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:-UseSerialGC",
                                                                  "-XX:-UseParallelGC",
                                                                  "-XX:-UseG1GC",
                                                                  "-XX:-UseZGC",

@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * Basic test for jimage tool.
@@ -46,7 +47,7 @@ public class JImageToolTest {
         args.add("jdk.tools.jimage.Main");
         args.addAll(Arrays.asList(jimageArgs));
 
-        ProcessBuilder builder = ProcessTools.createJavaProcessBuilder(args.toArray(new String[args.size()]));
+        ProcessBuilder builder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args.toArray(new String[args.size()]));
         int res = builder.inheritIO().start().waitFor();
 
         if (res != 0) {

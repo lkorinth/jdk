@@ -30,6 +30,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Asserts;
 
 public class ProcessToolsLastLineTest {
@@ -37,7 +38,7 @@ public class ProcessToolsLastLineTest {
     static void test(String output) throws Exception {
         final StringBuffer sb = new StringBuffer();
         Process p = ProcessTools.startProcess("process",
-                ProcessTools.createJavaProcessBuilder(ProcessToolsLastLineTest.class.getName(), output),
+                ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, ProcessToolsLastLineTest.class.getName(), output),
                 line -> { sb.append(line);});
         p.waitFor();
         String expectedOutput = output.replace("\n", "");

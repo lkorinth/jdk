@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class MacJNUEncoding {
 
@@ -55,7 +56,7 @@ public class MacJNUEncoding {
         var cmds = (args.length == 4)
                 ? List.of("-Dfile.encoding=" + args[3], ExpectedEncoding.class.getName(), args[0], args[1])
                 : List.of(ExpectedEncoding.class.getName(), args[0], args[1]);
-        ProcessBuilder pb = ProcessTools.createTestJvm(cmds);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmds);
         Map<String, String> env = pb.environment();
         env.put("LANG", locale);
         env.put("LC_ALL", locale);

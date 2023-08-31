@@ -30,6 +30,7 @@ package gc.g1;
 import jdk.test.whitebox.WhiteBox;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +78,7 @@ public class TestRemsetLoggingTools {
         finalargs.add(VerifySummaryOutput.class.getName());
         finalargs.add(String.valueOf(numGCs));
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(finalargs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, finalargs);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
         output.shouldHaveExitValue(0);

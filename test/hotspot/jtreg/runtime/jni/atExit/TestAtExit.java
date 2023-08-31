@@ -24,6 +24,7 @@
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -61,13 +62,13 @@ public class TestAtExit {
 
         String jlp = "-Djava.library.path=" + Utils.TEST_NATIVE_PATH;
         // First run will terminate via DestroyJavaVM
-        OutputAnalyzer output = ProcessTools.executeTestJvm(jlp, main);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, jlp, main);
         output.shouldNotContain("Unexpected");
         output.shouldHaveExitValue(0);
         output.reportDiagnosticSummary();
 
         // Second run will terminate via System.exit()
-        output = ProcessTools.executeTestJvm(jlp, main, "doExit");
+        output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, jlp, main, "doExit");
         output.shouldNotContain("Unexpected");
         output.shouldHaveExitValue(0);
         output.reportDiagnosticSummary();

@@ -34,6 +34,7 @@
 
 import java.io.PrintWriter;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 
@@ -47,7 +48,7 @@ public class CompilerConfigFileWarning {
         pw.println("aaa, aaa");
         pw.close();
 
-        pb = ProcessTools.createJavaProcessBuilder("-XX:CompileCommandFile=hs_comp.txt", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:CompileCommandFile=hs_comp.txt", "-version");
         output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(1);
         output.shouldContain("An error occurred during parsing");
@@ -60,7 +61,7 @@ public class CompilerConfigFileWarning {
             pw.println("aa");
             pw.close();
 
-            pb = ProcessTools.createJavaProcessBuilder("-version");
+            pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-version");
             output = new OutputAnalyzer(pb.start());
             output.shouldHaveExitValue(0);
             output.shouldContain("warning: .hotspot_compiler file is present but has been ignored.  Run with -XX:CompileCommandFile=.hotspot_compiler to load the file.");

@@ -24,6 +24,7 @@ package compiler.c2.aarch64;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.*;
@@ -95,7 +96,7 @@ public class TestFarJump {
             "-XX:+PrintAssembly",
             className};
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(procArgs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, procArgs);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         List<String> lines = output.asLines();
 

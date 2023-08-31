@@ -36,12 +36,13 @@ import jdk.internal.org.objectweb.asm.ClassWriter;
 import jdk.internal.org.objectweb.asm.MethodVisitor;
 import jdk.internal.org.objectweb.asm.Opcodes;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class UnsupportedClassFileVersion implements Opcodes {
     public static void main(String... args) throws Exception {
         writeClassFile();
-        ProcessBuilder pb = ProcessTools.createTestJvm("-cp", ".",  "ClassFile");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-cp", ".",  "ClassFile");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain("ClassFile has been compiled by a more recent version of the " +
                             "Java Runtime (class file version 99.0), this version of " +

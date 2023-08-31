@@ -35,13 +35,14 @@ package compiler.linkage;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestLinkageErrorInGenerateOopMap {
 
     public static void main(String args[]) throws Exception {
         if (args.length == 0) {
             // Spawn new VM instance to execute test
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-XX:+UnlockDiagnosticVMOptions",
                     "-XX:-BytecodeVerificationRemote",
                     "-XX:-BytecodeVerificationLocal",

@@ -474,7 +474,7 @@ public final class ProcessTools {
      * @return The ProcessBuilder instance representing the java command.
      */
     public static ProcessBuilder createJavaProcessBuilder(TestVMOptions options, String... command) {
-        if (options == TestVMOptions.PrependTestJavaOpts) {
+        if (options == ProcessTools.TestVMOptions.PrependTestJavaOpts) {
             command = Utils.prependTestJavaOpts(command);
         }
 

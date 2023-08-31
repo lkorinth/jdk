@@ -34,11 +34,12 @@ import java.util.Map;
 
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class MacPath {
     public static void main(String args[]) throws Exception {
         final ProcessBuilder pb =
-                ProcessTools.createTestJvm(MacPathTest.class.getName());
+                ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, MacPathTest.class.getName());
         final Map<String, String> env = pb.environment();
         env.put("LC_ALL", "en_US.UTF-8");
         Process p = ProcessTools.startProcess("Mac Path Test", pb);

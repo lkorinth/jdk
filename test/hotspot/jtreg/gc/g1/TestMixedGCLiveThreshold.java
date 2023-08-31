@@ -63,6 +63,7 @@ import java.util.regex.Matcher;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Asserts;
 import jdk.test.whitebox.WhiteBox;
 
@@ -109,7 +110,7 @@ public class TestMixedGCLiveThreshold {
 
         basicOpts.add(GCTest.class.getName());
 
-        ProcessBuilder procBuilder =  ProcessTools.createJavaProcessBuilder(basicOpts);
+        ProcessBuilder procBuilder =  ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, basicOpts);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
         return analyzer;
     }

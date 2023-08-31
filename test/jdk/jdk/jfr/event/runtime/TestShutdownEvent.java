@@ -38,6 +38,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.jfr.EventNames;
 import jdk.test.lib.jfr.Events;
 
@@ -89,7 +90,7 @@ public class TestShutdownEvent {
     }
 
     private static void runSubtest(int subTestIndex) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                                 "-Xlog:jfr=debug",
                                 "-XX:-CreateCoredumpOnCrash",
                                 "-XX:-TieredCompilation",

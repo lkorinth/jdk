@@ -41,6 +41,7 @@ import java.util.spi.ToolProvider;
 
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Utils;
 
@@ -91,7 +92,7 @@ public class BasicTest {
      * Execute "java" with the given arguments, returning the exit code.
      */
     private int exec(String... args) throws Exception {
-       return ProcessTools.executeTestJava(args)
+       return ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .getExitValue();
@@ -270,7 +271,7 @@ public class BasicTest {
      * while setting the _JAVA_LAUNCHER_DEBUG environment variable.
      */
     private ProcessBuilder createProcessWithLauncherDebugging(String... cmds) {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(Utils.addTestJavaOpts(cmds));
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, Utils.addTestJavaOpts(cmds));
         pb.environment().put("_JAVA_LAUNCHER_DEBUG", "true");
 
         return pb;

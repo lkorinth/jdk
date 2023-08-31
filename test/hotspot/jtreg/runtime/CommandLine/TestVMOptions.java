@@ -33,12 +33,13 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.io.File;
 
 public class TestVMOptions {
   public static void main(String[] args) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:bogus",
         "-XX:+IgnoreUnrecognizedVMOptions",
         "-XX:+PrintFlagsInitial");
@@ -46,7 +47,7 @@ public class TestVMOptions {
     output.shouldHaveExitValue(0);
     output.shouldContain("bool UseSerialGC");
 
-    pb = ProcessTools.createJavaProcessBuilder(
+    pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:-PrintVMOptions", "-version");
     output = new OutputAnalyzer(pb.start());
     output.shouldHaveExitValue(0);
@@ -55,7 +56,7 @@ public class TestVMOptions {
     File dir = new File(System.getProperty("test.src", "."));
     File file = new File(dir, "flagfile.txt");
     String s = file.getAbsolutePath();
-    pb = ProcessTools.createJavaProcessBuilder("-XX:Flags="+s);
+    pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:Flags="+s);
     output = new OutputAnalyzer(pb.start());
     output.shouldNotHaveExitValue(0);
     output.shouldContain("VM option '-IgnoreUnrecognizedVMOptions'");

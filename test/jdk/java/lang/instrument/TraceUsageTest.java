@@ -33,6 +33,7 @@
 import com.sun.tools.attach.VirtualMachine;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import org.junit.jupiter.api.Test;
@@ -102,7 +103,7 @@ class TraceUsageTest {
     }
 
     private OutputAnalyzer execute(String... command) throws Exception {
-        OutputAnalyzer outputAnalyzer = ProcessTools.executeTestJava(command)
+        OutputAnalyzer outputAnalyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, command)
                 .outputTo(System.out)
                 .errorTo(System.out);
         assertEquals(0, outputAnalyzer.getExitValue());

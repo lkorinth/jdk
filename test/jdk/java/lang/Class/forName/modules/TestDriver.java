@@ -117,7 +117,7 @@ public class TestDriver {
                 "-Djava.security.manager=allow",
                 "-m", "m3/p3.NoGetClassLoaderAccess"
         };
-        assertTrue(executeTestJava(options)
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, options)
                         .outputTo(System.out)
                         .errorTo(System.err)
                         .getExitValue() == 0);
@@ -134,7 +134,7 @@ public class TestDriver {
                 "--add-modules", String.join(",", modules),
                 "-m", "m3/p3.NoAccess"
         };
-        assertTrue(executeTestJava(options)
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, options)
                         .outputTo(System.out)
                         .errorTo(System.err)
                         .getExitValue() == 0);
@@ -149,12 +149,12 @@ public class TestDriver {
     }
 
     private void runTest(String[] options) throws Exception {
-        assertTrue(executeTestJava(options)
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, options)
                         .outputTo(System.out)
                         .errorTo(System.err)
                         .getExitValue() == 0);
 
-        assertTrue(executeTestJava(runWithSecurityManager(options))
+        assertTrue(executeJavaProcess(PrependTestJavaOpts, runWithSecurityManager(options))
                         .outputTo(System.out)
                         .errorTo(System.err)
                         .getExitValue() == 0);

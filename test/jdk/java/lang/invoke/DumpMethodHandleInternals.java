@@ -36,13 +36,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class DumpMethodHandleInternals {
 
     private static final Path DUMP_DIR = Path.of("DUMP_METHOD_HANDLE_INTERNALS");
 
     public static void main(String[] args) throws Exception {
-        if (ProcessTools.executeTestJava("-Djdk.invoke.MethodHandle.dumpMethodHandleInternals",
+        if (ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djdk.invoke.MethodHandle.dumpMethodHandleInternals",
                                          "-version")
                 .outputTo(System.out)
                 .errorTo(System.out)

@@ -33,6 +33,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 // This test was copied from compiler test TestLinkageErrorInGenerateOopMap.java.
 public class TestGenerateOopMapCrash {
@@ -40,7 +41,7 @@ public class TestGenerateOopMapCrash {
     public static void main(String args[]) throws Exception {
         if (args.length == 0) {
             // Spawn new VM instance to execute test
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-XX:-TieredCompilation",
                     "-XX:CompileCommand=dontinline,if_icmpleIsLastOpcode.m*",
                     "-Xmx64m",

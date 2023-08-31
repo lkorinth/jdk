@@ -45,6 +45,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class DTraceOptionsTest {
     public static void main(String[] args) throws Throwable {
@@ -62,7 +63,7 @@ public class DTraceOptionsTest {
         };
 
         for (String opt : options) {
-            var pb = ProcessTools.createJavaProcessBuilder("-XX:+" + opt, "-version");
+            var pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+" + opt, "-version");
             var oa = new OutputAnalyzer(pb.start());
             if (dtraceEnabled) {
                 oa.shouldHaveExitValue(0);

@@ -24,6 +24,7 @@
 package sanity;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class BasicVMTest {
                 "-X",
                 "-help");
         for (String flag : flags) {
-            ProcessTools.executeTestJvm(flag)
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, flag)
                         .shouldHaveExitValue(0);
         }
     }

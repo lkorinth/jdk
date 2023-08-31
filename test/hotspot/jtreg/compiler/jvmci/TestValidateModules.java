@@ -32,10 +32,11 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestValidateModules {
     public static void main(String... args) throws Exception {
-        ProcessTools.executeTestJava("-XX:+UnlockExperimentalVMOptions",
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:+UnlockExperimentalVMOptions",
                                      "-XX:+EnableJVMCI",
                                      "--validate-modules",
                                      "--list-modules")

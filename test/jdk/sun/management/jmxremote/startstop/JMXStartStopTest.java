@@ -45,6 +45,7 @@ import javax.management.remote.*;
 import javax.net.ssl.SSLHandshakeException;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 import jdk.internal.agent.Agent;
 import jdk.internal.agent.AgentConfigurationError;
@@ -400,7 +401,7 @@ public class JMXStartStopTest {
         pbArgs.addAll(Arrays.asList(args));
         pbArgs.add(TEST_APP_NAME);
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 pbArgs.toArray(new String[pbArgs.size()])
         );
         TestAppRun s = new TestAppRun(pb, name);

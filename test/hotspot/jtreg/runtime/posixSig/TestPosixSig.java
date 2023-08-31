@@ -31,6 +31,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestPosixSig {
@@ -44,7 +45,7 @@ public class TestPosixSig {
         if (args.length == 0) {
 
             // Create a new java process for the TestPsig Java/JNI test.
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:+CheckJNICalls",
                 "-Djava.library.path=" + libpath + ":.",
                 "TestPosixSig", "dummy");

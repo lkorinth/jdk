@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 /*
@@ -58,7 +59,7 @@ public class TestNullTerminatedFlags {
         for (String option : options) {
             String testOption = option + "junk";
             ProcessBuilder pb =
-                ProcessTools.createJavaProcessBuilder(testOption, "-version");
+                ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, testOption, "-version");
             new OutputAnalyzer(pb.start())
                     .shouldContain("Unrecognized option: " + testOption)
                     .shouldHaveExitValue(1);

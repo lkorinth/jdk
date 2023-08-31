@@ -34,6 +34,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestLongUnrecognizedVMOption {
 
@@ -43,7 +44,7 @@ public class TestLongUnrecognizedVMOption {
     public static void main(String[] args) throws Exception {
         OutputAnalyzer output;
 
-        output = new OutputAnalyzer(ProcessTools.createJavaProcessBuilder("-XX:" + VERY_LONG_OPTION, "-version").start());
+        output = new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:" + VERY_LONG_OPTION, "-version").start());
         output.shouldHaveExitValue(1);
         output.shouldContain(String.format("Unrecognized VM option '%s'", VERY_LONG_OPTION));
     }

@@ -29,6 +29,7 @@ import jdk.test.lib.artifacts.ArtifactResolver;
 import jdk.test.lib.artifacts.ArtifactResolverException;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -69,7 +70,7 @@ public class JcstressRunner {
         }
         Path out = Paths.get("jcstress.out").toAbsolutePath();
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(getCmd(args))
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, getCmd(args))
                                         .redirectErrorStream(true)
                                         .redirectOutput(out.toFile());
         OutputAnalyzer oa = ProcessTools.executeProcess(pb);

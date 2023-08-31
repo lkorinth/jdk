@@ -29,6 +29,7 @@ import java.util.List;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.cpuinfo.CPUInfo;
 
 /**
@@ -127,7 +128,7 @@ public class TestChaCha20 {
             for (String className : classNames) {
                 // Start a new job
                 {
-                    ProcessBuilder pb = ProcessTools.createTestJvm(
+                    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                             mix(c, "-Xmx256m", className));
                     Process p = pb.start();
                     OutputAnalyzer oa = new OutputAnalyzer(p);

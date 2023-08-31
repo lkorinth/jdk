@@ -27,6 +27,7 @@ import java.util.List;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import static jdk.test.lib.Asserts.*;
 
@@ -76,7 +77,7 @@ public class PlatformMBeanProviderConstructorCheck {
 
             // Re-invoke this test to check failure:
             System.out.println("---PlatformMBeanProviderConstructorCheck: re-invoke without --add-modules or --add-exports");
-            OutputAnalyzer output =  ProcessTools.executeTestJava("PlatformMBeanProviderConstructorCheck", "--nomoduleargs");
+            OutputAnalyzer output =  ProcessTools.executeJavaProcess(PrependTestJavaOpts, "PlatformMBeanProviderConstructorCheck", "--nomoduleargs");
             output.reportDiagnosticSummary();
             output.shouldContain("java.lang.IllegalAccessError: superclass access check failed:");
             output.shouldContain(" module java.management does not export sun.management.spi to ");

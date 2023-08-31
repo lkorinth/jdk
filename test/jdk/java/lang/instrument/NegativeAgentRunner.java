@@ -25,6 +25,7 @@ package jdk.java.lang.instrument;
 
 import java.lang.RuntimeException;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class NegativeAgentRunner {
@@ -35,7 +36,7 @@ public class NegativeAgentRunner {
         }
         String agentClassName = argv[0];
         String excepClassName = argv[1];
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-javaagent:" + agentClassName + ".jar", "-Xmx128m", "-XX:-CreateCoredumpOnCrash",
                 agentClassName);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());

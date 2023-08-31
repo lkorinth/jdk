@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import java.util.regex.Pattern;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class SharedTrampolineTest {
     private final static int ITERATIONS_TO_HEAT_LOOP = 20_000;
@@ -60,7 +61,7 @@ public class SharedTrampolineTest {
         command.add(testClassName);
         command.add("a");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(command);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, command);
 
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 

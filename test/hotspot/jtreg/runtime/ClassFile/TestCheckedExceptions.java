@@ -36,13 +36,14 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestCheckedExceptions {
 
     public static void main(String... args) throws Exception {
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xlog:exceptions=warning", "CheckedExceptions");
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());

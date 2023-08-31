@@ -44,6 +44,7 @@ import java.util.Map;
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -54,7 +55,7 @@ import static org.testng.Assert.assertTrue;
 public class DefaultCharsetTest {
 
     private static final ProcessBuilder pb
-            = ProcessTools.createTestJvm(Default.class.getName());
+            = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, Default.class.getName());
     private static final Map<String, String> env = pb.environment();
     private static String UNSUPPORTED = null;
 

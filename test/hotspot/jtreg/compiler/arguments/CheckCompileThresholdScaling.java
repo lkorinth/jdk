@@ -37,6 +37,7 @@ package compiler.arguments;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class CheckCompileThresholdScaling {
 
@@ -338,7 +339,7 @@ public class CheckCompileThresholdScaling {
         ProcessBuilder pb;
         OutputAnalyzer out;
 
-        pb = ProcessTools.createJavaProcessBuilder(arguments);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, arguments);
         out = new OutputAnalyzer(pb.start());
 
         try {

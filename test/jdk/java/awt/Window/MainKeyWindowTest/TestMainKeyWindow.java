@@ -42,6 +42,7 @@ import java.util.Objects;
 import javax.swing.*;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestMainKeyWindow
 {
@@ -149,7 +150,7 @@ public class TestMainKeyWindow
 
     private Process execute() {
         try {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     TestMainKeyWindow.class.getSimpleName(), "mark");
             return ProcessTools.startProcess("Other frame", pb);
         } catch (IOException ex) {

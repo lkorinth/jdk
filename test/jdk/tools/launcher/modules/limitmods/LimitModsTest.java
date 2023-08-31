@@ -73,7 +73,7 @@ public class LimitModsTest {
         int exitValue;
 
         // java --limit-modules java.base --list-modules
-        exitValue = executeTestJava("--limit-modules", "java.base", "--list-modules")
+        exitValue = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.base", "--list-modules")
             .outputTo(System.out)
             .errorTo(System.out)
             .shouldContain("java.base")
@@ -85,7 +85,7 @@ public class LimitModsTest {
 
 
         // java --limit-modules java.logging --list-modules
-        exitValue = executeTestJava("--limit-modules", "java.logging", "--list-modules")
+        exitValue = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.logging", "--list-modules")
             .outputTo(System.out)
             .errorTo(System.out)
             .shouldContain("java.base")
@@ -104,7 +104,7 @@ public class LimitModsTest {
         int exitValue;
 
         // java --limit-modules java.base --add-modules java.logging --list-modules
-        exitValue = executeTestJava("--limit-modules", "java.base",
+        exitValue = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.base",
                                     "--add-modules", "java.logging",
                                     "--list-modules")
             .outputTo(System.out)
@@ -119,7 +119,7 @@ public class LimitModsTest {
 
         // java --limit-modules java.base --add-modules java.sql --list-modules
         // This should fail because java.sql has dependences beyond java.base
-        exitValue = executeTestJava("--limit-modules", "java.base",
+        exitValue = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.base",
                                     "--add-modules", "java.sql",
                                     "--list-modules")
             .outputTo(System.out)
@@ -138,7 +138,7 @@ public class LimitModsTest {
 
         // java --limit-modules java.base -cp mods/$TESTMODULE ...
         int exitValue1
-            = executeTestJava("--limit-modules", "java.base",
+            = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.base",
                               "-cp", classpath,
                               MAIN_CLASS)
                 .outputTo(System.out)
@@ -151,7 +151,7 @@ public class LimitModsTest {
 
         // java --limit-modules java.base -cp mods/$TESTMODULE ...
         int exitValue2
-            = executeTestJava("--limit-modules", "java.desktop",
+            = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.desktop",
                               "-cp", classpath,
                              MAIN_CLASS)
                 .outputTo(System.out)
@@ -171,7 +171,7 @@ public class LimitModsTest {
         String mid = TEST_MODULE + "/" + MAIN_CLASS;
 
         // java --limit-modules java.base --module-path mods -m $TESTMODULE/$MAINCLASS
-        int exitValue = executeTestJava("--limit-modules", "java.base",
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.base",
                                         "--module-path", modulepath,
                                         "-m", mid)
                 .outputTo(System.out)
@@ -181,7 +181,7 @@ public class LimitModsTest {
         assertTrue(exitValue != 0);
 
         // java --limit-modules java.desktop --module-path mods -m $TESTMODULE/$MAINCLASS
-        exitValue = executeTestJava("--limit-modules", "java.desktop",
+        exitValue = executeJavaProcess(PrependTestJavaOpts, "--limit-modules", "java.desktop",
                                     "--module-path", modulepath,
                                     "-m", mid)
                 .outputTo(System.out)

@@ -34,6 +34,7 @@ import java.util.*;
 import javax.management.*;
 import javax.management.openmbean.*;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import sun.misc.*;
 
@@ -299,7 +300,7 @@ class TestStringDeduplicationTools {
         args.addAll(Arrays.asList(defaultArgs));
         args.addAll(Arrays.asList(extraArgs));
 
-        ProcessBuilder pb = ProcessTools.createTestJvm(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, args);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         System.err.println(output.getStderr());
         System.out.println(output.getStdout());

@@ -39,6 +39,7 @@ import jdk.test.lib.Utils;
 import jdk.test.lib.classloader.GeneratingClassLoader;
 import jdk.test.lib.hprof.HprofParser;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.util.CoreUtils;
 import jtreg.SkippedException;
@@ -71,7 +72,7 @@ public class TestJmapCore {
     }
 
     static void test(String type) throws Throwable {
-        ProcessBuilder pb = ProcessTools.createTestJvm("-XX:+CreateCoredumpOnCrash",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-XX:+CreateCoredumpOnCrash",
                 "-Xmx512m", "-XX:MaxMetaspaceSize=64m", "-XX:+CrashOnOutOfMemoryError",
                 CoreUtils.getAlwaysPretouchArg(true),
                 TestJmapCore.class.getName(), type);

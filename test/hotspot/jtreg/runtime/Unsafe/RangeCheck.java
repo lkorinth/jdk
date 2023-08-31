@@ -33,6 +33,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import jdk.internal.misc.Unsafe;
@@ -40,7 +41,7 @@ import jdk.internal.misc.Unsafe;
 public class RangeCheck {
 
     public static void main(String args[]) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-Xmx128m",
                 "--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED",
                 "-XX:-CreateCoredumpOnCrash",

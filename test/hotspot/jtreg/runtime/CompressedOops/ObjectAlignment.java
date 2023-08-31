@@ -34,6 +34,7 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class ObjectAlignment {
@@ -74,7 +75,7 @@ public class ObjectAlignment {
     }
 
     private static OutputAnalyzer testObjectAlignment(int alignment) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:ObjectAlignmentInBytes=" + alignment,
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:ObjectAlignmentInBytes=" + alignment,
                                                                   "-version");
         return new OutputAnalyzer(pb.start());
     }

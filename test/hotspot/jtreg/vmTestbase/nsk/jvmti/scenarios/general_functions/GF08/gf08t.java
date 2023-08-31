@@ -25,6 +25,7 @@ package nsk.jvmti.scenarios.general_functions.GF08;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -38,13 +39,13 @@ public class gf08t {
                              .skip(3)
                              .collect(Collectors.joining(" "));
 
-        OutputAnalyzer oa = ProcessTools.executeTestJvm(
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 "-agentlib:" + libName + "=-waittime=5 setVerboseMode=yes",
                 className);
         oa.shouldHaveExitValue(95);
         oa.stdoutShouldContain(phrase);
 
-        oa = ProcessTools.executeTestJvm(
+        oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 "-agentlib:" + libName + "=-waittime=5 setVerboseMode=no",
                 "-verbose:" + verboseType,
                 className);

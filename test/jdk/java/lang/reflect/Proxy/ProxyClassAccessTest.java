@@ -74,7 +74,7 @@ public class ProxyClassAccessTest {
      */
     @Test
     public void runTest() throws Exception {
-        int exitValue = executeTestJava("--module-path", MODS_DIR.toString(),
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                                         "-m", "test/jdk.test.ProxyClassAccess")
                             .outputTo(System.out)
                             .errorTo(System.out)

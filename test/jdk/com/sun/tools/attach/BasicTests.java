@@ -31,6 +31,7 @@ import java.util.Properties;
 import jdk.test.lib.thread.ProcessThread;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import com.sun.tools.attach.AgentInitializationException;
 import com.sun.tools.attach.AgentLoadException;
@@ -101,7 +102,7 @@ public class BasicTests {
             testClassDir + "Agent.jar",
             testClassDir + "BadAgent.jar",
             testClassDir + "RedefineAgent.jar" };
-        OutputAnalyzer output = ProcessTools.executeTestJvm(args);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args);
         output.shouldHaveExitValue(0);
     }
 

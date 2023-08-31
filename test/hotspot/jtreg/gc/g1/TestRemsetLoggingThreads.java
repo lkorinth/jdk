@@ -40,11 +40,12 @@ import java.util.regex.Pattern;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestRemsetLoggingThreads {
 
   private static void runTest(int refinementThreads, int workerThreads) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+UseG1GC",
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UseG1GC",
                                                               "-XX:+UnlockDiagnosticVMOptions",
                                                               "-Xlog:gc+remset+exit=trace",
                                                               "-XX:G1ConcRefinementThreads=" + refinementThreads,

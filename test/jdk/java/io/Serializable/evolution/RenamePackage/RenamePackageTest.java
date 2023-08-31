@@ -47,6 +47,7 @@ import java.nio.file.Paths;
 
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class RenamePackageTest {
     public static void main(String args[]) throws Exception {
@@ -81,7 +82,7 @@ public class RenamePackageTest {
     }
 
     private static void runTestSerialDriver() throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-classpath",
                 SHARE.toString()
                     + File.pathSeparator
@@ -93,7 +94,7 @@ public class RenamePackageTest {
     }
 
     private static void runInstallSerialDriver() throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-classpath",
                 SHARE.toString()
                     + File.pathSeparator

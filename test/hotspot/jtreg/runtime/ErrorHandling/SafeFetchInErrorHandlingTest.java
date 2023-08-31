@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -46,7 +47,7 @@ import jdk.test.lib.process.ProcessTools;
 public class SafeFetchInErrorHandlingTest {
 
   public static void main(String[] args) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:+UnlockDiagnosticVMOptions",
         "-Xmx100M",
         "-XX:ErrorHandlerTest=14",

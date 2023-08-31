@@ -37,6 +37,7 @@ import java.nio.file.Paths;
 
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestFullNames {
@@ -63,7 +64,7 @@ public class TestFullNames {
         for (String logOutput : validOutputs) {
             Asserts.assertFalse(file.exists());
             // Run with logging=trace on stdout so that we can verify the log configuration afterwards.
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:logging=trace",
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:logging=trace",
                                                                       "-Xlog:all=trace:" + logOutput,
                                                                       "-version");
             OutputAnalyzer output = new OutputAnalyzer(pb.start());

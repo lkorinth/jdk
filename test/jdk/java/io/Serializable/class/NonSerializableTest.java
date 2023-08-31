@@ -47,6 +47,7 @@ import static org.testng.Assert.assertEquals;
 
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 
 public class NonSerializableTest {
@@ -102,7 +103,7 @@ public class NonSerializableTest {
                                           Paths.get(System.getProperty("user.dir")));
         assertTrue(b, "Compilation failed");
         String params[] = Arrays.copyOfRange(args, 1, args.length);
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(params);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, params);
         Process p = ProcessTools.startProcess("Serializable Test", pb);
         int exitValue = p.waitFor();
         assertEquals(exitValue, 0, "Test failed");

@@ -36,6 +36,7 @@ import java.lang.reflect.Field;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 
 public class TestMaxJavaStackTraceDepth {
@@ -79,7 +80,7 @@ public class TestMaxJavaStackTraceDepth {
       int[] depths = {0, 20, 1024};
       for (int d : depths) {
         System.out.println("running test with -XX:MaxJavaStackTraceDepth=" + d);
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:stacktrace=info",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:stacktrace=info",
                                                                   "-XX:MaxJavaStackTraceDepth=" + d,
                                                                   "--add-opens",
                                                                   "java.base/java.lang=ALL-UNNAMED",

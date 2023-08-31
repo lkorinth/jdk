@@ -29,6 +29,7 @@ import compiler.compilercontrol.share.scenario.DirectiveWriter;
 import compiler.compilercontrol.share.scenario.Scenario;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 import java.util.EnumSet;
@@ -121,7 +122,7 @@ public final class HugeDirectiveUtil {
     protected static OutputAnalyzer execute(String fileName) {
         OutputAnalyzer output;
         try {
-            output = ProcessTools.executeTestJvm(
+            output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                     "-XX:+UnlockDiagnosticVMOptions",
                     "-XX:CompilerDirectivesLimit=1000",
                     "-XX:CompilerDirectivesFile=" + fileName,

@@ -27,6 +27,7 @@ import jdk.jfr.consumer.RecordedEvent;
 import jdk.test.lib.jfr.EventVerifier;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -46,7 +47,7 @@ public class TestGCYoungGenerationConfigurationEventWithMinAndMaxSize {
                              "-Xms32m",
                              "-Xmx64m",
                              Tester.class.getName()};
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(jvm_args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, jvm_args);
         OutputAnalyzer analyzer = ProcessTools.executeProcess(pb);
         analyzer.shouldHaveExitValue(0);
     }

@@ -31,6 +31,7 @@
 
 import java.util.Locale;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +42,7 @@ public class UseOldISOCodesTest {
     // Ensure java.locale.useOldISOCodes is only interpreted at runtime startup
     @Test
     public void staticInitializationTest() throws Exception {
-        ProcessTools.executeTestJvm("-Djava.locale.useOldISOCodes=true", "UseOldISOCodesTest$Runner")
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djava.locale.useOldISOCodes=true", "UseOldISOCodesTest$Runner")
                 .outputTo(System.out)
                 .errorTo(System.err)
                 .shouldHaveExitValue(0);

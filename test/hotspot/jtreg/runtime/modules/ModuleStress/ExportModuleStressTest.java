@@ -35,6 +35,7 @@
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class ExportModuleStressTest {
@@ -71,7 +72,7 @@ public class ExportModuleStressTest {
 
         // Sanity check that the test, jdk.test/test/Main.java
         // runs without error.
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-p", MODS_DIR.toString(),
             "-m", "jdk.test/test.Main");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());

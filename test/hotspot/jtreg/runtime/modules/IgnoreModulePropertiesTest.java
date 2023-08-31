@@ -33,6 +33,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 // Test that the VM ignores module related properties such as "jdk.module.addmods"
 // and jdk.module.addreads.0" that can only be set using module options.
@@ -43,7 +44,7 @@ public class IgnoreModulePropertiesTest {
     // bogus for that property.  But, since the property is ignored no exception is
     // thrown.
     public static void testProperty(String prop, String value) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-D" + prop + "=" + value, "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain(" version ");
@@ -62,7 +63,7 @@ public class IgnoreModulePropertiesTest {
     public static void testOption(boolean shouldVMFail,
                                   String option, String value,
                                   String prop, String result) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             option + "=" + value, "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         if (shouldVMFail) {

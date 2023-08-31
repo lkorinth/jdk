@@ -32,6 +32,7 @@ package gc.arguments;
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestSoftMaxHeapSizeFlag {
     // Note: Xms and Xmx values get aligned up by HeapAlignment which is 32M with 64k pages.
@@ -42,34 +43,34 @@ public class TestSoftMaxHeapSizeFlag {
 
     public static void main(String args[]) throws Exception {
         // Test default value
-        ProcessTools.executeTestJvm("-Xms" + Xms, "-Xmx" + Xmx,
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Xms" + Xms, "-Xmx" + Xmx,
                                     "-XX:+PrintFlagsFinal", "-version")
                     .shouldMatch("SoftMaxHeapSize[ ]+=[ ]+" + Xmx)
                     .shouldHaveExitValue(0);
 
         // Test setting small value
-        ProcessTools.executeTestJvm("-Xms" + Xms, "-Xmx" + Xmx,
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Xms" + Xms, "-Xmx" + Xmx,
                                     "-XX:SoftMaxHeapSize=" + Xms,
                                     "-XX:+PrintFlagsFinal", "-version")
                     .shouldMatch("SoftMaxHeapSize[ ]+=[ ]+" + Xms)
                     .shouldHaveExitValue(0);
 
         // Test setting middle value
-        ProcessTools.executeTestJvm("-Xms" + Xms, "-Xmx" + Xmx,
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Xms" + Xms, "-Xmx" + Xmx,
                                     "-XX:SoftMaxHeapSize=" + betweenXmsAndXmx,
                                     "-XX:+PrintFlagsFinal", "-version")
                     .shouldMatch("SoftMaxHeapSize[ ]+=[ ]+" + betweenXmsAndXmx)
                     .shouldHaveExitValue(0);
 
         // Test setting largest value
-        ProcessTools.executeTestJvm("-Xms" + Xms, "-Xmx" + Xmx,
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Xms" + Xms, "-Xmx" + Xmx,
                                     "-XX:SoftMaxHeapSize=" + Xmx,
                                     "-XX:+PrintFlagsFinal", "-version")
                     .shouldMatch("SoftMaxHeapSize[ ]+=[ ]+" + Xmx)
                     .shouldHaveExitValue(0);
 
         // Test setting a too large value
-        ProcessTools.executeTestJvm("-Xms" + Xms, "-Xmx" + Xmx,
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Xms" + Xms, "-Xmx" + Xmx,
                                     "-XX:SoftMaxHeapSize=" + greaterThanXmx,
                                     "-XX:+PrintFlagsFinal", "-version")
                     .shouldContain("SoftMaxHeapSize must be less than or equal to the maximum heap size")

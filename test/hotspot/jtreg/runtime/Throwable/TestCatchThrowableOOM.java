@@ -33,6 +33,7 @@
 import java.util.HashMap;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestCatchThrowableOOM {
 
@@ -43,7 +44,7 @@ public class TestCatchThrowableOOM {
     };
 
     public static void main(String[] args) throws Throwable {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xmx64m",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xmx64m",
                                                                   "-Xlog:exceptions=trace",
 
                                                                   "TestCatchThrowableOOM$OOM");

@@ -60,6 +60,7 @@ package gc;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import jtreg.SkippedException;
 import jdk.test.whitebox.WhiteBox;
@@ -96,7 +97,7 @@ public class TestSmallHeap {
 
     private static void verifySmallHeapSize(String gc, long expectedMaxHeap) throws Exception {
         long minMaxHeap = 4 * 1024 * 1024;
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             gc,
             "-Xmx" + minMaxHeap,
             "-XX:+PrintFlagsFinal",

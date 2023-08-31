@@ -35,6 +35,7 @@ import jdk.jfr.consumer.RecordingFile;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -92,7 +93,7 @@ public class TestDumpOnExit {
     }
 
     private static void testDumponExit(Supplier<Path> p,String... args) throws Exception, IOException {
-        ProcessBuilder pb = ProcessTools.createTestJvm(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, args);
         OutputAnalyzer output = ProcessTools.executeProcess(pb);
         System.out.println(output.getOutput());
         output.shouldHaveExitValue(0);

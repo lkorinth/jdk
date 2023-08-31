@@ -24,6 +24,7 @@
 import java.io.File;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.spi.AttachProvider;
 
@@ -79,7 +80,7 @@ public class ProviderTest {
                 "-classpath",
                 classpath,
                 "ProviderTest$TestMain" };
-        OutputAnalyzer output = ProcessTools.executeTestJvm(args);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args);
         output.shouldHaveExitValue(0);
     }
 

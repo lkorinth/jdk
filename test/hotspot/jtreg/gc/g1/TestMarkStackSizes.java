@@ -39,6 +39,7 @@ import java.util.Collections;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestMarkStackSizes {
     private static void runTest(boolean shouldSucceed, String... extraArgs) throws Exception {
@@ -50,7 +51,7 @@ public class TestMarkStackSizes {
         Collections.addAll(testArguments, extraArgs);
         testArguments.add("-version");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(testArguments);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, testArguments);
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 

@@ -41,6 +41,7 @@ import jdk.internal.vm.VMSupport;
 import jdk.test.lib.JDKToolFinder;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class OnJcmdTest {
 
@@ -51,12 +52,12 @@ public class OnJcmdTest {
 
     public static void main(String[] args) throws Throwable {
         // First check if we get the expected errors.
-        OutputAnalyzer output = ProcessTools.executeTestJvm(
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 "-agentlib:jdwp=transport=dt_socket,address=any,onjcmd=y");
         output.shouldContain("Can only use onjcmd with server=y");
         output.shouldHaveExitValue(1);
 
-        output = ProcessTools.executeTestJvm(
+        output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                 "-agentlib:jdwp=transport=dt_socket,address=any,onjcmd=y,onthrow=a,launch=a");
         output.shouldContain("Cannot combine onjcmd and launch suboptions");
         output.shouldHaveExitValue(1);

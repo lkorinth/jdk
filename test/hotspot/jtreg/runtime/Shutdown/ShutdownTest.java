@@ -37,6 +37,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class ShutdownTest {
    Object[] obj;
@@ -66,7 +67,7 @@ public class ShutdownTest {
 
     private static void startVM(String... options) throws Throwable {
         // Combine VM flags given from command-line and your additional options
-        OutputAnalyzer output = ProcessTools.executeTestJvm(options);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
         output.shouldContain("- ShutdownTest -");
         output.shouldHaveExitValue(0);
 

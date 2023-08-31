@@ -34,6 +34,7 @@
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class PatchModule2Dirs {
@@ -60,7 +61,7 @@ public class PatchModule2Dirs {
              InMemoryJavaCompiler.compile("java.beans.Encoder", source2, "--patch-module=java.desktop"),
              "mods2/java.desktop");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
              "--patch-module=java.naming=mods/java.naming",
              "--patch-module=java.desktop=mods2/java.desktop",
              "PatchModule2DirsMain", "javax.naming.spi.NamingManager", "java.beans.Encoder");

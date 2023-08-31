@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Platform;
 
 import java.io.BufferedWriter;
@@ -173,7 +174,7 @@ public abstract class AbstractFilePermissionTest {
             command.add(className);
 
 
-            ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     command.toArray(new String[command.size()]));
 
             System.out.println("test cmdline: " + Arrays.toString(processBuilder.command().toArray()).replace(",", ""));

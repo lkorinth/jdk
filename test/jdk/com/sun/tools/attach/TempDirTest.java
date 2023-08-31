@@ -32,6 +32,7 @@ import java.io.File;
 import jdk.test.lib.thread.ProcessThread;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -140,7 +141,7 @@ public class TempDirTest {
                     classpath,
                     "TempDirTest$TestMain",
                     Long.toString(pid) });
-        OutputAnalyzer output = ProcessTools.executeTestJvm(args);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args);
         output.shouldHaveExitValue(0);
     }
 

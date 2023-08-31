@@ -27,6 +27,7 @@ package gc.metaspace;
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +120,7 @@ public class TestSizeTransitions {
       System.out.println("  " + a);
     }
 
-    final ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(jvmArgs);
+    final ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, jvmArgs);
     final OutputAnalyzer output = new OutputAnalyzer(pb.start());
     System.out.println(output.getStdout());
     output.shouldHaveExitValue(0);

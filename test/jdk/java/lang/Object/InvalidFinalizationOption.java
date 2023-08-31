@@ -30,6 +30,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class InvalidFinalizationOption {
@@ -43,7 +44,7 @@ public class InvalidFinalizationOption {
         };
 
         for (var data : testData) {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(data.arg);
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, data.arg);
             OutputAnalyzer output = new OutputAnalyzer(pb.start());
             output.shouldContain(data.expected);
             output.shouldHaveExitValue(1);

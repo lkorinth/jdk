@@ -39,12 +39,13 @@
 import jdk.internal.ref.Cleaner;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class ExitOnThrow {
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
-            ProcessTools.executeTestJvm("--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED",
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, "--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED",
                                         "ExitOnThrow",
                                         "-executeCleaner")
                         .outputTo(System.out)

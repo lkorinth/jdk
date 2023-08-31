@@ -25,6 +25,7 @@ import jdk.test.lib.util.JarUtils;
 import jdk.test.lib.SecurityTools;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.Calendar;
 import java.util.Locale;
@@ -100,7 +101,7 @@ public class TestSPISigned {
             testRun.add(classPath);
             testRun.add(TestSPISigned.class.getSimpleName());
             testRun.add("run-test");
-            OutputAnalyzer out = ProcessTools.executeTestJvm(testRun);
+            OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, testRun);
             out.shouldHaveExitValue(0);
             out.shouldContain("DEBUG: Getting xx language");
         }

@@ -101,7 +101,7 @@ public class ModuleTest {
      */
     @Test
     public void testAllInModule() throws Exception {
-        assertEquals(executeTestJava("--module-path", pathJoin(MTEST_JAR, CLIENT_JAR, SERVER_JAR),
+        assertEquals(executeJavaProcess(PrependTestJavaOpts, "--module-path", pathJoin(MTEST_JAR, CLIENT_JAR, SERVER_JAR),
                 "--add-modules", "mclient,mserver",
                 "-m", "mtest/" + DUMMY_MAIN)
                 .outputTo(System.out)
@@ -117,7 +117,7 @@ public class ModuleTest {
      */
     @Test
     public void testAppInModule() throws Exception {
-        assertEquals(executeTestJava("--module-path", MTEST_JAR,
+        assertEquals(executeJavaProcess(PrependTestJavaOpts, "--module-path", MTEST_JAR,
                 "-cp", pathJoin(CLIENT_JAR, SERVER_JAR),
                 "-m", "mtest/" + DUMMY_MAIN)
                 .outputTo(System.out)
@@ -133,7 +133,7 @@ public class ModuleTest {
      */
     @Test
     public void testAppInUnnamedModule() throws Exception {
-        assertEquals(executeTestJava("--module-path", pathJoin(CLIENT_JAR, SERVER_JAR),
+        assertEquals(executeJavaProcess(PrependTestJavaOpts, "--module-path", pathJoin(CLIENT_JAR, SERVER_JAR),
                 "--add-modules", "mclient,mserver",
                 "-cp", MTEST_JAR,
                 DUMMY_MAIN)
@@ -150,7 +150,7 @@ public class ModuleTest {
      */
     @Test
     public void testClientInUnnamedModule() throws Exception {
-        assertEquals(executeTestJava("--module-path", pathJoin(MTEST_JAR, SERVER_JAR),
+        assertEquals(executeJavaProcess(PrependTestJavaOpts, "--module-path", pathJoin(MTEST_JAR, SERVER_JAR),
                 "--add-modules", "mserver",
                 "-cp", CLIENT_JAR,
                 "-m", "mtest/" + DUMMY_MAIN)

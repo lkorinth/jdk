@@ -40,6 +40,7 @@ package compiler.types.correctness;
 import compiler.types.correctness.scenarios.ProfilingType;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 import java.util.Random;
@@ -86,7 +87,7 @@ public class OffTest {
         OPTIONS[TYPE_PROFILE_INDEX] = typeProfileLevel;
         OPTIONS[USE_TYPE_SPECULATION_INDEX] = useTypeSpeculation;
         OPTIONS[PROFILING_TYPE_INDEX] = type.name();
-        ProcessBuilder processBuilder = ProcessTools.createTestJvm(OPTIONS);
+        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, OPTIONS);
         OutputAnalyzer outputAnalyzer = new OutputAnalyzer(processBuilder.start());
         outputAnalyzer.shouldHaveExitValue(0);
     }

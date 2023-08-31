@@ -36,6 +36,7 @@
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class PatchModuleCDS {
@@ -44,7 +45,7 @@ public class PatchModuleCDS {
 
         // Case 1: Test that --patch-module and -Xshare:dump are compatible
         String filename = "patch_module.jsa";
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:SharedArchiveFile=" + filename,
             "-Xshare:dump",
@@ -69,7 +70,7 @@ public class PatchModuleCDS {
              InMemoryJavaCompiler.compile("javax.naming.spi.NamingManager", source, "--patch-module=java.naming"),
              System.getProperty("test.classes"));
 
-        pb = ProcessTools.createJavaProcessBuilder(
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:SharedArchiveFile=" + filename,
             "-Xshare:dump",
@@ -84,7 +85,7 @@ public class PatchModuleCDS {
         // Case 3a: Test CDS dumping with jar file in --patch-module
         BasicJarBuilder.build("javanaming", "javax/naming/spi/NamingManager");
         String moduleJar = BasicJarBuilder.getTestJar("javanaming.jar");
-        pb = ProcessTools.createJavaProcessBuilder(
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:SharedArchiveFile=" + filename,
             "-Xshare:dump",
@@ -98,7 +99,7 @@ public class PatchModuleCDS {
             .shouldContain("Cannot use the following option when dumping the shared archive: --patch-module");
 
         // Case 3b: Test CDS run with jar file in --patch-module
-        pb = ProcessTools.createJavaProcessBuilder(
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:SharedArchiveFile=" + filename,
             "-Xshare:auto",

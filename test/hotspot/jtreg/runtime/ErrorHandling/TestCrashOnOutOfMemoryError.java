@@ -32,6 +32,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,7 +54,7 @@ public class TestCrashOnOutOfMemoryError {
             }
         }
         // else this is the main test
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+CrashOnOutOfMemoryError",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+CrashOnOutOfMemoryError",
                  "-XX:-CreateCoredumpOnCrash", "-Xmx128m", TestCrashOnOutOfMemoryError.class.getName(),"throwOOME");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         int exitValue = output.getExitValue();

@@ -42,6 +42,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class GetSystemPackage {
 
@@ -118,7 +119,7 @@ public class GetSystemPackage {
     private static void runSubProcess(String messageOnError, String ... args)
             throws Exception
     {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
         int res = pb.directory(tmpFolder).inheritIO().start().waitFor();
         if (res != 0) {
             throw new RuntimeException(messageOnError);

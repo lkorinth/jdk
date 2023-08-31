@@ -113,6 +113,7 @@
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -159,7 +160,7 @@ public class TestTrimNative {
     }
 
     private static OutputAnalyzer runTestWithOptions(String[] extraOptions, String[] programOptions) throws IOException {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(prepareOptions(extraOptions, programOptions));
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, prepareOptions(extraOptions, programOptions));
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
         return output;

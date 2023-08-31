@@ -31,6 +31,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestExitOnOutOfMemoryError {
@@ -48,7 +49,7 @@ public class TestExitOnOutOfMemoryError {
         }
 
         // else this is the main test
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+ExitOnOutOfMemoryError",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+ExitOnOutOfMemoryError",
                 "-Xmx128m", TestExitOnOutOfMemoryError.class.getName(), "throwOOME");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 

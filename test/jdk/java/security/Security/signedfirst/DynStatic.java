@@ -37,6 +37,7 @@ import java.util.List;
 
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 
 public class DynStatic {
@@ -78,7 +79,7 @@ public class DynStatic {
         CompilerUtils.compile(DYN_SRC, TEST_CLASSES, "-classpath", "exp.jar");
 
         // Run the DynSignedProvFirst test program
-        ProcessTools.executeTestJvm("-classpath",
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-classpath",
             TEST_CLASSES.toString() + File.pathSeparator + "exp.jar",
             "DynSignedProvFirst")
             .shouldContain("test passed");
@@ -87,7 +88,7 @@ public class DynStatic {
         CompilerUtils.compile(STATIC_SRC, TEST_CLASSES, "-classpath", "exp.jar");
 
         // Run the StaticSignedProvFirst test program
-        ProcessTools.executeTestJvm("-classpath",
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-classpath",
             TEST_CLASSES.toString() + File.pathSeparator + "exp.jar",
             "-Djava.security.properties=file:" + STATIC_PROPS,
             "StaticSignedProvFirst")

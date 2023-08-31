@@ -37,6 +37,7 @@ import java.nio.file.Paths;
 
 import jdk.test.lib.compiler.CompilerUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -74,7 +75,7 @@ public class LauncherErrors {
         String dir = MODS_DIR.toString();
         String mid = TEST_MODULE + "/" + MAIN_CLASS;
 
-        ProcessTools.executeTestJava("--module-path", dir, "--module", mid)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "--module-path", dir, "--module", mid)
                     .outputTo(System.out)
                     .errorTo(System.out)
                     .shouldHaveExitValue(0);
@@ -89,7 +90,7 @@ public class LauncherErrors {
         String dir = MODS_DIR.toString();
         String mid = TEST_MODULE + "/" + MAIN_CLASS;
 
-        ProcessTools.executeTestJava("-Djava.security.manager", "--module-path", dir, "--module", mid)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djava.security.manager", "--module-path", dir, "--module", mid)
                     .outputTo(System.out)
                     .errorTo(System.out)
                     .shouldContain("Error: Unable to initialize main class " + MAIN_CLASS + " in module " + TEST_MODULE)

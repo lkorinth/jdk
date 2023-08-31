@@ -54,6 +54,7 @@ import jdk.internal.module.ModuleResolution;
 import org.testng.annotations.Test;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.util.ModuleInfoWriter;
 
@@ -190,7 +191,7 @@ public class ServiceBinding {
         var opts = Stream.of("-p", mlib.toString(),
                              "--add-modules", commaSeparated(roots),
                              "TestBootLayer", commaSeparated(expected), commaSeparated(notExpected));
-        return ProcessTools.executeTestJava(opts.toArray(String[]::new))
+        return ProcessTools.executeJavaProcess(PrependTestJavaOpts, opts.toArray(String[]::new))
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .shouldHaveExitValue(0);

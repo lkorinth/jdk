@@ -25,11 +25,12 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestDaemonThreadLauncher {
     public static void main(String args[]) throws Exception {
         for(int i=0; i<50; i++) {
-            ProcessBuilder pb = ProcessTools.createTestJvm("-javaagent:DummyAgent.jar", "TestDaemonThread", ".");
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-javaagent:DummyAgent.jar", "TestDaemonThread", ".");
             OutputAnalyzer analyzer = ProcessTools.executeProcess(pb);
             analyzer.shouldNotContain("ASSERTION FAILED");
             analyzer.shouldHaveExitValue(0);

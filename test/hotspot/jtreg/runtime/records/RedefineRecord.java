@@ -43,6 +43,7 @@ import java.security.ProtectionDomain;
 import java.lang.instrument.IllegalClassFormatException;
 import java.util.spi.ToolProvider;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
@@ -102,7 +103,7 @@ public class RedefineRecord {
             return;
         }
         if (argv.length == 1 && argv[0].equals("runtest")) {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:MetaspaceSize=12m",
                 "-XX:MaxMetaspaceSize=12m",
                 "-javaagent:redefineagent.jar",

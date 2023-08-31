@@ -36,6 +36,7 @@ package runtime.whitebox;
  */
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.whitebox.WhiteBox;
 
@@ -44,7 +45,7 @@ public class TestWBDeflateIdleMonitors {
     static final int N_TRIES = 5;     // number of times to try deflation
 
     public static void main(String args[]) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-Xbootclasspath/a:.",
                 "-XX:+UnlockDiagnosticVMOptions",
                 "-XX:+WhiteBoxAPI",

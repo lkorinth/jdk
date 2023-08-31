@@ -31,6 +31,7 @@ import java.util.concurrent.CountDownLatch;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -221,7 +222,7 @@ public class JMXInterfaceBindingTest {
             args.add(Boolean.toString(useSSL));
 
             try {
-                ProcessBuilder builder = ProcessTools.createJavaProcessBuilder(args.toArray(new String[]{}));
+                ProcessBuilder builder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args.toArray(new String[]{}));
                 System.out.println(ProcessTools.getCommandLine(builder));
                 Process process = builder.start();
                 output = new OutputAnalyzer(process);

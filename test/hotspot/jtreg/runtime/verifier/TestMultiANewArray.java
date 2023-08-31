@@ -27,6 +27,7 @@ import jdk.internal.org.objectweb.asm.ClassWriter;
 import jdk.internal.org.objectweb.asm.MethodVisitor;
 import static jdk.internal.org.objectweb.asm.Opcodes.*;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 /*
@@ -48,7 +49,7 @@ public class TestMultiANewArray {
         int cfv = Integer.parseInt(args[0]);
         writeClassFile(cfv);
         System.err.println("Running with cfv: " + cfv);
-        ProcessBuilder pb = ProcessTools.createTestJvm("-cp", ".",  "ClassFile");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-cp", ".",  "ClassFile");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain("VerifyError");
         output.shouldHaveExitValue(1);

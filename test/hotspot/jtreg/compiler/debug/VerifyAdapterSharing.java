@@ -36,13 +36,14 @@ package compiler.debug;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class VerifyAdapterSharing {
     public static void main(String[] args) throws Exception {
         ProcessBuilder pb;
         OutputAnalyzer out;
 
-        pb = ProcessTools.createJavaProcessBuilder("-Xcomp", "-XX:+IgnoreUnrecognizedVMOptions",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xcomp", "-XX:+IgnoreUnrecognizedVMOptions",
                 "-XX:+VerifyAdapterSharing", "-version");
         out = new OutputAnalyzer(pb.start());
         out.shouldHaveExitValue(0);

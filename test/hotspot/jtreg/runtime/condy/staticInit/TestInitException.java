@@ -34,11 +34,12 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestInitException {
     public static void main(java.lang.String[] unused) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("Example");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "Example");
         OutputAnalyzer oa = new OutputAnalyzer(pb.start());
         // First call stack trace
         // shouldMatch is used to workaround CODETOOLS-7902686

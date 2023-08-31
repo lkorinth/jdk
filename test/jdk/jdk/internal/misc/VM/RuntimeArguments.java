@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import jdk.internal.misc.VM;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -117,7 +118,7 @@ public class RuntimeArguments {
         Stream<String> options = Stream.concat(args.stream(),
             Stream.of("-classpath", TEST_CLASSES, "RuntimeArguments"));
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             // The runtime image may be created with jlink --add-options
             // The initial VM options will be included in the result
             // returned by VM.getRuntimeArguments()

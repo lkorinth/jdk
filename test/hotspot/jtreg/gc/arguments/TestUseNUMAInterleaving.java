@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /**
  * @test TestUseNUMAInterleaving
  * @summary Tests that UseNUMAInterleaving enabled for all collectors by
@@ -39,7 +42,7 @@ import jdk.test.lib.process.OutputAnalyzer;
 public class TestUseNUMAInterleaving {
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = GCArguments.createTestJvm(
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-XX:+UseNUMA",
             "-XX:+PrintFlagsFinal",
             "-version");

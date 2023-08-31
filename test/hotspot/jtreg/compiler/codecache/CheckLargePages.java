@@ -38,6 +38,7 @@ package compiler.codecache;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 import java.util.Arrays;
@@ -50,7 +51,7 @@ public class CheckLargePages {
         final boolean largePages = WHITE_BOX.getBooleanVMFlag("UseLargePages");
         final long largePageSize = WHITE_BOX.getVMLargePageSize();
         if (largePages && (largePageSize == 1024 * 1024 * 1024)) {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-XX:+UseLargePages",
                     "-XX:+SegmentedCodeCache",
                     "-XX:InitialCodeCacheSize=2g",

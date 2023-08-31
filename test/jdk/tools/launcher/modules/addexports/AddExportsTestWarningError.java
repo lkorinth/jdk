@@ -176,7 +176,7 @@ public class AddExportsTestWarningError {
         String[] args = Stream.concat(Arrays.stream(options),
                                       Stream.of("-version"))
                               .toArray(String[]::new);
-        int exitValue = executeTestJava(args)
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, args)
             .outputTo(System.out)
             .errorTo(System.out)
             .shouldContain(msg)
@@ -187,7 +187,7 @@ public class AddExportsTestWarningError {
 
      private void testWarning(String value, String msg) throws Exception {
         int exitValue =
-            executeTestJava("--add-exports", value,
+            executeJavaProcess(PrependTestJavaOpts, "--add-exports", value,
                             "--module-path", MODS_DIR.toString(),
                             "-m", M1_MAIN)
                 .outputTo(System.out)
@@ -200,7 +200,7 @@ public class AddExportsTestWarningError {
 
     private void testError(String value, String msg) throws Exception {
         int exitValue =
-            executeTestJava("--add-exports", value,
+            executeJavaProcess(PrependTestJavaOpts, "--add-exports", value,
                             "--module-path", MODS_DIR.toString(),
                             "-m", M1_MAIN)
                 .outputTo(System.out)
@@ -215,7 +215,7 @@ public class AddExportsTestWarningError {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(new BufferedOutputStream(baos));
         OutputAnalyzer outputAnalyzer =
-            executeTestJava("--add-exports", value,
+            executeJavaProcess(PrependTestJavaOpts, "--add-exports", value,
                             "--module-path", MODS_DIR.toString(),
                             "-m", M3_MAIN)
                 .outputTo(ps)

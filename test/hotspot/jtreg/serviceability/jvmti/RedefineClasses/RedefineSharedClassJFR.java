@@ -39,6 +39,7 @@ import java.util.List;
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import jtreg.SkippedException;
@@ -75,7 +76,7 @@ public class RedefineSharedClassJFR {
                 List<String> offCommand = new ArrayList<>();
                 offCommand.add("-Xshare:off");
                 offCommand.addAll(baseCommand);
-                ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(offCommand);
+                ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, offCommand);
                 new OutputAnalyzer(pb.start())
                     // We can't expect any of the transformed classes to be in use
                     // so the only thing we can verify is that no scratch classes
@@ -89,7 +90,7 @@ public class RedefineSharedClassJFR {
                 List<String> onCommand = new ArrayList<>();
                 onCommand.add("-Xshare:on");
                 onCommand.addAll(baseCommand);
-                ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(onCommand);
+                ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, onCommand);
                 new OutputAnalyzer(pb.start())
                     .shouldContain(SHOULD_CLEAN_FALSE)
                     .shouldNotContain(SHOULD_CLEAN_TRUE)

@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestG1PercentageOptions
  * @bug 8068942
@@ -63,7 +66,7 @@ public class TestG1PercentageOptions {
     };
 
     private static void check(String flag, boolean is_valid) throws Exception {
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:+UseG1GC", flag, "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         if (is_valid) {

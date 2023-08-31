@@ -33,6 +33,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.whitebox.WhiteBox;
@@ -67,7 +68,7 @@ public class PlainRead {
 
     public static void main(String[] args) throws Exception {
         WhiteBox wb = WhiteBox.getWhiteBox();
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:os+container=trace", "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:os+container=trace", "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
         if (wb.isContainerized()) {

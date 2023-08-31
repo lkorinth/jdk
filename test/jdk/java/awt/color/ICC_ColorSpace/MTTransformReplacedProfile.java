@@ -34,6 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -49,7 +50,7 @@ public final class MTTransformReplacedProfile {
 
     public static void main(String[] args) throws Exception {
         if (args.length > 0 && args[0].equals("checkJNI")) {
-            ProcessBuilder pb = ProcessTools.createTestJvm(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     "-Xcheck:jni", MTTransformReplacedProfile.class.getName());
             OutputAnalyzer oa = ProcessTools.executeProcess(pb);
             oa.stderrShouldBeEmpty();

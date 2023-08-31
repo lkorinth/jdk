@@ -33,6 +33,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jtreg.SkippedException;
 
@@ -69,7 +70,7 @@ public class AvailableProcessors {
             // Get the java command we want to execute
             // Enable logging for easier failure diagnosis
             ProcessBuilder master =
-                    ProcessTools.createJavaProcessBuilder("-Xlog:os=trace",
+                    ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:os=trace",
                                                           "AvailableProcessors");
 
             int[] expected = new int[] { 1, available/2, available-1, available };

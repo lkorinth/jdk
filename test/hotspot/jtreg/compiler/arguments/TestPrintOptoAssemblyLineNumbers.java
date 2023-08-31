@@ -38,6 +38,7 @@ package compiler.arguments;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 //    THIS TEST IS LINE NUMBER SENSITIVE
 
@@ -51,7 +52,7 @@ public class TestPrintOptoAssemblyLineNumbers {
             CheckC2OptoAssembly.class.getName()
         };
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(procArgs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, procArgs);
         OutputAnalyzer oa = new OutputAnalyzer(pb.start());
         oa.shouldHaveExitValue(0);
 

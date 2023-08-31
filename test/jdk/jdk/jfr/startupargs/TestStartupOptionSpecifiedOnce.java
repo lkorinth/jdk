@@ -23,6 +23,7 @@
 package jdk.jfr.startupargs;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test The test verifies that options can only be specified once with --XX:StartFlightRecording
@@ -40,17 +41,17 @@ public class TestStartupOptionSpecifiedOnce {
     }
 
     private static void testStartFlightRecordingConflict() throws Exception {
-        var output = ProcessTools.executeTestJava("-XX:StartFlightRecording:disk=true,disk=false,name=cat,name=dog");
+        var output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:StartFlightRecording:disk=true,disk=false,name=cat,name=dog");
         output.shouldContain("disk and name can only be specified once.");
     }
 
     private static void testConflictThreeOptions() throws Exception {
-        var output = ProcessTools.executeTestJava("-XX:StartFlightRecording:name=abc,name=def,disk=true,disk=false,delay=1s,delay=2s");
+        var output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:StartFlightRecording:name=abc,name=def,disk=true,disk=false,delay=1s,delay=2s");
         output.shouldContain("name, disk and delay can only be specified once.");
     }
 
     private static void testAbleMultipleOption() throws Exception {
-        var output = ProcessTools.executeTestJava("-XX:StartFlightRecording:settings=default,settings=profile");
+        var output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-XX:StartFlightRecording:settings=default,settings=profile");
         output.shouldNotContain("settings can only be specified once");
     }
 }

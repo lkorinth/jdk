@@ -41,6 +41,7 @@ import javax.tools.ToolProvider;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestModularizedEvent {
 
@@ -60,7 +61,7 @@ public class TestModularizedEvent {
         compileModule(EVENT_MODULE, "--module-path", MODS_DIR.toString());
         compileModule(TEST_MODULE, "--module-path", MODS_DIR.toString());
 
-        OutputAnalyzer oa = ProcessTools.executeTestJava("--module-path", "mods", "-m", "test.jfr.main/test.jfr.main.MainTest");
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "--module-path", "mods", "-m", "test.jfr.main/test.jfr.main.MainTest");
         oa.stdoutShouldContain("Test passed.");
     }
 

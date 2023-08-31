@@ -27,6 +27,7 @@ import jdk.internal.org.objectweb.asm.ClassWriter;
 import jdk.internal.org.objectweb.asm.MethodVisitor;
 import static jdk.internal.org.objectweb.asm.Opcodes.*;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 /*
@@ -125,7 +126,7 @@ public class OverriderMsg {
     public static void main(String... args) throws Exception {
         dump_HasFinal();
         dump_Overrider();
-        ProcessBuilder pb = ProcessTools.createTestJvm("-cp", ".",  "Overrider");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-cp", ".",  "Overrider");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain(
             "java.lang.IncompatibleClassChangeError: class Overrider overrides final method HasFinal.m(Ljava/lang/String;)V");

@@ -33,11 +33,12 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class VerifyWithDefaultArchive {
     public static void main(String... args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:cds", "-XX:+VerifySharedSpaces", "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:cds", "-XX:+VerifySharedSpaces", "-version");
         OutputAnalyzer out = new OutputAnalyzer(pb.start());
         out.shouldNotContain("relocation bitmap CRC error");
         out.shouldHaveExitValue(0);

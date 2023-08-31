@@ -32,6 +32,7 @@ package gc.z;
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import static gc.testlibrary.Allocation.blackHole;
 
 public class TestSmallHeap {
@@ -53,7 +54,7 @@ public class TestSmallHeap {
 
     public static void main(String[] args) throws Exception {
         for (var maxCapacity: args) {
-            ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(
+            ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                                         "-XX:+UseZGC",
                                         "-XX:+ZGenerational",
                                         "-Xlog:gc,gc+init,gc+reloc,gc+heap",

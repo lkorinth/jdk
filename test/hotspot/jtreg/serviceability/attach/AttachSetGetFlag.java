@@ -48,6 +48,7 @@ import sun.tools.attach.HotSpotVirtualMachine;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import com.sun.tools.attach.VirtualMachine;
 
 public class AttachSetGetFlag {
@@ -67,7 +68,7 @@ public class AttachSetGetFlag {
   }
 
   public static ProcessBuilder runTarget(String flagName, String flagValue) throws Exception {
-    return ProcessTools.createJavaProcessBuilder(
+    return ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:+UnlockExperimentalVMOptions",
         "-XX:" + flagName + "=" + flagValue,
         "AttachSetGetFlag$Target");

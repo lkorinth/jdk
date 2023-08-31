@@ -33,6 +33,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -61,7 +62,7 @@ public class ShutdownHooks {
         // Run in a new process in order to evaluate shutdown hook results
         String[] testCommand = new String[] {"-classpath", TEST_CLASSES,
                 ShutdownHooksProcess.class.getName()};
-        ProcessTools.executeTestJvm(testCommand).shouldHaveExitValue(0);
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, testCommand).shouldHaveExitValue(0);
 
         String errorMsg = "File exists despite shutdown hook has been run";
         assertFalse(Files.exists(TEST_FILE.toPath()), errorMsg);

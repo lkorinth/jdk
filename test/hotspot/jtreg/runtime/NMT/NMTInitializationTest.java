@@ -80,6 +80,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -156,7 +157,7 @@ public class NMTInitializationTest {
         }
         vmArgs.add("-version");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(vmArgs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, vmArgs);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         if (debug) {
             output.reportDiagnosticSummary();

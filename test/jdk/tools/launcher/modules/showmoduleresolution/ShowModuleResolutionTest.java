@@ -32,6 +32,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -43,7 +44,7 @@ public class ShowModuleResolutionTest {
      * Test that the resolution does not bind any services
      */
     private void expectJavaBase(String... args) throws Exception {
-        int exitValue = ProcessTools.executeTestJava(args)
+        int exitValue = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .stdoutShouldContain("root java.base")
@@ -57,7 +58,7 @@ public class ShowModuleResolutionTest {
      * modules
      */
     private void expectProviders(String... args) throws Exception {
-        int exitValue = ProcessTools.executeTestJava(args)
+        int exitValue = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .stdoutShouldContain("root java.base")

@@ -33,6 +33,7 @@
 
 import java.util.Arrays;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -104,7 +105,7 @@ public class InitErrors {
         int len = args.length;
         args = Arrays.copyOf(args, len+1);
         args[len] = "-version";
-        return ProcessTools.executeTestJava(args)
+        return ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out);
     }

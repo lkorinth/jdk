@@ -30,6 +30,7 @@ import java.util.List;
 import gc.testlibrary.g1.MixedGCProvoker;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test TestLogging
@@ -90,7 +91,7 @@ public class TestLogging {
         Collections.addAll(testOpts, extraFlags);
         testOpts.add(RunMixedGC.class.getName());
         System.out.println(testOpts);
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(testOpts);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, testOpts);
         return new OutputAnalyzer(pb.start());
     }
 }

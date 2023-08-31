@@ -38,6 +38,7 @@ package compiler.onSpinWait;
 import java.util.ArrayList;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestOnSpinWaitNoneAArch64 {
 
@@ -54,7 +55,7 @@ public class TestOnSpinWaitNoneAArch64 {
         command.add(Launcher.class.getName());
 
         // Test C2 compiler
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(command);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, command);
 
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 

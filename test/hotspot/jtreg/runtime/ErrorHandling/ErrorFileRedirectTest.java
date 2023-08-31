@@ -35,6 +35,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,7 +48,7 @@ public class ErrorFileRedirectTest {
 
   public static void do_test(boolean redirectStdout, boolean redirectStderr) throws Exception {
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xmx64M",
             "-XX:-CreateCoredumpOnCrash",
             "-XX:ErrorHandlerTest=14",

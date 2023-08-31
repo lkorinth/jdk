@@ -38,6 +38,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import javax.net.ssl.SSLHandshakeException;
 import java.io.BufferedReader;
@@ -67,7 +68,7 @@ public class IgnorableExceptionMessages extends SSLSocketTemplate {
                     className,
                     extraArgument);
 
-            OutputAnalyzer output = ProcessTools.executeTestJvm(jvmArgs);
+            OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, jvmArgs);
 
             if (output.getExitValue() != 0) {
                 output.asLines().forEach(System.out::println); // No need to dump the output unless the test fails

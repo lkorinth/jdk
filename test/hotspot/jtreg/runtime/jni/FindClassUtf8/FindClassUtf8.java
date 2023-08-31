@@ -30,6 +30,7 @@
 
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public final class FindClassUtf8 {
@@ -43,7 +44,7 @@ public final class FindClassUtf8 {
     public static void main(String... args) throws Exception {
         if (args.length == 1) {
             // run java -Xcheck:jni FindClassUtf8 and check that the -Xcheck:jni message comes out.
-            ProcessTools.executeTestJvm("-Djava.library.path=" + Utils.TEST_NATIVE_PATH,
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djava.library.path=" + Utils.TEST_NATIVE_PATH,
                                         "-Xcheck:jni",
                                         "-XX:-CreateCoredumpOnCrash",
                                         "FindClassUtf8")

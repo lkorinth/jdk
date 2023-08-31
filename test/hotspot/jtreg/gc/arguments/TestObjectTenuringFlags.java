@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestObjectTenuringFlags
  * @bug 6521376
@@ -161,7 +164,7 @@ public class TestObjectTenuringFlags {
     }
     Collections.addAll(vmOpts, "-XX:+UseParallelGC", "-XX:+PrintFlagsFinal", "-version");
 
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(vmOpts);
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOpts);
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
     if (shouldFail) {

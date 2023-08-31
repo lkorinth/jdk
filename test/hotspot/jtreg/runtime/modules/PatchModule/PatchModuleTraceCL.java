@@ -37,6 +37,7 @@ import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.helpers.ClassFileInstaller;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class PatchModuleTraceCL {
 
@@ -53,7 +54,7 @@ public class PatchModuleTraceCL {
              InMemoryJavaCompiler.compile("javax.naming.spi.NamingManager", source, "--patch-module=java.naming"),
              "mods/java.naming");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("--patch-module=java.naming=mods/java.naming",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "--patch-module=java.naming=mods/java.naming",
              "-Xlog:class+load=info", "PatchModuleMain", "javax.naming.spi.NamingManager");
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
@@ -77,7 +78,7 @@ public class PatchModuleTraceCL {
              InMemoryJavaCompiler.compile("PatchModuleTraceCL_pkg.ItIsI", source),
              "xbcp");
 
-        pb = ProcessTools.createJavaProcessBuilder("-Xbootclasspath/a:xbcp",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xbootclasspath/a:xbcp",
              "-Xlog:class+load=info", "PatchModuleMain", "PatchModuleTraceCL_pkg.ItIsI");
         output = new OutputAnalyzer(pb.start());
         // -Xbootclasspath/a case.

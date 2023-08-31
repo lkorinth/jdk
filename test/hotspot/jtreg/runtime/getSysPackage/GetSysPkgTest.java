@@ -36,6 +36,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
@@ -101,7 +102,7 @@ public class GetSysPkgTest {
                 InMemoryJavaCompiler.compile("GetSysPkg_package.GetSysClass", source);
             ClassFileInstaller.writeClassToDisk("GetSysPkg_package/GetSysClass", klassbuf);
 
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xbootclasspath/a:bl_dir",
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xbootclasspath/a:bl_dir",
                 "--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED", "-cp", "." + File.pathSeparator +
                 System.getProperty("test.classes"), "GetSysPkgTest", "do_tests");
             OutputAnalyzer output = new OutputAnalyzer(pb.start());

@@ -37,6 +37,7 @@ package gc.logging;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jtreg.SkippedException;
 import jdk.test.whitebox.gc.GC;
 
@@ -74,7 +75,7 @@ public class TestGCId {
 
   private static void testGCId(String gcFlag) throws Exception {
     ProcessBuilder pb_default =
-      ProcessTools.createJavaProcessBuilder("-XX:+UnlockExperimentalVMOptions", "-XX:+" + gcFlag, "-Xlog:gc", "-Xmx10M", GCTest.class.getName());
+      ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UnlockExperimentalVMOptions", "-XX:+" + gcFlag, "-Xlog:gc", "-Xmx10M", GCTest.class.getName());
     verifyContainsGCIDs(new OutputAnalyzer(pb_default.start()));
   }
 

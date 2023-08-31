@@ -37,6 +37,7 @@ package compiler.codecache;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class CheckCodeCacheInfo {
     private static final String VERBOSE_REGEXP;
@@ -68,7 +69,7 @@ public class CheckCodeCacheInfo {
     public static void main(String[] args) throws Exception {
         ProcessBuilder pb;
 
-        pb = ProcessTools.createJavaProcessBuilder("-XX:+PrintCodeCache",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+PrintCodeCache",
                                                    "-XX:+Verbose",
                                                    "-version");
         OutputAnalyzer out = new OutputAnalyzer(pb.start());

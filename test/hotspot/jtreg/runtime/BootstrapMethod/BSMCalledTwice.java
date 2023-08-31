@@ -46,6 +46,7 @@ import java.util.*;
 import static jdk.internal.org.objectweb.asm.Opcodes.*;
 import jdk.internal.org.objectweb.asm.*;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 // BSMCalledTwice generates a class file named "TestC.class" that contains
@@ -107,7 +108,7 @@ public class BSMCalledTwice implements Opcodes {
         };
 
         cl.loadClass(classTestCName);
-        ProcessBuilder pb = ProcessTools.createTestJvm("-cp", ".",  classTestCName);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-cp", ".",  classTestCName);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         String test_output = output.getOutput();
         if (test_output == null) {

@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * Helper class for adding options to child processes that should be
@@ -66,19 +67,11 @@ public final class GCArguments {
         return augmented.toArray(new String[augmented.size()]);
     }
 
-    static public ProcessBuilder createJavaProcessBuilder(List<String> arguments) {
-        return createJavaProcessBuilder(arguments.toArray(String[]::new));
+    static public ProcessBuilder createJavaProcessBuilder(ProcessTools.TestVMOptions options, List<String> arguments) {
+        return createJavaProcessBuilder(options, arguments.toArray(String[]::new));
     }
 
-    static public ProcessBuilder createJavaProcessBuilder(String... arguments) {
-        return ProcessTools.createJavaProcessBuilder(withDefaults(arguments));
-    }
-
-    static public ProcessBuilder createTestJvm(List<String> arguments) {
-        return createTestJvm(arguments.toArray(String[]::new));
-    }
-
-    static public ProcessBuilder createTestJvm(String... arguments) {
-        return ProcessTools.createTestJvm(withDefaults(arguments));
+    static public ProcessBuilder createJavaProcessBuilder(ProcessTools.TestVMOptions options, String... arguments) {
+        return ProcessTools.createJavaProcessBuilder(options, withDefaults(arguments));
     }
 }

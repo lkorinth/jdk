@@ -51,6 +51,7 @@ import jdk.test.lib.cds.CDSOptions;
 import jdk.test.lib.cds.CDSTestUtils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.CoreUtils;
 import jdk.test.lib.Utils;
 
@@ -90,7 +91,7 @@ public class ClhsdbCDSCore {
             try {
                List<String> options = new ArrayList<>();
                options.addAll(Arrays.asList(jArgs));
-               ProcessBuilder pb = ProcessTools.createTestJvm(options);
+               ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, options);
                // Add "ulimit -c unlimited" if we can since we are generating a core file.
                pb = CoreUtils.addCoreUlimitCommand(pb);
                crashOutput = ProcessTools.executeProcess(pb);

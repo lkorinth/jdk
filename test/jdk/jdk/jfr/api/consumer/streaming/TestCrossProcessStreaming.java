@@ -37,6 +37,7 @@ import jdk.jfr.consumer.EventStream;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.jfr.StreamingUtils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -127,7 +128,7 @@ public class TestCrossProcessStreaming {
 
         static Process start() throws Exception {
             String[] args = {"-XX:StartFlightRecording", EventProducer.class.getName()};
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
             return ProcessTools.startProcess("Event-Producer", pb,
                                              line -> line.contains(MAIN_STARTED),
                                              0, TimeUnit.SECONDS);

@@ -32,11 +32,12 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class JVMTI {
 
     public static void main(String args[]) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-minimal",
                 "-agentlib:jdwp=server=y,transport=dt_socket,address=5000,suspend=n",
                 "-version");

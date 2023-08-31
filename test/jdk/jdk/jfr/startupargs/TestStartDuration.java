@@ -32,6 +32,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.jfr.CommonHelper;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -69,7 +70,7 @@ public class TestStartDuration {
     }
 
     private static void testDurationInRange(String durationText, Duration duration, String action) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-XX:StartFlightRecording:name=" + RECORDING_NAME + ",duration=" + durationText,
             TestValues.class.getName(),
             action,
@@ -81,7 +82,7 @@ public class TestStartDuration {
 
 
     private static void testDurationJavaVersion(String duration, boolean inRange) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-XX:StartFlightRecording:name=TestStartDuration,duration=" + duration, "-version");
         OutputAnalyzer out = ProcessTools.executeProcess(pb);
 

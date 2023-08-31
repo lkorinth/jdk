@@ -35,6 +35,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.JDKToolLauncher;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.SA.SATestUtils;
 import jdk.test.lib.Utils;
@@ -82,7 +83,7 @@ public class TestInstanceKlassSize {
         }
         try {
             // Run this app with the LingeredApp PID to get SA output from the LingeredApp
-            ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "--add-modules=jdk.hotspot.agent",
                 "--add-exports=jdk.hotspot.agent/sun.jvm.hotspot=ALL-UNNAMED",
                 "--add-exports=jdk.hotspot.agent/sun.jvm.hotspot.utilities=ALL-UNNAMED",

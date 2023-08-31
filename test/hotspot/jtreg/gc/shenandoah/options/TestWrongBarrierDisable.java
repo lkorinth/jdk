@@ -32,6 +32,7 @@
 import java.util.*;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestWrongBarrierDisable {
@@ -65,7 +66,7 @@ public class TestWrongBarrierDisable {
 
     private static void shouldFailAll(String h, String[] barriers) throws Exception {
         for (String b : barriers) {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-Xmx128m",
                     "-XX:+UnlockDiagnosticVMOptions",
                     "-XX:+UnlockExperimentalVMOptions",
@@ -83,7 +84,7 @@ public class TestWrongBarrierDisable {
 
     private static void shouldPassAll(String h, String[] barriers) throws Exception {
         for (String b : barriers) {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-Xmx128m",
                     "-XX:+UnlockDiagnosticVMOptions",
                     "-XX:+UnlockExperimentalVMOptions",

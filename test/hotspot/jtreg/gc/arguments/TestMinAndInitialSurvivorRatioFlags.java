@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestMinAndInitialSurvivorRatioFlags
  * @summary Verify that MinSurvivorRatio and InitialSurvivorRatio flags work
@@ -102,7 +105,7 @@ public class TestMinAndInitialSurvivorRatioFlags {
                 Boolean.toString(useAdaptiveSizePolicy)
         );
         vmOptions.removeIf((String p) -> p.isEmpty());
-        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(vmOptions);
+        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOptions);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
         analyzer.shouldHaveExitValue(0);
     }

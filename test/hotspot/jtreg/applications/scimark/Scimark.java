@@ -28,6 +28,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.artifacts.Artifact;
 import jdk.test.lib.artifacts.ArtifactResolver;
@@ -48,7 +49,7 @@ public class Scimark {
 
         System.setProperty("test.noclasspath", "true");
 
-        OutputAnalyzer output = new OutputAnalyzer(ProcessTools.createTestJvm(
+        OutputAnalyzer output = new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
             "-cp", artifacts.get("gov.nist.math.scimark-2.0").toString(),
             "jnt.scimark2.commandline", "-large")
             .start());

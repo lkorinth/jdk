@@ -37,6 +37,7 @@ import java.io.IOException;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 public class TestPrimitiveArrayCriticalWithBadParam {
@@ -65,7 +66,7 @@ public class TestPrimitiveArrayCriticalWithBadParam {
         pbArgs.add(TestPrimitiveArrayCriticalWithBadParam.class.getName());
         pbArgs.add(useVThread ? "vtest" : "test");
         try {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(pbArgs.toArray(new String[0]));
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, pbArgs.toArray(new String[0]));
             OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 
             // -Xcheck:jni should warn the bad parameter

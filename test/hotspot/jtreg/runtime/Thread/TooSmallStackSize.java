@@ -48,6 +48,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TooSmallStackSize {
@@ -94,14 +95,14 @@ public class TooSmallStackSize {
 
     static ProcessBuilder createProcessWithOptions(String stackOption, String stackSize) throws Exception {
         if (testShadowSize == null) {
-            return ProcessTools.createJavaProcessBuilder(
+            return ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 stackOption + stackSize,
                 // Uncomment the following to get log output
                 // that shows actual thread creation sizes.
                 // "-Xlog:os+thread",
                 "-version");
         } else {
-            return ProcessTools.createJavaProcessBuilder(
+            return ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 stackOption + stackSize,
                 // Uncomment the following to get log output
                 // that shows actual thread creation sizes.

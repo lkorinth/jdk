@@ -33,6 +33,7 @@ package gc;
 
 import java.io.File;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.UUID;
 
@@ -45,7 +46,7 @@ public class TestAllocateHeapAtError {
       f = new File(test_dir, UUID.randomUUID().toString());
     } while(f.exists());
 
-    ProcessBuilder pb = ProcessTools.createTestJvm(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
         "-XX:AllocateHeapAt=" + f.getName(),
         "-Xlog:gc+heap=info",
         "-Xmx32m",

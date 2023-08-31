@@ -111,7 +111,7 @@ public class AddExportsTest {
     public void testSanity() throws Exception {
 
         int exitValue
-            =  executeTestJava("--add-exports", "java.base/jdk.internal.reflect=ALL-UNNAMED",
+            =  executeJavaProcess(PrependTestJavaOpts, "--add-exports", "java.base/jdk.internal.reflect=ALL-UNNAMED",
                                "-version")
                 .outputTo(System.out)
                 .errorTo(System.out)
@@ -131,7 +131,7 @@ public class AddExportsTest {
 
         String classpath = MODS_DIR.resolve(TEST1_MODULE).toString();
         int exitValue
-            = executeTestJava("--add-exports", "java.base/jdk.internal.misc=ALL-UNNAMED",
+            = executeJavaProcess(PrependTestJavaOpts, "--add-exports", "java.base/jdk.internal.misc=ALL-UNNAMED",
                               "-cp", classpath,
                               TEST1_MAIN_CLASS)
                 .outputTo(System.out)
@@ -152,7 +152,7 @@ public class AddExportsTest {
 
         String mid = TEST1_MODULE + "/" + TEST1_MAIN_CLASS;
         int exitValue =
-            executeTestJava("--add-exports", "java.base/jdk.internal.misc=" + TEST1_MODULE,
+            executeJavaProcess(PrependTestJavaOpts, "--add-exports", "java.base/jdk.internal.misc=" + TEST1_MODULE,
                             "--module-path", MODS_DIR.toString(),
                             "-m", mid)
                 .outputTo(System.out)
@@ -170,7 +170,7 @@ public class AddExportsTest {
         // java --add-exports java.compiler/javax.tools.internal=m2
         //      --upgrade-module-path upgrademods --module-path mods -m ...
         String mid = TEST2_MODULE + "/" + TEST2_MAIN_CLASS;
-        int exitValue = executeTestJava(
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, 
                 "--add-exports", "java.compiler/javax.tools.internal=m2",
                 "--upgrade-module-path", UPGRADE_MODS_DIRS.toString(),
                 "--module-path", MODS_DIR.toString(),
@@ -190,7 +190,7 @@ public class AddExportsTest {
 
         // java --add-exports m4/jdk.test4=m3 --module-path mods -m ...
         String mid = TEST3_MODULE + "/" + TEST3_MAIN_CLASS;
-        int exitValue = executeTestJava(
+        int exitValue = executeJavaProcess(PrependTestJavaOpts, 
                 "--add-exports", "m4/jdk.test4=m3",
                 "--module-path", MODS_DIR.toString(),
                 "--add-modules", TEST4_MODULE,
@@ -209,7 +209,7 @@ public class AddExportsTest {
     public void testWithDuplicateOption() throws Exception {
 
         int exitValue
-            =  executeTestJava("--add-exports", "java.base/jdk.internal.reflect=ALL-UNNAMED",
+            =  executeJavaProcess(PrependTestJavaOpts, "--add-exports", "java.base/jdk.internal.reflect=ALL-UNNAMED",
                                "--add-exports", "java.base/jdk.internal.reflect=ALL-UNNAMED",
                                "--add-opens", "java.base/java.util=ALL-UNNAMED",
                                "--add-opens", "java.base/java.util=ALL-UNNAMED",
@@ -224,7 +224,7 @@ public class AddExportsTest {
 
     private OutputAnalyzer execJava(String... options) {
         try {
-            return executeTestJava(options);
+            return executeJavaProcess(PrependTestJavaOpts, options);
         } catch (Exception e) {
             throw new Error(e);
         }

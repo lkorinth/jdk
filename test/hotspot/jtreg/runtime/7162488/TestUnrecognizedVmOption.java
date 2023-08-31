@@ -30,12 +30,13 @@
  */
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestUnrecognizedVmOption {
     static final String OPTION="this_is_not_an_option";
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-showversion", "-XX:" + OPTION);
         new OutputAnalyzer(pb.start())
             .shouldNotHaveExitValue(0)

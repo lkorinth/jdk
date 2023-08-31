@@ -35,13 +35,14 @@
 
 import java.io.File;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class ClassFileParserBug {
     public static void main(String args[]) throws Throwable {
 
         System.out.println("Regression test for bug 8040018");
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("LambdaMath");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "LambdaMath");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain("java.lang.ClassFormatError: Bad length on BootstrapMethods");
         output.shouldHaveExitValue(1);

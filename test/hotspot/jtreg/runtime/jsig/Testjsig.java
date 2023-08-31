@@ -36,6 +36,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class Testjsig {
@@ -46,7 +47,7 @@ public class Testjsig {
         String libpath = System.getProperty("java.library.path");
 
         // Create a new java process for the TestJNI Java/JNI test
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Djava.library.path=" + libpath + ":.",
             "TestJNI",
             "100");

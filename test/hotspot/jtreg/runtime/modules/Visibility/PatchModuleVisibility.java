@@ -40,6 +40,7 @@ import java.nio.file.Paths;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class PatchModuleVisibility {
@@ -86,7 +87,7 @@ public class PatchModuleVisibility {
       Files.delete(Paths.get(System.getProperty("test.classes") +  File.separator +
                                                            "p2" + File.separator + "Vis2_B.class"));
 
-      new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(
+      new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
               "--patch-module=java.base=mods2/java.base",
               "--add-exports=java.base/p2=ALL-UNNAMED",
               "Vis2_A")

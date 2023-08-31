@@ -27,6 +27,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,7 +48,7 @@ public class JitTesterDriver {
         }
         OutputAnalyzer oa;
         try {
-            ProcessBuilder pb = ProcessTools.createTestJvm(args);
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, args);
             oa = new OutputAnalyzer(pb.start());
         } catch (Exception e) {
             throw new Error("Unexpected exception on test jvm start :" + e, e);

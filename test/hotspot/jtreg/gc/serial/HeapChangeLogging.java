@@ -37,11 +37,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class HeapChangeLogging {
   public static void main(String[] args) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xmx128m", "-Xmn100m", "-XX:+UseSerialGC", "-Xlog:gc", HeapFiller.class.getName());
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xmx128m", "-Xmn100m", "-XX:+UseSerialGC", "-Xlog:gc", HeapFiller.class.getName());
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     String stdout = output.getStdout();
     System.out.println(stdout);

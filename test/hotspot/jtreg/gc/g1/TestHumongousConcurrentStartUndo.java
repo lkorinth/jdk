@@ -44,6 +44,7 @@ import gc.testlibrary.Helpers;
 import jdk.test.whitebox.WhiteBox;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.lang.ref.Reference;
 
@@ -56,7 +57,7 @@ public class TestHumongousConcurrentStartUndo {
     private static final int YoungSize                      = HeapSize / 8;
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xbootclasspath/a:.",
             "-XX:+UseG1GC",
             "-Xms" + HeapSize + "m",

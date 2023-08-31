@@ -35,6 +35,7 @@ import java.util.concurrent.Semaphore;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import sun.jvmstat.monitor.MonitorException;
 import sun.jvmstat.monitor.MonitoredHost;
 import sun.jvmstat.monitor.MonitoredVm;
@@ -309,7 +310,7 @@ public final class MonitorVmStartTerminate {
         private void executeJava() throws Throwable {
             String className = JavaProcess.class.getName();
             String classPath = System.getProperty("test.classes");
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Dtest.timeout.factor=" + System.getProperty("test.timeout.factor", "1.0"),
                 "-cp", classPath, className, mainArgsIdentifier);
             OutputAnalyzer ob = ProcessTools.executeProcess(pb);

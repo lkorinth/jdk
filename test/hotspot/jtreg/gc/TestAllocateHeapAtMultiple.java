@@ -32,6 +32,7 @@ package gc;
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class TestAllocateHeapAtMultiple {
                                               "-Xlog:gc+heap=info",
                                               "-version"});
 
-      ProcessBuilder pb = ProcessTools.createTestJvm(flags);
+      ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, flags);
       OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
       System.out.println("Output:\n" + output.getOutput());

@@ -37,6 +37,7 @@ import java.util.List;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestPrintC1Statistics {
     public static void main(String[] args) throws Exception {
@@ -44,7 +45,7 @@ public class TestPrintC1Statistics {
         options.add("-XX:+PrintC1Statistics");
         options.add("--version");
 
-        OutputAnalyzer oa = ProcessTools.executeTestJvm(options);
+        OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
 
         oa.shouldHaveExitValue(0).shouldContain("C1 Runtime statistics");
     }

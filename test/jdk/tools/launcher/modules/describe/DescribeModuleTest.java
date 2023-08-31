@@ -31,6 +31,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -42,7 +43,7 @@ public class DescribeModuleTest {
      * Test that the output describes java.base
      */
     private void expectJavaBase(String... args) throws Exception {
-        int exitValue = ProcessTools.executeTestJava(args)
+        int exitValue = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .stdoutShouldContain("java.base")
@@ -58,7 +59,7 @@ public class DescribeModuleTest {
      * Test that the output describes java.xml
      */
     private void expectJavaXml(String... args) throws Exception {
-        int exitValue = ProcessTools.executeTestJava(args)
+        int exitValue = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .stdoutShouldContain("java.xml")
@@ -73,7 +74,7 @@ public class DescribeModuleTest {
      * Test output/exitValue when describing an unknown module
      */
     private void expectUnknownModule(String... args) throws Exception {
-        int exitValue = ProcessTools.executeTestJava(args)
+        int exitValue = ProcessTools.executeJavaProcess(PrependTestJavaOpts, args)
                 .outputTo(System.out)
                 .errorTo(System.out)
                 .stdoutShouldNotContain("requires java.base")

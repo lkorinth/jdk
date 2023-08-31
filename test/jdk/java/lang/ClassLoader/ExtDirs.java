@@ -29,6 +29,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.lang.Integer;
 import java.util.stream.Stream;
@@ -76,12 +77,12 @@ public class ExtDirs {
     }
 
     static void start(int testParam, String... args) throws Exception {
-        ProcessTools.executeTestJava(launchOptions(testParam, args))
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, launchOptions(testParam, args))
                     .shouldHaveExitValue(0);
     }
 
     static void fatalError(int testParam, String... args) throws Exception {
-        ProcessTools.executeTestJava(launchOptions(testParam, args))
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, launchOptions(testParam, args))
                     .stderrShouldContain("Could not create the Java Virtual Machine");
     }
 }

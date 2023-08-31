@@ -31,6 +31,7 @@ import java.util.List;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 
 /**
@@ -74,7 +75,7 @@ public class AppExecutorHelper {
             Collections.addAll(arguments, classArguments);
         }
 
-        ProcessBuilder pb = ProcessTools.createTestJvm(arguments);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, arguments);
         return ProcessTools.executeProcess(pb);
     }
 }

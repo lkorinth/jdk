@@ -48,6 +48,7 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestNoScreenMenuBar
 {
@@ -148,7 +149,7 @@ public class TestNoScreenMenuBar
 
     private Process execute() {
         try {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     TestNoScreenMenuBar.class.getSimpleName(), "mark");
             return ProcessTools.startProcess("Other frame", pb);
         } catch (IOException ex) {

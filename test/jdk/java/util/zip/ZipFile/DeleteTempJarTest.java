@@ -37,12 +37,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Asserts;
 
 public class DeleteTempJarTest {
 
     public static void main(String[] args) throws Exception {
-        String tmpFile = ProcessTools.executeTestJvm(DeleteTempJar.class.getName())
+        String tmpFile = ProcessTools.executeJavaProcess(PrependTestJavaOpts, DeleteTempJar.class.getName())
                                      .shouldHaveExitValue(0)
                                      .getStdout();
 

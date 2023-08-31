@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 class TestExcessGCLockerCollectionsAux {
@@ -167,7 +168,7 @@ public class TestExcessGCLockerCollections {
         finalArgs.addAll(Arrays.asList(args));
 
         // GC and other options obtained from test framework.
-        OutputAnalyzer output = ProcessTools.executeTestJvm(finalArgs);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, finalArgs);
         output.shouldHaveExitValue(0);
         //System.out.println("------------- begin stdout ----------------");
         //System.out.println(output.getStdout());

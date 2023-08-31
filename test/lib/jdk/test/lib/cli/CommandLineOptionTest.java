@@ -31,6 +31,7 @@ import java.util.function.BooleanSupplier;
 import jdk.test.lib.management.InputArguments;
 import jdk.test.lib.process.ExitCode;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
@@ -113,7 +114,7 @@ public abstract class CommandLineOptionTest {
         finalOptions.add("-version");
 
         ProcessBuilder processBuilder
-                = ProcessTools.createJavaProcessBuilder(finalOptions.toArray(
+                = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, finalOptions.toArray(
                 new String[finalOptions.size()]));
         OutputAnalyzer outputAnalyzer
                 = new OutputAnalyzer(processBuilder.start());
@@ -263,7 +264,7 @@ public abstract class CommandLineOptionTest {
         Collections.addAll(vmOpts, additionalVMOpts);
         Collections.addAll(vmOpts, "-XX:+PrintFlagsFinal", "-version");
 
-        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 vmOpts.toArray(new String[vmOpts.size()]));
 
         OutputAnalyzer outputAnalyzer
@@ -333,7 +334,7 @@ public abstract class CommandLineOptionTest {
         Collections.addAll(vmOpts, additionalVMOpts);
         Collections.addAll(vmOpts, "-version");
 
-        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 vmOpts.toArray(new String[vmOpts.size()]));
 
         return new OutputAnalyzer(processBuilder.start());

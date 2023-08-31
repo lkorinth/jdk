@@ -31,6 +31,7 @@ import java.util.Optional;
 import jdk.test.lib.jfr.FileHelper;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 /**
  * @test
@@ -57,7 +58,7 @@ public class TestJcmdPreserveRepository {
             "-Dtest.jdk=" + System.getProperty("test.jdk"),
             TestProcess.class.getName()
         };
-        OutputAnalyzer output = ProcessTools.executeTestJvm(arguments);
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, arguments);
         output.shouldHaveExitValue(0);
         Optional<Path> p = Files.find(path, 99, (a,b) -> a.getFileName().toString().endsWith(".jfr")).findAny();
         if (p.isEmpty()) {

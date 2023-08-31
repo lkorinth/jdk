@@ -36,6 +36,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.security.SecurityUtils;
 
 import java.net.InetAddress;
@@ -71,7 +72,7 @@ public class LoggingFormatConsistency extends SSLSocketTemplate {
 
                 System.out.println("TESTING " + expectedTLSVersion);
                 var activeTLSProtocol = "-Djdk.tls.client.protocols=" + expectedTLSVersion;
-                var output = ProcessTools.executeTestJvm(
+                var output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                         testSrc,
                         activeTLSProtocol,
                         javaxNetDebug,

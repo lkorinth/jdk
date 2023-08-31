@@ -29,6 +29,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.annotations.Test;
 
 import java.security.Provider;
@@ -40,7 +41,7 @@ public class ReadConfInUTF16Env {
     public void testReadConfInUTF16Env() throws Exception {
         String[] testCommand = new String[] { "-Dfile.encoding=UTF-16",
                 TestSunPKCS11Provider.class.getName()};
-        ProcessTools.executeTestJvm(testCommand).shouldHaveExitValue(0);
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, testCommand).shouldHaveExitValue(0);
     }
 
     static class TestSunPKCS11Provider {

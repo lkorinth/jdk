@@ -38,6 +38,7 @@ package gc.class_unloading;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 public class TestG1ClassUnloadingHWM {
@@ -45,7 +46,7 @@ public class TestG1ClassUnloadingHWM {
   private static long YoungGenSize  = 32 * 1024 * 1024;
 
   private static OutputAnalyzer run(boolean enableUnloading) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "-Xbootclasspath/a:.",
       "-XX:+UnlockDiagnosticVMOptions",
       "-XX:+WhiteBoxAPI",

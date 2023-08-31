@@ -47,6 +47,7 @@ import java.text.NumberFormat;
 import static jdk.test.lib.Asserts.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import gc.testlibrary.Helpers;
 
@@ -61,7 +62,7 @@ public class TestShrinkDefragmentedHeap {
     private static final int REGION_SIZE        = 1 * 1024 * 1024;
 
     public static void main(String[] args) throws Exception, Throwable {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:InitialHeapSize=" + INITIAL_HEAP_SIZE,
                 "-Xmn" + MINIMAL_YOUNG_SIZE,
                 "-Xmx" + MAXIMUM_HEAP_SIZE,

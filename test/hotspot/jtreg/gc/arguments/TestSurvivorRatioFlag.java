@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestSurvivorRatioFlag
  * @summary Verify that actual survivor ratio is equal to specified SurvivorRatio value
@@ -87,7 +90,7 @@ public class TestSurvivorRatioFlag {
                 Integer.toString(ratio)
         );
 
-        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(vmOptions);
+        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOptions);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
         analyzer.shouldHaveExitValue(0);
     }

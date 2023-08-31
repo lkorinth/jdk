@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,7 +46,7 @@ public class CNameTest {
 
     public static void main(String[] args) throws Exception {
         // Prerequisite check
-        int rc = ProcessTools.executeTestJava("CanonicalName", HOST)
+        int rc = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "CanonicalName", HOST)
                              .outputTo(System.out)
                              .errorTo(System.out)
                              .getExitValue();
@@ -63,7 +64,7 @@ public class CNameTest {
                 "-Djava.security.manager -Djava.security.policy=" + policy
         };
         for (String opt : opts) {
-            ProcessTools.executeTestJava(opt, "Lookup", HOST)
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, opt, "Lookup", HOST)
                         .outputTo(System.out)
                         .errorTo(System.err)
                         .shouldHaveExitValue(0);

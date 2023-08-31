@@ -25,6 +25,7 @@ package compiler.testlibrary.rtm;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 import jdk.test.lib.cli.CommandLineOptionTest;
 
@@ -63,7 +64,7 @@ public class RTMTestBase {
     public static OutputAnalyzer executeRTMTest(CompilableTest test,
             String... options) throws Exception {
         ProcessBuilder processBuilder
-                = ProcessTools.createJavaProcessBuilder(
+                = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 RTMTestBase.prepareTestOptions(test, options));
         OutputAnalyzer outputAnalyzer
                 = new OutputAnalyzer(processBuilder.start());
@@ -83,7 +84,7 @@ public class RTMTestBase {
     public static OutputAnalyzer executeRTMTest(String logFileName,
             CompilableTest test, String... options) throws Exception {
         ProcessBuilder processBuilder
-                = ProcessTools.createJavaProcessBuilder(
+                = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 RTMTestBase.prepareTestOptions(logFileName, test, options));
         OutputAnalyzer outputAnalyzer
                 = new OutputAnalyzer(processBuilder.start());

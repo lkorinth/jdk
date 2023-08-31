@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.Map;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class ClassPathEnvVar {
@@ -50,7 +51,7 @@ public class ClassPathEnvVar {
     }
     private static OutputAnalyzer runCrasher() throws Exception {
         ProcessBuilder pb =
-            ProcessTools.createJavaProcessBuilder("-XX:-CreateCoredumpOnCrash",
+            ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:-CreateCoredumpOnCrash",
                                                   "-XX:ErrorHandlerTest=14",
                                                   "-XX:+ErrorFileToStdout");
 

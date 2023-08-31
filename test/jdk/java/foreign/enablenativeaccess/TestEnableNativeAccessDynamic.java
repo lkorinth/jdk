@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import org.testng.annotations.DataProvider;
@@ -167,7 +168,7 @@ public class TestEnableNativeAccessDynamic {
                 moduleAndCls, Boolean.toString(enableNativeAccess), action));
         String[] opts = list.toArray(String[]::new);
         OutputAnalyzer outputAnalyzer = ProcessTools
-                .executeTestJava(opts)
+                .executeJavaProcess(PrependTestJavaOpts, opts)
                 .outputTo(System.out)
                 .errorTo(System.out);
         checkResult(expectedResult, outputAnalyzer);

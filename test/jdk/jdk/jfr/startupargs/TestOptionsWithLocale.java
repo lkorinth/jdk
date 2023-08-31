@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -36,7 +37,7 @@ public class TestOptionsWithLocale {
             return;
         }
 
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-Duser.country=DE",
                 "-Duser.language=de",
                 "-XX:FlightRecorderOptions:stackdepth=128",

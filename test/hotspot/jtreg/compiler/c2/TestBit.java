@@ -25,6 +25,7 @@ package compiler.c2;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -49,7 +50,7 @@ public class TestBit {
             "-XX:CompileCommand=compileonly," + className + "::tst*",
             className, testName};
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(procArgs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, procArgs);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
         String expectedTestBitInstruction =

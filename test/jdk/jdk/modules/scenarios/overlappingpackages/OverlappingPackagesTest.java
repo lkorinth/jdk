@@ -77,7 +77,7 @@ public class OverlappingPackagesTest {
      */
     public void testNoOverlappingPackages() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MODS_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                               "-m", "test/test.Main")
                 .outputTo(System.out)
                 .errorTo(System.err)
@@ -93,7 +93,7 @@ public class OverlappingPackagesTest {
      */
     public void testOverlapWithBaseModule() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MODS_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                               "--add-modules", "misc",
                               "-m", "test/test.Main")
                 .outputTo(System.out)
@@ -108,7 +108,7 @@ public class OverlappingPackagesTest {
      */
     public void testOverlap() throws Exception {
         int exitValue
-            = executeTestJava("--module-path", MODS_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                               "--add-modules", "m1,m2",
                               "-m", "test/test.Main")
                 .outputTo(System.out)

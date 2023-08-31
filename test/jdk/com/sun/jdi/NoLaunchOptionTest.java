@@ -24,6 +24,7 @@
 import static jdk.test.lib.Asserts.assertFalse;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test       NoLaunchOptionTest.java
@@ -45,7 +46,7 @@ public class NoLaunchOptionTest extends Object {
                 "onthrow=java.lang.ClassNotFoundException,suspend=n",
                 "NotAClass" });
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(cmd);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmd);
         OutputAnalyzer output = ProcessTools.executeProcess(pb);
         System.out.println(output.getOutput());
 

@@ -48,6 +48,7 @@ import java.io.File;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * Create .jar, load ClassForName from .jar using a URLClassLoader
@@ -98,7 +99,7 @@ public class ProtectionDomainCacheTest {
     }
 
     public static void main(String args[]) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                                       "-Djava.security.policy==" + System.getProperty("test.src") + File.separator + "test.policy",
                                       "-Dtest.classes=" + System.getProperty("test.classes", "."),
                                       "-XX:+UnlockDiagnosticVMOptions",

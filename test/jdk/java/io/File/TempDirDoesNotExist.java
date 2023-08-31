@@ -28,6 +28,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import java.io.File;
@@ -96,16 +97,16 @@ public class TempDirDoesNotExist {
     }
 
     private static void testMessageExist(int exitValue, String errorMsg, String... options) throws Exception {
-        ProcessTools.executeTestJvm(options).shouldContain(errorMsg)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, options).shouldContain(errorMsg)
                 .shouldHaveExitValue(exitValue);
     }
 
     private static void testMessageNotExist(int exitValue, String errorMsg,String... options) throws Exception {
-        ProcessTools.executeTestJvm(options).shouldNotContain(errorMsg).shouldHaveExitValue(exitValue);
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, options).shouldNotContain(errorMsg).shouldHaveExitValue(exitValue);
     }
 
     private static void testMessageCounter(int exitValue,String... options) throws Exception {
-        OutputAnalyzer originalOutput = ProcessTools.executeTestJvm(options);
+        OutputAnalyzer originalOutput = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
         List<String> list = originalOutput.asLines().stream().filter(line
                 -> line.equalsIgnoreCase(ioWarningMsg)).collect(Collectors.toList());
         if (list.size() != 1 || originalOutput.getExitValue() != exitValue)

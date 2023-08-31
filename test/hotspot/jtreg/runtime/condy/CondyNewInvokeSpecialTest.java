@@ -33,12 +33,13 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 
 public class CondyNewInvokeSpecialTest {
     public static void main(String args[]) throws Throwable {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xverify:all",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xverify:all",
                                                                   "CondyNewInvokeSpecial");
         OutputAnalyzer oa = new OutputAnalyzer(pb.start());
         oa.shouldContain("In CondyNewInvokeSpecial <init> method");

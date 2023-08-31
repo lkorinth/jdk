@@ -41,6 +41,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class LimitDirectMemoryNegativeTest {
 
@@ -51,7 +52,7 @@ public class LimitDirectMemoryNegativeTest {
             throw new IllegalArgumentException("missing size argument");
         }
 
-        int exitCode = ProcessTools.executeTestJava(
+        int exitCode = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                                     "-XX:MaxDirectMemorySize=" + args[0],
                                     LimitDirectMemoryNegativeTest.class.getName())
                                    .shouldContain(ERR + args[0])

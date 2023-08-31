@@ -34,6 +34,7 @@
 import java.util.*;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestObjItrWithHeapDump {
@@ -41,7 +42,7 @@ public class TestObjItrWithHeapDump {
         String[] cmds = Arrays.copyOf(args, args.length + 2);
         cmds[args.length] = TestObjItrWithHeapDump.class.getName();
         cmds[args.length + 1] = "test";
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(cmds);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmds);
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);

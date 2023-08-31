@@ -40,6 +40,7 @@ import java.util.function.Predicate;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class JVMOptionsUtils {
 
@@ -469,7 +470,7 @@ public class JVMOptionsUtils {
         runJava.add(PRINT_FLAGS_RANGES);
         runJava.add("-version");
 
-        p = ProcessTools.createJavaProcessBuilder(runJava).start();
+        p = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, runJava).start();
 
         result = getJVMOptions(new InputStreamReader(p.getInputStream()), withRanges, acceptOrigin);
 

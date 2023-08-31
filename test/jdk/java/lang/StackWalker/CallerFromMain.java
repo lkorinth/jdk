@@ -30,6 +30,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class CallerFromMain {
@@ -37,7 +38,7 @@ public class CallerFromMain {
     private static final StackWalker sw = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
     public static void main(String[] args) throws Exception {
         if (args.length > 0) {
-            ProcessBuilder pb = ProcessTools.createTestJvm("CallerFromMain");
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "CallerFromMain");
             OutputAnalyzer output = ProcessTools.executeProcess(pb);
             System.out.println(output.getOutput());
             output.shouldHaveExitValue(0);

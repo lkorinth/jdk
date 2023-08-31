@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestNewSizeFlags
  * @bug 8025166
@@ -166,7 +169,7 @@ public class TestNewSizeFlags {
                 Long.toString(maxHeapSize)
         );
         vmOptions.removeIf(String::isEmpty);
-        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(vmOptions);
+        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOptions);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
         return analyzer;
     }

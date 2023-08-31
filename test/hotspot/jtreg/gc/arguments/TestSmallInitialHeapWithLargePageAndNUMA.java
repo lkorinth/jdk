@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestSmallInitialHeapWithLargePageAndNUMA
  * @bug 8023905
@@ -60,7 +63,7 @@ public class TestSmallInitialHeapWithLargePageAndNUMA {
     long initHeap = heapAlignment;
     long maxHeap = heapAlignment * 2;
 
-    ProcessBuilder pb_enabled = GCArguments.createJavaProcessBuilder(
+    ProcessBuilder pb_enabled = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:+UseParallelGC",
         "-Xms" + String.valueOf(initHeap),
         "-Xmx" + String.valueOf(maxHeap),

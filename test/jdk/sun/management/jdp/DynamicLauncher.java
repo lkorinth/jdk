@@ -24,6 +24,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 import java.util.UUID;
@@ -67,7 +68,7 @@ public abstract class DynamicLauncher {
 
     protected OutputAnalyzer runVM() throws Exception {
         String[] options = this.options();
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(options);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, options);
         OutputAnalyzer out = ProcessTools.executeProcess(pb);
         System.out.println(out.getStdout());
         System.err.println(out.getStderr());

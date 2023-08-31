@@ -24,6 +24,7 @@
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import java.nio.file.Paths;
@@ -64,7 +65,7 @@ public class CustomSecurityManagerTest {
 
     @Test(dataProvider = "testCases")
     public void testProvider(List<String> args) throws Throwable {
-        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
         OutputAnalyzer outputAnalyzer = ProcessTools.executeCommand(processBuilder);
         outputAnalyzer.shouldHaveExitValue(0);
     }

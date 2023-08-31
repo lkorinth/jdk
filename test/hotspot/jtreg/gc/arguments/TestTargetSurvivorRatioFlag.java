@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestTargetSurvivorRatioFlag
  * @summary Verify that option TargetSurvivorRatio affects survivor space occupancy after minor GC.
@@ -116,7 +119,7 @@ public class TestTargetSurvivorRatioFlag {
         vmOptions.add("-XX:TargetSurvivorRatio=" + ratio);
         vmOptions.add("-version");
 
-        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(vmOptions);
+        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOptions);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
 
         analyzer.shouldHaveExitValue(1);
@@ -151,7 +154,7 @@ public class TestTargetSurvivorRatioFlag {
                 Integer.toString(ratio)
         );
 
-        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(vmOptions);
+        ProcessBuilder procBuilder = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOptions);
         OutputAnalyzer analyzer = new OutputAnalyzer(procBuilder.start());
 
         analyzer.shouldHaveExitValue(0);

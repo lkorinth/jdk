@@ -40,6 +40,7 @@ import jdk.test.lib.Platform;
 import jdk.test.lib.classloader.GeneratingClassLoader;
 import jdk.test.lib.hprof.HprofParser;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import java.io.File;
@@ -73,7 +74,7 @@ public class TestHeapDumpOnOutOfMemoryError {
 
     static void test(String type) throws Exception {
         String heapdumpFilename = type + ".hprof";
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+HeapDumpOnOutOfMemoryError",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+HeapDumpOnOutOfMemoryError",
                 "-XX:HeapDumpPath=" + heapdumpFilename,
                 // Note: When trying to provoke a metaspace OOM we may generate a lot of classes. In debug VMs this
                 //  can cause considerable wait times since:

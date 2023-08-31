@@ -32,6 +32,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestSunBootLibraryPath {
     static String expectedErrorMessage = "The VM tried to use a path that exceeds the maximum path length for this system.";
@@ -46,7 +47,7 @@ public class TestSunBootLibraryPath {
             // Start a java process with this property set, and check that:
             // 1) The process failed and
             // 2) The error message was correct.
-            ProcessTools.executeTestJvm("-Dsun.boot.library.path=" + tooLongPath,
+            ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Dsun.boot.library.path=" + tooLongPath,
                                         "TestSunBootLibraryPath",
                                         "'Do-Nothing'")
                                         .shouldNotHaveExitValue(0)

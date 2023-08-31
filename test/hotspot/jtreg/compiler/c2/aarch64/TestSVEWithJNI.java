@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestSVEWithJNI {
@@ -79,7 +80,7 @@ public class TestSVEWithJNI {
         Collections.addAll(vmopts, "-Dtest.jdk=" + testjdkPath);
         Collections.addAll(vmopts, args);
         Collections.addAll(vmopts, TestSVEWithJNI.class.getName(), mode);
-        return ProcessTools.createJavaProcessBuilder(vmopts.toArray(new String[vmopts.size()]));
+        return ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, vmopts.toArray(new String[vmopts.size()]));
     }
 
     public static void main(String [] args) throws Exception {

@@ -32,6 +32,7 @@
 
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.io.FileInputStream;
@@ -55,7 +56,7 @@ public class LoaderLeakTest {
     }
 
     private void runJavaProcessExpectSuccessExitCode(String ... command) throws Throwable {
-        var processBuilder = ProcessTools.createJavaProcessBuilder(command)
+        var processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, command)
                                                       .directory(Paths.get(Utils.TEST_CLASSES).toFile());
         ProcessTools.executeCommand(processBuilder).shouldHaveExitValue(0);
     }

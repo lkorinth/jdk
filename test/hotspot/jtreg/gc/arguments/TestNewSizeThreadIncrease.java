@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestNewSizeThreadIncrease
  * @bug 8144527
@@ -65,7 +68,7 @@ public class TestNewSizeThreadIncrease {
   }
 
   static void runNewSizeThreadIncreaseTest(String expectedValue, boolean isNewsizeChanged) throws Exception {
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder("-XX:+UseSerialGC",
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UseSerialGC",
                                                              "-Xms96M",
                                                              "-Xmx128M",
                                                              "-XX:NewRatio=2",

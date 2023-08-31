@@ -36,6 +36,7 @@ package gc.g1;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestHumongousAllocConcurrentStart {
     // Heap sizes < 224 MB are increased to 224 MB if vm_page_size == 64K to
@@ -45,7 +46,7 @@ public class TestHumongousAllocConcurrentStart {
     private static final int initiatingHeapOccupancyPercent = 50;  // %
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UseG1GC",
             "-Xms" + heapSize + "m",
             "-Xmx" + heapSize + "m",

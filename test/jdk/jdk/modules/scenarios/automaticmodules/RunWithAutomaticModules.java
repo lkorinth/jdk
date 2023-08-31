@@ -113,7 +113,7 @@ public class RunWithAutomaticModules {
         // launch the test. Need --add-mdoules because nothing explicitly depends on logging
 
         int exitValue
-            = executeTestJava("--module-path", MODS_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                               "--add-modules", "logging",
                               "-m", testModule + "/" + mainClass)
                 .outputTo(System.out)
@@ -173,7 +173,7 @@ public class RunWithAutomaticModules {
         // launch the test
 
         int exitValue
-            = executeTestJava("--module-path", MODS_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS_DIR.toString(),
                               "-m", testModule + "/" + mainClass)
                 .outputTo(System.out)
                 .errorTo(System.out)

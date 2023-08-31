@@ -33,13 +33,14 @@
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class ProtectionDomainVerificationTest {
 
     public static void main(String... args) throws Exception {
 
         // -Xlog:protectiondomain=trace
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:protectiondomain=trace",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:protectiondomain=trace",
                                                                   "-Xmx128m",
                                                                   "-Djava.security.manager=allow",
                                                                   Hello.class.getName(), "security_manager");
@@ -49,7 +50,7 @@ public class ProtectionDomainVerificationTest {
         .shouldContain("[protectiondomain] adding protection domain for class");
 
         // -Xlog:protectiondomain=debug
-        pb = ProcessTools.createJavaProcessBuilder("-Xlog:protectiondomain=debug",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:protectiondomain=debug",
                                                                   "-Xmx128m",
                                                                   "-Djava.security.manager=allow",
                                                                   Hello.class.getName(), "security_manager");
@@ -59,7 +60,7 @@ public class ProtectionDomainVerificationTest {
         .shouldNotContain("[protectiondomain] adding protection domain for class");
 
         // -Xlog:protectiondomain=debug
-        pb = ProcessTools.createJavaProcessBuilder("-Xlog:protectiondomain=trace",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:protectiondomain=trace",
                                                    "-Xmx128m",
                                                    "-Djava.security.manager=disallow",
                                                    Hello.class.getName());

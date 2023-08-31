@@ -49,6 +49,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.vm.ci.hotspot.HotSpotJVMCIRuntime;
 import jdk.vm.ci.meta.MetaAccessProvider;
@@ -167,7 +168,7 @@ public class TestHotSpotJVMCIRuntime {
         }
         String[] names = {"translate", "attachCurrentThread", "registerNativeMethods"};
         for (String name : names) {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:+UnlockExperimentalVMOptions",
                 "-XX:+EnableJVMCI",
                 "-XX:-UseJVMCICompiler",

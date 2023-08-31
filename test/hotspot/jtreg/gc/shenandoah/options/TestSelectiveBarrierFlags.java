@@ -44,6 +44,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestSelectiveBarrierFlags {
@@ -91,7 +92,7 @@ public class TestSelectiveBarrierFlags {
 
             pool.submit(() -> {
                 try {
-                    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(conf.toArray(new String[0]));
+                    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, conf.toArray(new String[0]));
                     OutputAnalyzer output = new OutputAnalyzer(pb.start());
                     output.shouldHaveExitValue(0);
                 } catch (Exception e) {

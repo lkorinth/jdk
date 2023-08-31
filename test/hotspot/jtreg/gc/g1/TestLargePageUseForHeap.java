@@ -39,6 +39,7 @@ package gc.g1;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jtreg.SkippedException;
 import jdk.test.whitebox.WhiteBox;
 
@@ -87,7 +88,7 @@ public class TestLargePageUseForHeap {
     static void testVM(long regionSize) throws Exception {
         ProcessBuilder pb;
         // Test with large page enabled.
-        pb = ProcessTools.createJavaProcessBuilder("-XX:+UseG1GC",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UseG1GC",
                                                    "-XX:G1HeapRegionSize=" + regionSize,
                                                    "-Xmx128m",
                                                    "-Xlog:gc+init,pagesize,gc+heap+coops=debug",
@@ -100,7 +101,7 @@ public class TestLargePageUseForHeap {
         output.shouldHaveExitValue(0);
 
         // Test with large page disabled.
-        pb = ProcessTools.createJavaProcessBuilder("-XX:+UseG1GC",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+UseG1GC",
                                                    "-XX:G1HeapRegionSize=" + regionSize,
                                                    "-Xmx128m",
                                                    "-Xlog:gc+init,pagesize,gc+heap+coops=debug",

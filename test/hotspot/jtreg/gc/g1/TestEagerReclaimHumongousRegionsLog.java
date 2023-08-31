@@ -42,6 +42,7 @@ import jdk.test.lib.Asserts;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestEagerReclaimHumongousRegionsLog {
 
@@ -54,7 +55,7 @@ public class TestEagerReclaimHumongousRegionsLog {
     }
 
     public static void runTest() throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xbootclasspath/a:.",
             "-XX:+UnlockExperimentalVMOptions",
             "-XX:+UnlockDiagnosticVMOptions",

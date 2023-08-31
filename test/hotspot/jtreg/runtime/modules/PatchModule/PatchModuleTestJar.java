@@ -35,6 +35,7 @@
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class PatchModuleTestJar {
@@ -76,7 +77,7 @@ public class PatchModuleTestJar {
              System.getProperty("test.classes"));
 
         // Supply --patch-module with the name of the jar file for the module java.naming.
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("--patch-module=java.naming=" + moduleJar,
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "--patch-module=java.naming=" + moduleJar,
              "PatchModuleMain", "javax.naming.spi.NamingManager");
 
         new OutputAnalyzer(pb.start())

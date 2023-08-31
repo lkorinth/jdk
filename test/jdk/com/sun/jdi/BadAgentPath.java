@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /* @test
  * @bug 8147456
@@ -38,7 +39,7 @@ import jdk.test.lib.process.ProcessTools;
 public class BadAgentPath {
 
     public static void main(String[] args) throws Throwable {
-        OutputAnalyzer output = ProcessTools.executeTestJvm("-agentpath:/badAgent/agent", "-version");
+        OutputAnalyzer output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-agentpath:/badAgent/agent", "-version");
         output.shouldContain("Could not find agent library /badAgent/agent");
     }
 }

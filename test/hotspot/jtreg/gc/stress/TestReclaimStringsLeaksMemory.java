@@ -45,6 +45,7 @@ import java.util.regex.Matcher;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestReclaimStringsLeaksMemory {
 
@@ -61,7 +62,7 @@ public class TestReclaimStringsLeaksMemory {
                                                                    "-XX:+PrintNMTStatistics" ));
         baseargs.addAll(Arrays.asList(args));
         baseargs.add(GCTest.class.getName());
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(baseargs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, baseargs);
         verifySymbolMemoryUsageNotTooHigh(new OutputAnalyzer(pb.start()));
     }
 

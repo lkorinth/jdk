@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -52,7 +53,7 @@ public class NestedThreadsListHandleInErrorHandlingTest {
     // Need to disable ShowRegistersOnAssert: that flag causes registers to be shown, which calls os::print_location,
     // which - as part of its checks - will iterate the threads list under a ThreadListHandle, changing the max nesting
     // counters and confusing this test.
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         "-XX:+UnlockDiagnosticVMOptions",
         "-XX:+EnableThreadSMRStatistics",
         "-Xmx100M",

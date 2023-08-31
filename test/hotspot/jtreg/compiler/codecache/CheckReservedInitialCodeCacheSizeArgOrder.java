@@ -36,14 +36,15 @@ package compiler.codecache;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class CheckReservedInitialCodeCacheSizeArgOrder {
     public static void main(String[] args) throws Exception {
         ProcessBuilder pb1,  pb2;
         OutputAnalyzer out1, out2;
 
-        pb1 = ProcessTools.createJavaProcessBuilder("-XX:InitialCodeCacheSize=4m", "-XX:ReservedCodeCacheSize=8m", "-version");
-        pb2 = ProcessTools.createJavaProcessBuilder("-XX:ReservedCodeCacheSize=8m", "-XX:InitialCodeCacheSize=4m", "-version");
+        pb1 = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:InitialCodeCacheSize=4m", "-XX:ReservedCodeCacheSize=8m", "-version");
+        pb2 = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:ReservedCodeCacheSize=8m", "-XX:InitialCodeCacheSize=4m", "-version");
 
         out1 = new OutputAnalyzer(pb1.start());
         out2 = new OutputAnalyzer(pb2.start());

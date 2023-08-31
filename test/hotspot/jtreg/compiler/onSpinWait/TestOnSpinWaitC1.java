@@ -39,13 +39,14 @@ package compiler.onSpinWait;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestOnSpinWaitC1 {
 
     public static void main(String[] args) throws Exception {
 
         // Test C1 compiler
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
           "-XX:+IgnoreUnrecognizedVMOptions", "-showversion",
           "-XX:+TieredCompilation", "-XX:TieredStopAtLevel=1", "-Xbatch",
           "-XX:+PrintCompilation", "-XX:+UnlockDiagnosticVMOptions",

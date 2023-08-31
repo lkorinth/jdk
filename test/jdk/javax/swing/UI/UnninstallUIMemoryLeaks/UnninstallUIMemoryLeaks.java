@@ -70,6 +70,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import static javax.swing.UIManager.getInstalledLookAndFeels;
 
@@ -224,7 +225,7 @@ public final class UnninstallUIMemoryLeaks {
     }
 
     private static Process runProcess(LookAndFeelInfo laf) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Dswing.defaultlaf=" + laf.getClassName(), "-mx9m",
                 "-XX:+HeapDumpOnOutOfMemoryError",
                 UnninstallUIMemoryLeaks.class.getSimpleName(), "mark");

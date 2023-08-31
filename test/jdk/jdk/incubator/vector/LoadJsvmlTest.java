@@ -34,6 +34,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 import jdk.incubator.vector.FloatVector;
@@ -60,7 +61,7 @@ public class LoadJsvmlTest {
     }
 
     public static void main(String... args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xmn8m", "-Xlog:library=info",
             "--add-modules=jdk.incubator.vector",
             VectorTest.class.getName());

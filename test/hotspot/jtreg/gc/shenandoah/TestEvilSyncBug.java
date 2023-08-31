@@ -37,6 +37,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestEvilSyncBug {
@@ -56,7 +57,7 @@ public class TestEvilSyncBug {
 
             for (int c = 0; c < NUM_RUNS; c++) {
                 Callable<Void> task = () -> {
-                    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xms128m",
+                    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xms128m",
                             "-Xmx128m",
                             "-XX:+UnlockExperimentalVMOptions",
                             "-XX:+UnlockDiagnosticVMOptions",

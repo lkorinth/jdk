@@ -38,6 +38,7 @@ import jdk.jfr.Event;
 import jdk.jfr.Name;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class Application {
     @Name("Message")
@@ -102,7 +103,7 @@ public class Application {
         args[2] = Application.class.getName();
         args[3] = lockFile.toString();
         args[4] = message;
-        ProcessBuilder pb = ProcessTools.createTestJvm(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, args);
         touch(lockFile);
         process = pb.start();
         // For debugging

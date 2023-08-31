@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.File;
 import java.io.FilePermission;
@@ -81,7 +82,7 @@ public class MergeName {
         }
         content.add("};");
         Files.write(Paths.get(file), content);
-        ProcessTools.executeTestJvm("-Djava.security.manager",
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djava.security.manager",
                 "-Djava.security.policy=" + file,
                 "MergeName",
                 "x",

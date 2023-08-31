@@ -24,6 +24,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
@@ -101,14 +102,14 @@ public class DoPrivAccompliceTest {
 
         createPolicyFile(jarFile1, policy);
         System.out.println("Created policy for " + jarFile1);
-        ProcessTools.executeTestJava(commands)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, commands)
                     .shouldHaveExitValue(0)
                     .shouldContain(userName)
                     .stderrShouldBeEmptyIgnoreWarnings();
 
         createPolicyFile(jarFile2, policy);
         System.out.println("Created policy for " + jarFile2);
-        ProcessTools.executeTestJava(commands)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, commands)
                     .shouldNotHaveExitValue(0)
                     .shouldNotContain(userName)
                     .stderrShouldContain("java.security.AccessControlException");

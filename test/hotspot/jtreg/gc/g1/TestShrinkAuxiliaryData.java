@@ -27,6 +27,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jtreg.SkippedException;
 
@@ -88,7 +89,7 @@ public class TestShrinkAuxiliaryData {
     }
 
     private void performTest(List<String> opts) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(opts);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, opts);
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         System.out.println(output.getStdout());

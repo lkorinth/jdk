@@ -29,6 +29,7 @@ import java.util.List;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -73,7 +74,7 @@ public class TestStartupMessage {
         List<String> commands = new ArrayList<>(Arrays.asList(args));
         commands.add("-XX:StartFlightRecording");
         commands.add(TestMessage.class.getName());
-        ProcessBuilder pb = ProcessTools.createTestJvm(commands);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, commands);
         OutputAnalyzer out = ProcessTools.executeProcess(pb);
         out.shouldHaveExitValue(0);
         return out;

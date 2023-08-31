@@ -35,13 +35,14 @@ package compiler.codecache;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class CheckUpperLimit {
     public static void main(String[] args) throws Exception {
         ProcessBuilder pb;
         OutputAnalyzer out;
 
-        pb = ProcessTools.createJavaProcessBuilder("-XX:ReservedCodeCacheSize=2049m", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:ReservedCodeCacheSize=2049m", "-version");
         out = new OutputAnalyzer(pb.start());
         out.shouldContain("Invalid ReservedCodeCacheSize=");
         out.shouldHaveExitValue(1);

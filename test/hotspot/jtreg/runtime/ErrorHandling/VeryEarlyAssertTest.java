@@ -43,13 +43,14 @@ import java.util.Map;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class VeryEarlyAssertTest {
 
   public static void main(String[] args) throws Exception {
 
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-version");
     Map<String, String> env = pb.environment();
     env.put("HOTSPOT_FATAL_ERROR_DURING_DYNAMIC_INITIALIZATION", "1");

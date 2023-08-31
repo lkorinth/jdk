@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 import java.io.BufferedReader;
@@ -188,7 +189,7 @@ public class RmiRegistrySslTest {
             command.add(TEST_CLASS_PATH);
             command.add(className);
 
-            ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(command.toArray(new String[command.size()]));
+            ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, command.toArray(new String[command.size()]));
 
             OutputAnalyzer output = ProcessTools.executeProcess(processBuilder);
 

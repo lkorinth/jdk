@@ -31,6 +31,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class CheckUserPrefsStorage {
 
@@ -42,7 +43,7 @@ public class CheckUserPrefsStorage {
     }
 
     public static void run(String testName) throws Exception {
-        ProcessTools.executeTestJvm("-Djava.util.prefs.userRoot=.", testName)
+        ProcessTools.executeJavaProcess(PrependTestJavaOpts, "-Djava.util.prefs.userRoot=.", testName)
                     .outputTo(System.out)
                     .errorTo(System.out)
                     .shouldHaveExitValue(0);

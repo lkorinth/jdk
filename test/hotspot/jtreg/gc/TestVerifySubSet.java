@@ -36,6 +36,7 @@ package gc;
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +60,7 @@ public class TestVerifySubSet {
                                                  "-Xlog:gc+verify=debug",
                                                  "-XX:VerifySubSet="+subset,
                                                  TestVerifySubSetRunSystemGC.class.getName()});
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(vmOpts);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, vmOpts);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
         System.out.println("Output:\n" + output.getOutput());

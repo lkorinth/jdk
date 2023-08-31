@@ -35,6 +35,7 @@
 
 import java.io.File;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class LoadClassNegative {
@@ -42,7 +43,7 @@ public class LoadClassNegative {
   public static void main(String args[]) throws Exception {
     String bootCP = "-Xbootclasspath/a:" + System.getProperty("test.src")
                        + File.separator + "dummy.jar";
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
         bootCP,
         "TestForName");
 

@@ -87,7 +87,7 @@ public class AddModsTest {
 
         // java --add-modules ALL-DEFAULT --module-path mods1 -m test ...
         int exitValue
-            = executeTestJava("--module-path", MODS1_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS1_DIR.toString(),
                               "--add-modules", "ALL-DEFAULT",
                               "-m", TEST_MID,
                               "java.sql.Connection")
@@ -109,7 +109,7 @@ public class AddModsTest {
         String classpath = MODS1_DIR.resolve(TEST_MODULE).toString();
         String modulepath = MODS2_DIR.toString();
         int exitValue
-            = executeTestJava("--module-path", modulepath,
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", modulepath,
                               "--add-modules", LOGGER_MODULE,
                               "-cp", classpath,
                               TEST_MAIN_CLASS,
@@ -132,7 +132,7 @@ public class AddModsTest {
          String classpath = MODS1_DIR.resolve(TEST_MODULE).toString();
          String modulepath = MODS1_DIR.toString();
          int exitValue
-             = executeTestJava("--module-path", modulepath,
+             = executeJavaProcess(PrependTestJavaOpts, "--module-path", modulepath,
                                "-cp", classpath,
                                TEST_MAIN_CLASS,
                                "logger.Logger")
@@ -155,7 +155,7 @@ public class AddModsTest {
         String classpath = MODS1_DIR.resolve(TEST_MODULE).toString();
         String modulepath = MODS1_DIR.toString();
         int exitValue
-            = executeTestJava("--module-path", modulepath,
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", modulepath,
                               "--add-modules", "ALL-MODULE-PATH",
                               "-cp", classpath,
                               TEST_MAIN_CLASS)
@@ -174,7 +174,7 @@ public class AddModsTest {
 
         // java --add-modules ALL-MODULE-PATH -version
         int exitValue
-            = executeTestJava("--add-modules", "ALL-MODULE-PATH",
+            = executeJavaProcess(PrependTestJavaOpts, "--add-modules", "ALL-MODULE-PATH",
                               "-version")
                 .outputTo(System.out)
                 .errorTo(System.out)
@@ -192,7 +192,7 @@ public class AddModsTest {
         String modulepath = MODS1_DIR.toString() + File.pathSeparator +
                                 MODS2_DIR.toString();
         int exitValue
-            = executeTestJava("--module-path", modulepath,
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", modulepath,
             "--add-modules", LOGGER_MODULE,
             "--add-modules", TEST_MODULE,
             "-m", TEST_MID,
@@ -212,7 +212,7 @@ public class AddModsTest {
 
         // java --module-path mods --add-modules DoesNotExist -m test ...
         int exitValue
-            = executeTestJava("--module-path", MODS1_DIR.toString(),
+            = executeJavaProcess(PrependTestJavaOpts, "--module-path", MODS1_DIR.toString(),
                               "--add-modules", "DoesNotExist",
                               "-m", TEST_MID)
                 .outputTo(System.out)

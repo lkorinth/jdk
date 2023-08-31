@@ -42,6 +42,7 @@ import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 import java.lang.instrument.IllegalClassFormatException;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
@@ -105,7 +106,7 @@ public class RedefineLeak {
         }
         if (argv.length == 1 && argv[0].equals("runtest")) {
             // run outside of jtreg to not OOM on jtreg classes that are loaded after metaspace is full
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-XX:MetaspaceSize=12m",
                     "-XX:MaxMetaspaceSize=12m",
                     "-javaagent:redefineagent.jar",

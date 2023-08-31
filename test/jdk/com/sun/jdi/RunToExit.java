@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 
 import jdk.test.lib.JDWP;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class RunToExit {
 
@@ -79,7 +80,7 @@ public class RunToExit {
         };
         args = VMConnection.insertDebuggeeVMOptions(args);
 
-        ProcessBuilder launcher = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder launcher = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
 
         System.out.println(launcher.command().stream().collect(Collectors.joining(" ", "Starting: ", "")));
 

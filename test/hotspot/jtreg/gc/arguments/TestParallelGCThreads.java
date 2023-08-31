@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestParallelGCThreads
  * @bug 8059527 8081382
@@ -56,7 +59,7 @@ public class TestParallelGCThreads {
   private static final String printFlagsFinalPattern = " *uint *" + flagName + " *:?= *(\\d+) *\\{product\\} *";
 
   public static void testDefaultValue()  throws Exception {
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "-XX:+UnlockExperimentalVMOptions", "-XX:+PrintFlagsFinal", "-version");
 
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
@@ -94,7 +97,7 @@ public class TestParallelGCThreads {
 
     for (String gc : supportedGC) {
       // Make sure the VM does not allow ParallelGCThreads set to 0
-      ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+      ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
           "-XX:+Use" + gc + "GC",
           "-XX:ParallelGCThreads=0",
           "-XX:+PrintFlagsFinal",
@@ -124,7 +127,7 @@ public class TestParallelGCThreads {
   }
 
   public static long getParallelGCThreadCount(String... flags) throws Exception {
-    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(flags);
+    ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, flags);
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     output.shouldHaveExitValue(0);
     String stdout = output.getStdout();

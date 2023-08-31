@@ -28,6 +28,7 @@ import java.util.Arrays;
 
 import jdk.test.lib.thread.ProcessThread;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 /*
@@ -53,7 +54,7 @@ public class RunnerUtil {
             "-Dattach.test=true", "-classpath", classpath, "Application"
         });
         String[] args = Utils.addTestJavaOpts(myArgs);
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
         ProcessThread pt = new ProcessThread("runApplication", (line) -> line.equals(Application.READY_MSG), pb);
         pt.start();
         return pt;

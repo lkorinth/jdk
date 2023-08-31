@@ -33,12 +33,13 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 
 public class VMOptionWarning {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+AlwaysSafeConstructors", "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+AlwaysSafeConstructors", "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldNotHaveExitValue(0);
         output.shouldContain("Error: VM option 'AlwaysSafeConstructors' is experimental and must be enabled via -XX:+UnlockExperimentalVMOptions.");
@@ -48,17 +49,17 @@ public class VMOptionWarning {
             return;
         }
 
-        pb = ProcessTools.createJavaProcessBuilder("-XX:+PrintInlining", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+PrintInlining", "-version");
         output = new OutputAnalyzer(pb.start());
         output.shouldNotHaveExitValue(0);
         output.shouldContain("Error: VM option 'PrintInlining' is diagnostic and must be enabled via -XX:+UnlockDiagnosticVMOptions.");
 
-        pb = ProcessTools.createJavaProcessBuilder("-XX:+VerifyStack", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+VerifyStack", "-version");
         output = new OutputAnalyzer(pb.start());
         output.shouldNotHaveExitValue(0);
         output.shouldContain("Error: VM option 'VerifyStack' is develop and is available only in debug version of VM.");
 
-        pb = ProcessTools.createJavaProcessBuilder("-XX:+CheckCompressedOops", "-version");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+CheckCompressedOops", "-version");
         output = new OutputAnalyzer(pb.start());
         output.shouldNotHaveExitValue(0);
         output.shouldContain("Error: VM option 'CheckCompressedOops' is notproduct and is available only in debug version of VM.");

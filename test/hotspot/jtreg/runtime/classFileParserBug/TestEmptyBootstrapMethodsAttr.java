@@ -35,6 +35,7 @@
 
 import java.io.File;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestEmptyBootstrapMethodsAttr {
@@ -50,7 +51,7 @@ public class TestEmptyBootstrapMethodsAttr {
         // ======= execute test case #1
         // Expect a lack of main method, this implies that the class loaded correctly
         // with an empty bootstrap_methods and did not generate a ClassFormatError.
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Duser.language=en", "-Duser.country=US", className);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldNotContain("java.lang.ClassFormatError");
@@ -65,7 +66,7 @@ public class TestEmptyBootstrapMethodsAttr {
         // ======= execute test case #2
         // Expect a lack of main method, this implies that the class loaded correctly
         // with an empty bootstrap_methods and did not generate ClassFormatError.
-        pb = ProcessTools.createJavaProcessBuilder(
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Duser.language=en", "-Duser.country=US", className);
         output = new OutputAnalyzer(pb.start());
         output.shouldNotContain("java.lang.ClassFormatError");

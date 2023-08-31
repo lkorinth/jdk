@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.JarUtils;
 
 public class TestExemption {
@@ -59,7 +60,7 @@ public class TestExemption {
                     Path.of(JAR_FILE), Path.of(CLASSES), Path.of(SRC_CLS));
             JarUtils.updateJarFile(
                     Path.of(JAR_FILE), Path.of(SRC), Path.of(CRYPT_PERM));
-            OutputAnalyzer oa = ProcessTools.executeTestJava(
+            OutputAnalyzer oa = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                     getParameters().toArray(String[]::new));
             System.out.println(oa.getOutput());
             oa.shouldHaveExitValue(0);

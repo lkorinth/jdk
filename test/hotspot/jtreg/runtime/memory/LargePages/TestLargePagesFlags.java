@@ -35,6 +35,7 @@
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -332,7 +333,7 @@ public class TestLargePagesFlags {
     args.add("-XX:+PrintFlagsFinal");
     args.add("-version");
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     output.shouldHaveExitValue(0);
 

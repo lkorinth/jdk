@@ -24,6 +24,7 @@
 package gc;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 /*
@@ -42,7 +43,7 @@ public class TestCardTablePageCommits {
         // because of 8kB pages, assume 4 KB pages for all other CPUs.
         String Xmx = "-Xmx4m";
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             Xmx,
             "-XX:NativeMemoryTracking=detail",
             "-XX:+UseParallelGC",

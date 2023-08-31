@@ -31,6 +31,7 @@
 
 import java.util.Arrays;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Utils;
 import jtreg.SkippedException;
@@ -45,10 +46,10 @@ public class TestCheckedReleaseArrayElements {
         if (args == null || args.length == 0) {
             test();
         } else {
-            // Uses executeProcess() instead of executeTestJvm() to avoid passing options
+            // Uses executeProcess() instead of executeJavaProcess(PrependTestJavaOpts, ) to avoid passing options
             // that might generate output on stderr (which should be empty for this test).
             ProcessBuilder pb =
-                ProcessTools.createJavaProcessBuilder("-Xcheck:jni",
+                ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xcheck:jni",
                                                       "-Djava.library.path=" + Utils.TEST_NATIVE_PATH,
                                                       "TestCheckedReleaseArrayElements");
             OutputAnalyzer output = ProcessTools.executeProcess(pb);

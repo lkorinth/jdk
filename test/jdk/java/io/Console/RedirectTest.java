@@ -25,6 +25,7 @@ import java.io.File;
 import java.nio.file.Files;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -40,7 +41,7 @@ public class RedirectTest {
     public static void main(String... args) throws Throwable {
         if (args.length == 0) {
             // no arg will launch the child process that actually perform tests
-            var pb = ProcessTools.createTestJvm(
+            var pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     "-D" + SYSPROP + "=" + System.getProperty(SYSPROP, ""),
                     "RedirectTest", "dummy");
             var input = new File(System.getProperty("test.src", "."), "input.txt");

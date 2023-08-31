@@ -30,6 +30,7 @@ import jdk.test.lib.cds.CDSOptions;
 import jdk.test.lib.cds.CDSTestUtils;
 import jdk.test.lib.cds.CDSTestUtils.Result;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.io.File;
 import java.io.FileInputStream;
@@ -300,7 +301,7 @@ public class TestCommon extends CDSTestUtils {
             }
         }
 
-        ProcessBuilder pb = ProcessTools.createTestJvm(cmd);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmd);
         if (opts.appJarDir != null) {
             pb.directory(new File(opts.appJarDir));
         }
@@ -447,7 +448,7 @@ public class TestCommon extends CDSTestUtils {
             }
         }
 
-        ProcessBuilder pb = ProcessTools.createTestJvm(cmd);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmd);
         if (opts.appJarDir != null) {
             pb.directory(new File(opts.appJarDir));
         }

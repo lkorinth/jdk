@@ -36,6 +36,7 @@ package compiler.jsr292;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 import java.lang.invoke.CallSite;
@@ -61,7 +62,7 @@ public class ContinuousCallSiteTargetChange {
         argsList.add(test.getName());
         argsList.add(Integer.toString(ITERATIONS));
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(argsList);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, argsList);
 
         OutputAnalyzer analyzer = new OutputAnalyzer(pb.start());
 

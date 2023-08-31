@@ -36,6 +36,7 @@ import jdk.test.lib.jfr.EventNames;
 import jdk.test.lib.jfr.Events;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -48,7 +49,7 @@ public class TestInitialEnvironmentVariable {
     private final static String EVENT_NAME = EventNames.InitialEnvironmentVariable;
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(Test.class.getName());
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, Test.class.getName());
         setEnv(pb.environment());
         (new OutputAnalyzer(pb.start())).shouldHaveExitValue(0);
     }

@@ -35,6 +35,7 @@
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class ModuleStressGC {
@@ -72,7 +73,7 @@ public class ModuleStressGC {
         // Check that jdk.test/test.MainGC walks module jdk.test's
         // reads list and walks the exports list for package test,
         // defined in module jdk.test, during a GC.
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xmx128m",
             "-Xlog:module=trace",
             "-p", MODS_DIR.toString(),

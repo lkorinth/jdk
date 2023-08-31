@@ -36,6 +36,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.*;
 import java.util.regex.Pattern;
@@ -96,7 +97,7 @@ public class ErrorFileOverwriteTest {
 
     System.out.println("First crash...");
 
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xmx64M",
             "-XX:-CreateCoredumpOnCrash",
             "-XX:ErrorHandlerTest=1",
@@ -122,7 +123,7 @@ public class ErrorFileOverwriteTest {
 
     System.out.println("Second crash...");
 
-    pb = ProcessTools.createJavaProcessBuilder(
+    pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-Xmx64M",
             "-XX:-CreateCoredumpOnCrash",
             "-XX:ErrorHandlerTest=2", // << now 2

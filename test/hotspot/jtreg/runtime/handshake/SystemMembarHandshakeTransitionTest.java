@@ -25,6 +25,7 @@
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +55,7 @@ public class SystemMembarHandshakeTransitionTest {
         commands.add("-XX:+UseSystemMemoryBarrier");
         commands.addAll(Arrays.asList(args));
         commands.add("HandshakeTransitionTest$Test");
-        ProcessBuilder pb = ProcessTools.createTestJvm(commands);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, commands);
 
         OutputAnalyzer output = ProcessTools.executeProcess(pb);
         output.reportDiagnosticSummary();

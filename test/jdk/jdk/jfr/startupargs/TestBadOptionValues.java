@@ -26,6 +26,7 @@ package jdk.jfr.startupargs;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 /**
@@ -54,7 +55,7 @@ public class TestBadOptionValues {
         Asserts.assertGreaterThan(options.length, 0);
 
         for (String option : options) {
-            pb = ProcessTools.createJavaProcessBuilder(prepend + option, "-version");
+            pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, prepend + option, "-version");
             output = new OutputAnalyzer(pb.start());
             output.shouldContain(expectedOutput);
         }

@@ -36,6 +36,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class FreeTypeScalerJNICheck {
@@ -43,7 +44,7 @@ public class FreeTypeScalerJNICheck {
         if (args.length > 0 && args[0].equals("runtest")) {
             runTest();
         } else {
-            ProcessBuilder pb = ProcessTools.createTestJvm("-Xcheck:jni", FreeTypeScalerJNICheck.class.getName(), "runtest");
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-Xcheck:jni", FreeTypeScalerJNICheck.class.getName(), "runtest");
             OutputAnalyzer oa = ProcessTools.executeProcess(pb);
             oa.shouldContain("Done").shouldNotContain("WARNING").shouldHaveExitValue(0);
         }

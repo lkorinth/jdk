@@ -23,6 +23,9 @@
 
 package gc.arguments;
 
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
+
+
 /*
  * @test TestAggressiveHeap
  * @bug 8179084
@@ -65,7 +68,7 @@ public class TestAggressiveHeap {
         " *bool +UseParallelGC *= *true +\\{product\\} *\\{command line\\}";
 
     private static void testFlag() throws Exception {
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(
+        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             option, heapSizeOption, "-XX:+PrintFlagsFinal", "-version");
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());

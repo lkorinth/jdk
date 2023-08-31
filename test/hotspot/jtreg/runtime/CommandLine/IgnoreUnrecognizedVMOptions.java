@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.Platform;
 
@@ -38,7 +39,7 @@ import jdk.test.lib.Platform;
 public class IgnoreUnrecognizedVMOptions {
 
   private static void runJavaAndCheckExitValue(boolean shouldSucceed, String... args) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
     OutputAnalyzer output = new OutputAnalyzer(pb.start());
     if (shouldSucceed) {
       output.shouldHaveExitValue(0);

@@ -31,11 +31,12 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestEventWriterLog {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:jfr+system+bytecode=trace", "-XX:StartFlightRecording", "-version");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:jfr+system+bytecode=trace", "-XX:StartFlightRecording", "-version");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain("extends jdk/jfr/events/AbstractJDKEvent");
     }

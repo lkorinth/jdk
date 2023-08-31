@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 /*
@@ -42,12 +43,12 @@ public class TestTableSwitch {
                 LookupSwitchp1.runLookup();
             }
         } else {
-           ProcessBuilder pb = ProcessTools.createTestJvm("TestTableSwitch", "runTable");
+           ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "TestTableSwitch", "runTable");
            OutputAnalyzer output = new OutputAnalyzer(pb.start());
            output.shouldContain("java.lang.VerifyError: Bad instruction");
            output.shouldHaveExitValue(1);
 
-           pb = ProcessTools.createTestJvm("TestTableSwitch", "runLookup");
+           pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "TestTableSwitch", "runLookup");
            output = new OutputAnalyzer(pb.start());
            output.shouldContain("java.lang.VerifyError: Bad instruction");
            output.shouldHaveExitValue(1);

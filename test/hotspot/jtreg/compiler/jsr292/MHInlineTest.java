@@ -37,6 +37,7 @@ package compiler.jsr292;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jtreg.SkippedException;
 
 import java.lang.invoke.MethodHandle;
@@ -47,7 +48,7 @@ import static jdk.test.lib.Asserts.assertEquals;
 
 public class MHInlineTest {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:+IgnoreUnrecognizedVMOptions", "-showversion",
                 "-XX:-TieredCompilation", "-Xbatch",
                 "-XX:+PrintCompilation", "-XX:+UnlockDiagnosticVMOptions", "-XX:+PrintInlining",

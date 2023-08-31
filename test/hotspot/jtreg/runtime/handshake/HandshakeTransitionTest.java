@@ -24,6 +24,7 @@
 
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +53,7 @@ public class HandshakeTransitionTest {
         commands.add("-XX:CICompilerCount=2");
         commands.addAll(Arrays.asList(args));
         commands.add("HandshakeTransitionTest$Test");
-        ProcessBuilder pb = ProcessTools.createTestJvm(commands);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, commands);
 
         OutputAnalyzer output = ProcessTools.executeProcess(pb);
         output.reportDiagnosticSummary();

@@ -47,6 +47,7 @@ import java.util.Map;
 import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import vm.share.ProcessUtils;
 
@@ -67,7 +68,7 @@ public class TestBreakSignalThreadDump {
 
     public static void main(String[] argv) throws Exception {
         String main = "TestBreakSignalThreadDump$TestProcess";
-        ProcessBuilder pb = ProcessTools.createTestJvm("-Djava.library.path=" + Utils.TEST_NATIVE_PATH, main);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "-Djava.library.path=" + Utils.TEST_NATIVE_PATH, main);
 
         if (argv.length > 0 && argv[0].equals("load_libjsig")) {
             prepend_jsig_lib(pb.environment());

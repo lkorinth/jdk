@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import jdk.jfr.internal.Options;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.internal.misc.Unsafe;
 
 /**
@@ -483,7 +484,7 @@ public class TestMemoryOptions {
             final String flightRecorderOptions = tc.getTestString();
             ProcessBuilder pb;
             if (flightRecorderOptions != null) {
-                pb = ProcessTools.createTestJvm("--add-exports=jdk.jfr/jdk.jfr.internal=ALL-UNNAMED",
+                pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "--add-exports=jdk.jfr/jdk.jfr.internal=ALL-UNNAMED",
                                                 "--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED",
                                                 flightRecorderOptions,
                                                 "-XX:StartFlightRecording",
@@ -491,7 +492,7 @@ public class TestMemoryOptions {
                                                 tc.getTestName());
             } else {
                 // default, no FlightRecorderOptions passed
-                pb = ProcessTools.createTestJvm("--add-exports=jdk.jfr/jdk.jfr.internal=ALL-UNNAMED",
+                pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, "--add-exports=jdk.jfr/jdk.jfr.internal=ALL-UNNAMED",
                                                 "--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED",
                                                 "-XX:StartFlightRecording",
                                                 SUT.class.getName(),

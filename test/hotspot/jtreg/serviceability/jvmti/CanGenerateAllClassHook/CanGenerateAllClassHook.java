@@ -38,6 +38,7 @@
 import jdk.test.lib.cds.CDSTestUtils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -125,7 +126,7 @@ public class CanGenerateAllClassHook {
     }
 
     private static OutputAnalyzer execJava(String... args) throws IOException {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(args);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, args);
 
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 

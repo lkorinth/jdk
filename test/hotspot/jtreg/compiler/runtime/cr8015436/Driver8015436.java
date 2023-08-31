@@ -25,12 +25,13 @@ package compiler.runtime.cr8015436;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class Driver8015436 {
     public static void main(String args[]) {
         OutputAnalyzer oa;
         try {
-            oa = ProcessTools.executeProcess(ProcessTools.createTestJvm(
+            oa = ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                     Test8015436.class.getName()));
         } catch (Exception ex) {
             throw new Error("TESTBUG: exception while running child process: " + ex, ex);

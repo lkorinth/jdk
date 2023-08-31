@@ -35,10 +35,11 @@
 import java.io.InputStream;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestBadPackageWithInterface {
     public static void main(String args[]) throws Throwable {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-cp", System.getProperty("test.classes"),
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:+VerifyBeforeExit", MyLoader.class.getName());

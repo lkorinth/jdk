@@ -49,6 +49,7 @@ import com.sun.management.ThreadMXBean;
 
 import jdk.test.lib.Asserts;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestStressG1Uncommit {
@@ -59,7 +60,7 @@ public class TestStressG1Uncommit {
             "-XX:+UseG1GC",
             StressUncommit.class.getName()
         );
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(options);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, options);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
         output.shouldMatch("Uncommit regions");

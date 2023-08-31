@@ -29,6 +29,7 @@ import jdk.test.lib.Platform;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.util.CoreUtils;
 
 import java.io.BufferedReader;
@@ -105,9 +106,9 @@ public abstract class CiReplayBase {
 
     static {
         try {
-            CLIENT_VM_AVAILABLE = ProcessTools.executeTestJvm(CLIENT_VM_OPTION, VERSION_OPTION)
+            CLIENT_VM_AVAILABLE = ProcessTools.executeJavaProcess(PrependTestJavaOpts, CLIENT_VM_OPTION, VERSION_OPTION)
                     .getOutput().contains("Client");
-            SERVER_VM_AVAILABLE = ProcessTools.executeTestJvm(SERVER_VM_OPTION, VERSION_OPTION)
+            SERVER_VM_AVAILABLE = ProcessTools.executeJavaProcess(PrependTestJavaOpts, SERVER_VM_OPTION, VERSION_OPTION)
                     .getOutput().contains("Server");
         } catch(Throwable t) {
             throw new Error("Initialization failed: " + t, t);
@@ -177,11 +178,11 @@ public abstract class CiReplayBase {
                 options.add("'" + getTestClass() + "'");
                 crashOut = ProcessTools.executeProcess(
                         CoreUtils.addCoreUlimitCommand(
-                                ProcessTools.createTestJvm(options.toArray(new String[0]))));
+                                ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, options.toArray(new String[0]))));
             } else {
                 options.add("-XX:CompileOnly=" + getTestClass() + "::" + getTestMethod());
                 options.add(getTestClass());
-                crashOut = ProcessTools.executeProcess(ProcessTools.createTestJvm(options));
+                crashOut = ProcessTools.executeProcess(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, options));
             }
             crashOutputString = crashOut.getOutput();
             Asserts.assertNotEquals(crashOut.getExitValue(), 0, "Crash JVM exits gracefully");
@@ -288,7 +289,7 @@ public abstract class CiReplayBase {
 
     private String[] getTestJvmCommandlineWithPrefix(String prefix, String... args) {
         try {
-            String cmd = ProcessTools.getCommandLine(ProcessTools.createTestJvm(args));
+            String cmd = ProcessTools.getCommandLine(ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, args));
             return new String[]{"sh", "-c", prefix
                 + (Platform.isWindows() ? cmd.replace('\\', '/').replace(";", "\\;").replace("|", "\\|") : cmd)};
         } catch(Throwable t) {

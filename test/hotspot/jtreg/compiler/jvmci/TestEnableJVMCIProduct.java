@@ -32,6 +32,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class TestEnableJVMCIProduct {
@@ -84,7 +85,7 @@ public class TestEnableJVMCIProduct {
         String[] flags = {"-XX:+EnableJVMCIProduct", "-XX:+UseGraalJIT"};
         String cwd = System.getProperty("user.dir");
         for (String flag : flags) {
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-XX:+UnlockExperimentalVMOptions", flag, "-XX:-UnlockExperimentalVMOptions",
                 explicitFlag,
                 "-XX:+PrintFlagsFinal",

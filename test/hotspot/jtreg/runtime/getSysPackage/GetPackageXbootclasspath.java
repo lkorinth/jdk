@@ -34,6 +34,7 @@
 // when run with either the normal or exploded build.
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
@@ -54,7 +55,7 @@ public class GetPackageXbootclasspath {
         ClassFileInstaller.writeClassToDisk("P/Test",
             InMemoryJavaCompiler.compile("P.Test", Test_src), test_classes);
 
-        new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(
+        new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Xbootclasspath/a:" + test_classes, "P.Test")
             .start()).shouldContain("Test Passed")
             .shouldHaveExitValue(0);

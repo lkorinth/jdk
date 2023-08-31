@@ -32,6 +32,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class PatchModuleDupModule {
 
@@ -39,7 +40,7 @@ public class PatchModuleDupModule {
   // if --patch-module is specified with the same module more than once.
 
   public static void main(String args[]) throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "--patch-module=module_one=module_one_dir",
       "--patch-module=module_one=module_one_dir",
       "-version");

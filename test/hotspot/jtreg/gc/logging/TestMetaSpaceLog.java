@@ -35,6 +35,7 @@ import jdk.test.lib.ByteCodeLoader;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.whitebox.WhiteBox;
 
 /*
@@ -94,7 +95,7 @@ public class TestMetaSpaceLog {
 
   private static void testMetaSpaceUpdate() throws Exception {
     ProcessBuilder pb =
-      ProcessTools.createTestJvm(
+      ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
           "-Xlog:gc*",
           "-Xbootclasspath/a:.",
           "-XX:+UnlockDiagnosticVMOptions",

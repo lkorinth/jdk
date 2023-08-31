@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.List;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 public class TestG1LoggingFailure {
@@ -63,7 +64,7 @@ public class TestG1LoggingFailure {
     }
 
     private static void startVM(List<String> options) throws Throwable, RuntimeException {
-        OutputAnalyzer out = ProcessTools.executeTestJvm(options);
+        OutputAnalyzer out = ProcessTools.executeJavaProcess(PrependTestJavaOpts, options);
 
         out.shouldNotContain("pure virtual method called");
 

@@ -51,13 +51,14 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.File;
 import java.util.Arrays;
 
 public class TestDriver {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createTestJvm(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-agentlib:SetNativeMethodPrefix001=trace=all",
                 "-agentlib:SetNativeMethodPrefix002-01=trace=all prefix=wa_",
                 "-agentlib:SetNativeMethodPrefix002-02=trace=all prefix=wb_",

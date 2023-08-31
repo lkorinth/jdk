@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.Utils;
 
 /**
@@ -107,7 +108,7 @@ public class LocalManagementTest {
             args.add(arg);
         }
         args.add("TestApplication");
-        ProcessBuilder server = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder server = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             args.toArray(new String[args.size()])
         );
 
@@ -133,7 +134,7 @@ public class LocalManagementTest {
             System.out.println("  PID           : " + serverPrc.pid());
             System.out.println("  shutdown port : " + port.get());
 
-            ProcessBuilder client = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder client = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-cp",
                 TEST_CLASSPATH,
                 "--add-exports", "jdk.management.agent/jdk.internal.agent=ALL-UNNAMED",

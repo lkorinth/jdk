@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -47,7 +48,7 @@ public class RunFinalizationTest {
         javaArgs.add("-cp");
         javaArgs.add(System.getProperty("test.class.path"));
         javaArgs.add(TEST_APP_NAME);
-        ProcessBuilder testAppPb = ProcessTools.createJavaProcessBuilder(javaArgs);
+        ProcessBuilder testAppPb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, javaArgs);
 
         final AtomicBoolean failed = new AtomicBoolean();
         final AtomicBoolean passed = new AtomicBoolean();

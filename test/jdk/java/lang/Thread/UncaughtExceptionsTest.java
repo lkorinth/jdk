@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -85,7 +86,7 @@ class UncaughtExceptionsTest {
     @MethodSource("testCases")
     void test(String className, int exitValue, String stdOutMatch, String stdErrMatch) throws Throwable {
         String cmd = "UncaughtExitSimulator$" + className;
-        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(cmd);
+        ProcessBuilder processBuilder = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, cmd);
         OutputAnalyzer outputAnalyzer = ProcessTools.executeCommand(processBuilder);
         outputAnalyzer.shouldHaveExitValue(exitValue);
         outputAnalyzer.stderrShouldMatch(stdErrMatch);

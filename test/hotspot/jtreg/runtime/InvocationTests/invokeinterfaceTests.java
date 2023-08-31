@@ -65,6 +65,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.compiler.InMemoryJavaCompiler;
 
@@ -73,7 +74,7 @@ public class invokeinterfaceTests {
     public static void runTest(String classFileVersion, String option) throws Throwable {
         System.out.println("\ninvokeinterface invocation tests, option: " + option +
                            ", class file version: " + classFileVersion);
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xmx128M", option,
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xmx128M", option,
             "--add-exports", "java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED",
             "invokeinterface.Generator", "--classfile_version=" + classFileVersion);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());

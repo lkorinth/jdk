@@ -39,6 +39,7 @@ import static gc.testlibrary.Allocation.blackHole;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestHumongousAllocNearlyFullRegion {
     // Heap sizes < 224 MB are increased to 224 MB if vm_page_size == 64K to
@@ -47,7 +48,7 @@ public class TestHumongousAllocNearlyFullRegion {
     private static final int heapRegionSize                 = 1;   // MB
 
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
             "-XX:+UseG1GC",
             "-Xms" + heapSize + "m",
             "-Xmx" + heapSize + "m",

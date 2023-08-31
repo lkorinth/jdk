@@ -32,6 +32,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class StackWalkTest {
@@ -49,11 +50,11 @@ public class StackWalkTest {
     }
 
     public static void main(String... args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:stackwalk=debug",
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:stackwalk=debug",
                                                                   InnerClass.class.getName());
         analyzeOutputOn(pb);
 
-        pb = ProcessTools.createJavaProcessBuilder("-Xlog:stackwalk=off",
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:stackwalk=off",
                                                    InnerClass.class.getName());
         analyzeOutputOff(pb);
     }

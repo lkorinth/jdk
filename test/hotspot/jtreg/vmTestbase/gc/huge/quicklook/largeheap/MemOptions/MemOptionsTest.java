@@ -41,6 +41,7 @@ import java.util.Collections;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * Test JVM startup with different memory options.
@@ -93,7 +94,7 @@ public class MemOptionsTest {
         var cmd = new ArrayList<String>();
         Collections.addAll(cmd, opts);
         cmd.add(MemStat.class.getName());
-        var pb = ProcessTools.createTestJvm(cmd);
+        var pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmd);
         var output = new OutputAnalyzer(pb.start());
         if (output.getExitValue() != 0) {
             output.reportDiagnosticSummary();
@@ -106,7 +107,7 @@ public class MemOptionsTest {
         var cmd = new ArrayList<String>();
         Collections.addAll(cmd, opts);
         cmd.add(MemStat.class.getName());
-        var pb = ProcessTools.createTestJvm(cmd);
+        var pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmd);
         var output = new OutputAnalyzer(pb.start());
         if (output.getExitValue() == 0) {
             output.reportDiagnosticSummary();

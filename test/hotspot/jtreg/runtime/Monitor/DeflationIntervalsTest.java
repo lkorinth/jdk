@@ -23,6 +23,7 @@
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -272,7 +273,7 @@ public class DeflationIntervalsTest {
         opts.addAll(Arrays.asList(args));
         opts.add("DeflationIntervalsTest$Test");
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(opts);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, opts);
         OutputAnalyzer oa = new OutputAnalyzer(pb.start());
         oa.shouldHaveExitValue(0);
 

@@ -45,6 +45,7 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.spi.ToolProvider;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.helpers.ClassFileInstaller;
 
@@ -126,7 +127,7 @@ public class RedefinePermittedSubclass {
         if (argv.length == 1 && argv[0].equals("runtest")) {
             String[] javaArgs1 = { "-XX:MetaspaceSize=12m", "-XX:MaxMetaspaceSize=12m",
                                    "-javaagent:redefineagent.jar", "RedefinePermittedSubclass"};
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(javaArgs1);
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, javaArgs1);
             OutputAnalyzer output = new OutputAnalyzer(pb.start());
             output.shouldNotContain("processing of -javaagent failed");
             output.shouldHaveExitValue(0);

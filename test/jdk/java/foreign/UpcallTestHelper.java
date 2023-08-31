@@ -22,6 +22,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class UpcallTestHelper extends NativeTestHelper {
         ));
         command.addAll(Arrays.asList(programArgs));
 
-        Process process = ProcessTools.createTestJvm(command).start();
+        Process process = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, command).start();
 
         int result = process.waitFor();
         assertNotEquals(result, 0);

@@ -40,11 +40,12 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class VtablesTest {
     public static void main(String[] args) throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-Xlog:vtables=trace", "ClassB");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:vtables=trace", "ClassB");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldContain("copy vtable from ClassA to ClassB");
         output.shouldContain("Initializing: ClassB");
@@ -55,7 +56,7 @@ public class VtablesTest {
         output.shouldContain("NOT overriding with p2.D.nooverride()V");
         output.shouldHaveExitValue(0);
 
-        pb = ProcessTools.createJavaProcessBuilder("-Xlog:vtables=trace", "p1/C");
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-Xlog:vtables=trace", "p1/C");
         output = new OutputAnalyzer(pb.start());
         output.shouldContain("transitive overriding superclass ");
         output.shouldHaveExitValue(0);

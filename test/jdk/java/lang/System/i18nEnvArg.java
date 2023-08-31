@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class i18nEnvArg {
     final static String EUC_JP_TEXT = "\u6F22\u5B57";
@@ -80,7 +81,7 @@ public class i18nEnvArg {
                         "i18nEnvArg$Verify",
                         EUC_JP_TEXT));
         }
-        pb = ProcessTools.createTestJvm(cmds);
+        pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, cmds);
         Map<String, String> environ = pb.environment();
         environ.clear();
         environ.put("LANG", "ja_JP.eucjp");

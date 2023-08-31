@@ -55,6 +55,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.management.DynamicVMOption;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestVMOptionsFile {
 
@@ -248,7 +249,7 @@ public class TestVMOptionsFile {
         runJava.add(PrintPropertyAndOptions.class.getName());
         runJava.addAll(appParams);
 
-        pb = ProcessTools.createJavaProcessBuilder(runJava);
+        pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, runJava);
 
         VMParams.clear();
         appParams.clear();

@@ -36,6 +36,7 @@
 
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import com.sun.tools.attach.VirtualMachine;
 import sun.tools.attach.HotSpotVirtualMachine;
 import java.lang.reflect.Field;
@@ -59,7 +60,7 @@ public class AttachWithStalePidFile {
   }
 
   public static boolean runTest() throws Exception {
-    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+    ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
       "-XX:+UnlockDiagnosticVMOptions", "-XX:+PauseAtStartup", "AttachWithStalePidFileTarget");
     Process target = pb.start();
     Path pidFile = null;

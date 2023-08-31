@@ -41,12 +41,13 @@ package vm.compiler.CodeCacheInfoOnCompilation;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class Test {
     private static String REGEXP = "^(CodeCache|(CodeHeap.*)): size=\\d+Kb used=\\d+Kb max_used=\\d+Kb free=\\d+Kb";
 
     public static void main(String[] args) throws Exception {
-        var pb = ProcessTools.createTestJvm(
+        var pb = ProcessTools.createJavaProcessBuilder(PrependTestJavaOpts, 
                 "-XX:-PrintCodeCache",
                 "-XX:+PrintCodeCacheOnCompilation",
                 "-XX:-Inline",

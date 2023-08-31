@@ -49,6 +49,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /*
  * @test
@@ -231,7 +232,7 @@ public class TLSRestrictions {
 
             // Run client on another JVM so that its properties cannot be in conflict
             // with server's.
-            OutputAnalyzer outputAnalyzer = ProcessTools.executeTestJvm(
+            OutputAnalyzer outputAnalyzer = ProcessTools.executeJavaProcess(PrependTestJavaOpts, 
                     "-Dcert.dir=" + CERT_DIR,
                     "-Djava.security.debug=certpath",
                     "-classpath",

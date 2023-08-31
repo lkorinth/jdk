@@ -37,6 +37,7 @@ package gc.g1;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import java.lang.Thread;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +70,7 @@ public class TestPrintRegionRememberedSetInfo {
 
         finalargs.add(RunAndWaitForMarking.class.getName());
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(finalargs);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, finalargs);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldHaveExitValue(0);
 

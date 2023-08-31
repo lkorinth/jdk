@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import jdk.test.lib.Platform;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 public class TestPLABSizeBounds {
 
@@ -62,7 +63,7 @@ public class TestPLABSizeBounds {
         testArguments.add("-XX:OldPLABSize=" + plabSize);
         testArguments.add(GCTest.class.getName());
 
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(testArguments);
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, testArguments);
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
 
         if (shouldSucceed) {

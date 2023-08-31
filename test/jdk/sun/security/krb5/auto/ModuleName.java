@@ -38,6 +38,7 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import sun.security.jgss.GSSUtil;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class ModuleName {
             test("jdk.security.jgss");
 
             // With limited modules
-            List<String> cmd = ProcessTools.createJavaProcessBuilder().command();
+            List<String> cmd = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, ).command();
             Stream.of(jdk.internal.misc.VM.getRuntimeArguments())
                     .filter(arg -> arg.startsWith("--add-exports=") ||
                             arg.startsWith("--add-opens="))

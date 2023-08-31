@@ -32,6 +32,7 @@ import java.util.Set;
 import jdk.test.lib.management.DynamicVMOption;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.dcmd.CommandExecutor;
 import jdk.test.lib.dcmd.JMXExecutor;
 import jdk.test.lib.Platform;
@@ -417,7 +418,7 @@ public abstract class JVMOption {
         runJava.add(optionValue);
         runJava.add(JVMStartup.class.getName());
 
-        out = new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(runJava).start());
+        out = new OutputAnalyzer(ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, runJava).start());
 
         exitCode = out.getExitValue();
         String exitCodeString = null;

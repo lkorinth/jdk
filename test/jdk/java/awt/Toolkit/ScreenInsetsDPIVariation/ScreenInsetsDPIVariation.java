@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 /**
  * @test
@@ -102,7 +103,7 @@ public final class ScreenInsetsDPIVariation {
 
     private static void runProcess(String dpi, int screen, Insets insets)
             throws Exception {
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                 "-Dsun.java2d.uiScale=" + dpi,
                 ScreenInsetsDPIVariation.class.getSimpleName(),
                 String.valueOf(screen), String.valueOf(insets.left),

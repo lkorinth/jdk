@@ -34,6 +34,7 @@
 
 import java.io.File;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class EnclMethodAttr {
@@ -42,7 +43,7 @@ public class EnclMethodAttr {
 
     public static void main(String args[]) throws Throwable {
         System.out.println("Regression test for bug 8044738");
-        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("EnclMethTest");
+        ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "EnclMethTest");
         OutputAnalyzer output = new OutputAnalyzer(pb.start());
         output.shouldNotHaveExitValue(0);
         output.shouldContain("java.lang.ClassFormatError: Wrong EnclosingMethod");

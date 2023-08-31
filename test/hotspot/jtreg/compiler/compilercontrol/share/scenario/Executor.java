@@ -28,6 +28,7 @@ import jdk.test.lib.Asserts;
 import jdk.test.lib.management.InputArguments;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.dcmd.CommandExecutor;
 import jdk.test.lib.dcmd.PidJcmdExecutor;
 
@@ -101,7 +102,7 @@ public class Executor {
                     vmInputArgs.length + vmOptions.size());
             System.arraycopy(vmOptions.toArray(), 0, cmds, vmInputArgs.length,
                     vmOptions.size());
-            output = ProcessTools.executeTestJvm(cmds);
+            output = ProcessTools.executeJavaProcess(PrependTestJavaOpts, cmds);
         } catch (Throwable thr) {
             throw new Error("Execution failed: " + thr.getMessage(), thr);
         }

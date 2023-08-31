@@ -34,6 +34,7 @@
  import jdk.test.lib.cds.CDSTestUtils;
  import jdk.test.lib.process.OutputAnalyzer;
  import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
  public class TestCDSVMCrash {
 
@@ -49,7 +50,7 @@
              }
          }
          // else this is the main test
-         ProcessBuilder pb = ProcessTools.createJavaProcessBuilder("-XX:+CrashOnOutOfMemoryError",
+         ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, "-XX:+CrashOnOutOfMemoryError",
                   "-XX:-CreateCoredumpOnCrash", "-Xmx128m", "-Xshare:on", TestCDSVMCrash.class.getName(),"throwOOME");
          OutputAnalyzer output = new OutputAnalyzer(pb.start());
          // executeAndLog should throw an exception in the VM crashed

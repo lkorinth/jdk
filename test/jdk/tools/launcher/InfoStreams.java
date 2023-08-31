@@ -30,12 +30,13 @@
  */
 
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 import jdk.test.lib.process.OutputAnalyzer;
 
 public class InfoStreams {
 
     public static OutputAnalyzer run(String ... opts) throws Exception {
-        return ProcessTools.executeTestJava(opts).shouldHaveExitValue(0);
+        return ProcessTools.executeJavaProcess(PrependTestJavaOpts, opts).shouldHaveExitValue(0);
     }
 
     private static final String

@@ -26,6 +26,7 @@ package applications.jcstress;
 import jdk.test.lib.Utils;
 import jdk.test.lib.process.OutputAnalyzer;
 import jdk.test.lib.process.ProcessTools;
+import static jdk.test.lib.process.ProcessTools.TestVMOptions.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -109,7 +110,7 @@ public class TestGenerator {
         Path output;
         try {
             output = Files.createTempFile("jcstress", ".out");
-            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(
+            ProcessBuilder pb = ProcessTools.createJavaProcessBuilder(IgnoreTestJavaOpts, 
                     "-jar",
                     path.toAbsolutePath().toString(),
                     "-l");
