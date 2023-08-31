@@ -377,16 +377,6 @@ public final class ProcessTools {
         return ProcessHandle.current().pid();
     }
 
-    /**
-     * Create ProcessBuilder using the java launcher from the jdk to be tested.
-     *
-     * @param command Arguments to pass to the java command.
-     * @return The ProcessBuilder instance representing the java command.
-     */
-    public static ProcessBuilder createJavaProcessBuilder(List<String> command) {
-        return createJavaProcessBuilder(command.toArray(String[]::new));
-    }
-
     /*
       Convert arguments for tests running with virtual threads main wrapper
       When test is executed with process wrapper the line is changed from
@@ -450,6 +440,16 @@ public final class ProcessTools {
             args.add(cmd);
         }
         return args;
+    }
+
+    /**
+     * Create ProcessBuilder using the java launcher from the jdk to be tested.
+     *
+     * @param command Arguments to pass to the java command.
+     * @return The ProcessBuilder instance representing the java command.
+     */
+    public static ProcessBuilder createJavaProcessBuilder(List<String> command) {
+        return createJavaProcessBuilder(command.toArray(String[]::new));
     }
 
     /**
