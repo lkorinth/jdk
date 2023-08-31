@@ -442,6 +442,21 @@ public final class ProcessTools {
         return args;
     }
 
+    public enum TestVMOptions{
+        IgnoreTestJavaOpts,  // Ignore The default JVM options from
+                             // jtreg, test.vm.opts and
+                             // test.java.opts. This option is often
+                             // not the correct option as there is no
+                             // longer a way to pass options to the
+                             // test case using the JTREG way.
+
+        PrependTestJavaOpts  // Create ProcessBuilder using the java
+                             // launcher from the jdk to be
+                             // tested. The default JVM options from
+                             // jtreg, test.vm.opts and
+                             // test.java.opts, are prepended.
+    }
+
     /**
      * Create ProcessBuilder using the java launcher from the jdk to be tested.
      *
