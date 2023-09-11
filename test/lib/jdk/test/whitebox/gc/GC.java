@@ -24,6 +24,8 @@
 package jdk.test.whitebox.gc;
 
 import jdk.test.whitebox.WhiteBox;
+import java.util.stream.Stream;
+import java.util.Optional;
 
 /**
  * API to obtain information about selected and supported Garbage Collectors
@@ -46,6 +48,13 @@ public enum GC {
 
     private GC(int name) {
         this.name = name;
+    }
+
+    public String toVmFlag() {
+        return "-XX+Use" + name() + "gc";
+    }
+    public static Optional<GC> fromVmFlag(String s) {
+        return Stream.of(GC.values()).findFirst();
     }
 
     /**

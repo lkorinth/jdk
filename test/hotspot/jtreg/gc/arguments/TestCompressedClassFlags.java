@@ -24,33 +24,44 @@
 package gc.arguments;
 
 import jdk.test.lib.process.OutputAnalyzer;
+import jdk.test.whitebox.gc.GC;
 import jdk.test.lib.Platform;
 
+import static gc.testlibrary.Configurations.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 /*
  * @test
  * @bug 8015107
  * @summary Tests that VM prints a warning when -XX:CompressedClassSpaceSize
  *          is used together with -XX:-UseCompressedClassPointers
- * @library /test/lib
- * @library /
+ * @library / /test/lib
  * @modules java.base/jdk.internal.misc
  *          java.management
- * @run driver gc.arguments.TestCompressedClassFlags
+ *
+ * @build jdk.test.whitebox.WhiteBox
+ * @run driver jdk.test.lib.helpers.ClassFileInstaller jdk.test.whitebox.WhiteBox
+ * @run main/othervm/native -Xbootclasspath/a:. -XX:+UnlockDiagnosticVMOptions -XX:+WhiteBoxAPI gc.arguments.TestCompressedClassFlags
  */
 public class TestCompressedClassFlags {
-    public static void main(String[] args) throws Exception {
-        if (Platform.is64bit()) {
-            OutputAnalyzer output = runJava("-XX:CompressedClassSpaceSize=1g",
-                                            "-XX:-UseCompressedClassPointers",
-                                            "-version");
-            output.shouldContain("warning");
-            output.shouldNotContain("error");
-            output.shouldHaveExitValue(0);
-        }
-    }
+    public static void main(String[] args) {
+        Stream<List<String>> config = gcConfigurations()
+            .filter(conf -> false)
+            .map(GCConfiguration::args)
+            .map(arguments -> concat(arguments, List.of("-XX:CompressedClassSpaceSize=1g", "-XX:-UseCompressedClassPointers", "-version")));
 
-    private static OutputAnalyzer runJava(String ... args) throws Exception {
-        ProcessBuilder pb = GCArguments.createJavaProcessBuilder(args);
-        return new OutputAnalyzer(pb.start());
+        runConfigurations(config, Set.of(), pb -> {
+                if (Platform.is64bit()) {
+                    OutputAnalyzer output = new OutputAnalyzer(pb.start());
+                    output.shouldContain("warning");
+                    output.shouldNotContain("error");
+                    output.shouldHaveExitValue(0);
+                }
+                return Optional.empty(); // success!
+                //return Optional.of("mwahahaha: " + pb.command());
+            });
     }
 }
