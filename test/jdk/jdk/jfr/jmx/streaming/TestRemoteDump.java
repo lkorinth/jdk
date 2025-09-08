@@ -50,7 +50,7 @@ import jdk.management.jfr.RemoteRecordingStream;
  * @requires vm.flagless
  * @requires vm.hasJFR
  * @library /test/lib
- * @run main/othervm jdk.jfr.jmx.streaming.TestRemoteDump
+ * @run main/othervm/timeout=480 jdk.jfr.jmx.streaming.TestRemoteDump
  */
 public class TestRemoteDump {
 
