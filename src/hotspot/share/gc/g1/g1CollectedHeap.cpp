@@ -1424,9 +1424,12 @@ jint G1CollectedHeap::initialize() {
                              G1CardTable::heap_map_factor());
 
   size_t bitmap_size = G1CMBitMap::compute_size(heap_rs.size());
-  G1RegionToSpaceMapper* bitmap_storage =
-    create_aux_memory_mapper("Mark Bitmap", bitmap_size, G1CMBitMap::heap_map_factor());
-
+  G1RegionToSpaceMapper* bitmap_storage;
+  {
+//    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: create_aux_memory_mapper");
+    bitmap_storage =
+      create_aux_memory_mapper("Mark Bitmap", bitmap_size, G1CMBitMap::heap_map_factor());
+  }
   _hrm.initialize(heap_storage, bitmap_storage, bot_storage, cardtable_storage, refinement_cards_storage);
   card_table->initialize(cardtable_storage);
   refinement_table->initialize(refinement_cards_storage);
@@ -1479,8 +1482,14 @@ jint G1CollectedHeap::initialize() {
 
   // Create the G1ConcurrentMark data structure and thread.
   // (Must do this late, so that "max_[reserved_]regions" is defined.)
-  _cm = new G1ConcurrentMark(this, bitmap_storage);
-  _cm_thread = _cm->cm_thread();
+  {
+    GCTraceTime(Info, gc) tm("lkorinth: new G1ConcurrentMark");
+    _cm = new G1ConcurrentMark(this, bitmap_storage);
+  }
+  {
+    //GCTraceTime(Info, gc) tm("lkorinth: _cm->cm_thread()");
+    _cm_thread = _cm->cm_thread();
+  }
 
   // Now expand into the initial heap size.
   if (!expand(init_byte_size, _workers)) {

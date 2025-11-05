@@ -64,6 +64,9 @@ struct G1RegionMarkStats {
 // every time statistics change, as marking is very localized.
 // The map entry number is a power of two to allow simple and fast hashing using
 // logical and.
+#include "gc/shared/gcTraceTime.inline.hpp"
+#include "utilities/debug.hpp"
+
 class G1RegionMarkStatsCache {
 private:
   // The array of statistics entries to evict to; the global array.
@@ -128,6 +131,14 @@ public:
 
   // Evict all remaining statistics, returning cache hits and misses.
   Pair<size_t, size_t> evict_all();
+
+
+  void late_init() {
+    assert (_cache == nullptr, "sanity");
+//    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: late_init1");
+    _cache = NEW_C_HEAP_ARRAY(G1RegionMarkStatsCacheEntry, _num_cache_entries, mtGC);
+    reset();
+  }
 
   // Reset liveness of all cache entries to their default values,
   // initialize _region_idx to avoid initial cache miss.

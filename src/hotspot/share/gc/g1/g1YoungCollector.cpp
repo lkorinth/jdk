@@ -743,6 +743,9 @@ void G1YoungCollector::evacuate_initial_collection_set(G1ParScanThreadStateSet* 
                                                       bool has_optional_evacuation_work) {
   G1GCPhaseTimes* p = phase_times();
 
+  // printf("G1YoungCollector::evacuate_initial_collection_set 00\n");
+  //fflush(stdout);
+  _g1h->_cm->late_init();
   rem_set()->merge_heap_roots(true /* initial_evacuation */);
 
   Tickspan task_time;

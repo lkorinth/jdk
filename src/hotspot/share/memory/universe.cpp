@@ -935,10 +935,15 @@ jint universe_init() {
 
 jint Universe::initialize_heap() {
   assert(_collectedHeap == nullptr, "Heap already created");
-  _collectedHeap = GCConfig::arguments()->create_heap();
-
-  log_info(gc)("Using %s", _collectedHeap->name());
-  return _collectedHeap->initialize();
+  {
+    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: create_heap()");
+    _collectedHeap = GCConfig::arguments()->create_heap();
+  }
+  {
+    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: _collectedHeap->initialize()");
+    log_info(gc)("Using %s", _collectedHeap->name());
+    return _collectedHeap->initialize();
+  }
 }
 
 void Universe::initialize_tlab() {

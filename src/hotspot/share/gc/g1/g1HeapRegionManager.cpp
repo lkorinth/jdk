@@ -178,6 +178,7 @@ void G1HeapRegionManager::expand(uint start, uint num_regions, WorkerThreads* pr
   activate_regions(start, num_regions);
 }
 
+#include "gc/shared/gcTraceTime.inline.hpp"
 void G1HeapRegionManager::commit_regions(uint index, size_t num_regions, WorkerThreads* pretouch_workers) {
   guarantee(num_regions > 0, "Must commit more than zero regions");
   guarantee(num_regions <= num_inactive_regions(),
@@ -186,8 +187,10 @@ void G1HeapRegionManager::commit_regions(uint index, size_t num_regions, WorkerT
   _heap_mapper->commit_regions(index, num_regions, pretouch_workers);
 
   // Also commit auxiliary data
-  _bitmap_mapper->commit_regions(index, num_regions, pretouch_workers);
-
+  {
+   // GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: _bitmap_mapper->commit_regions");
+    _bitmap_mapper->commit_regions(index, num_regions, pretouch_workers);
+  }
   _bot_mapper->commit_regions(index, num_regions, pretouch_workers);
   _card_table_mapper->commit_regions(index, num_regions, pretouch_workers);
   _refinement_table_mapper->commit_regions(index, num_regions, pretouch_workers);

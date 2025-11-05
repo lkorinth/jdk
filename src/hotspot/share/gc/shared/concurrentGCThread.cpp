@@ -43,7 +43,8 @@ void ConcurrentGCThread::create_and_start(ThreadPriority prio) {
 void ConcurrentGCThread::run() {
   // Wait for initialization to complete
   wait_init_completed();
-
+  printf("trala55555555555555555555555555555555555555\n");
+  fflush(stdout);
   run_service();
 
   // Signal thread has terminated
