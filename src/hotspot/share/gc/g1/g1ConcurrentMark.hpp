@@ -582,6 +582,7 @@ public:
 
   uint worker_id_offset() const { return _worker_id_offset; }
 
+  void late_init();
   // Clear statistics gathered during the concurrent cycle for the given region after
   // it has been reclaimed.
   void clear_statistics(G1HeapRegion* r);
@@ -658,6 +659,8 @@ public:
   void add_root_region(G1HeapRegion* r);
   bool is_root_region(G1HeapRegion* r);
   void root_region_scan_abort_and_wait();
+
+  bool in_progress() const;
 
 private:
   G1CMRootMemRegions* root_regions() { return &_root_regions; }
