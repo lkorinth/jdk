@@ -519,55 +519,42 @@ G1ConcurrentMark::G1ConcurrentMark(G1CollectedHeap* g1h,
   _top_at_rebuild_starts(NEW_C_HEAP_ARRAY(HeapWord*, _g1h->max_num_regions(), mtGC)),
   _needs_remembered_set_rebuild(false)
 {
-  {
- ///   GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: aaaa");
-    assert(G1CGC_lock != nullptr, "CGC_lock must be initialized");
+  assert(G1CGC_lock != nullptr, "CGC_lock must be initialized");
 
-    _mark_bitmap.initialize(g1h->reserved(), bitmap_storage);
+  _mark_bitmap.initialize(g1h->reserved(), bitmap_storage);
 
-    // Create & start ConcurrentMark thread.
-    _cm_thread = new G1ConcurrentMarkThread(this);
-    if (_cm_thread->osthread() == nullptr) {
-      vm_shutdown_during_initialization("Could not create ConcurrentMarkThread");
-    }
+  // Create & start ConcurrentMark thread.
+  _cm_thread = new G1ConcurrentMarkThread(this);
+  if (_cm_thread->osthread() == nullptr) {
+    vm_shutdown_during_initialization("Could not create ConcurrentMarkThread");
   }
-  {
-//    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: ccccc");
-    log_debug(gc)("ConcGCThreads: %u offset %u", ConcGCThreads, _worker_id_offset);
-    log_debug(gc)("ParallelGCThreads: %u", ParallelGCThreads);
 
-    _max_concurrent_workers = ConcGCThreads;
+  log_debug(gc)("ConcGCThreads: %u offset %u", ConcGCThreads, _worker_id_offset);
+  log_debug(gc)("ParallelGCThreads: %u", ParallelGCThreads);
 
-    _concurrent_workers = new WorkerThreads("G1 Conc", _max_concurrent_workers);
-    _concurrent_workers->initialize_workers();
+  _max_concurrent_workers = ConcGCThreads;
+
+  _concurrent_workers = new WorkerThreads("G1 Conc", _max_concurrent_workers);
+  _concurrent_workers->initialize_workers();
+
+  _num_concurrent_workers = _concurrent_workers->active_workers();
+
+  if (!_global_mark_stack.initialize()) {
+    vm_exit_during_initialization("Failed to allocate initial concurrent mark overflow mark stack.");
   }
-  {
-//    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: ggggggggg");
-    _num_concurrent_workers = _concurrent_workers->active_workers();
-
-    if (!_global_mark_stack.initialize()) {
-      vm_exit_during_initialization("Failed to allocate initial concurrent mark overflow mark stack.");
-    }
 
   _tasks = NEW_C_HEAP_ARRAY(G1CMTask*, _max_num_tasks, mtGC);
 
   // so that the assertion in MarkingTaskQueue::task_queue doesn't fail
   _num_active_tasks = _max_num_tasks;
+
+  for (uint i = 0; i < _max_num_tasks; ++i) {
+    G1CMTaskQueue* task_queue  = new G1CMTaskQueue();
+    _task_queues->register_queue(i, task_queue);
+
+    _tasks[i] = new G1CMTask(i, this, task_queue, _region_mark_stats);
   }
-  {
-    //GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: _task_queues");
-    for (uint i = 0; i < _max_num_tasks; ++i) {
-      G1CMTaskQueue* task_queue;
-      {
-       // GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: _task_queues 1");
-        task_queue = new G1CMTaskQueue();
-        _task_queues->register_queue(i, task_queue);
-      }
-      //GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: _task_queues 2");
-      _tasks[i] = new G1CMTask(i, this, task_queue, _region_mark_stats);
-    }
-  }
- // GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: reset_at_marking_complete");
+
   reset_at_marking_complete();
 }
 
@@ -2796,17 +2783,13 @@ G1CMTask::G1CMTask(uint worker_id,
                    G1ConcurrentMark* cm,
                    G1CMTaskQueue* task_queue,
                    G1RegionMarkStats* mark_stats) :
-  //_start0(),
   _objArray_processor(this),
-  //_start1(),
   _worker_id(worker_id),
   _g1h(G1CollectedHeap::heap()),
   _cm(cm),
   _mark_bitmap(nullptr),
   _task_queue(task_queue),
-  //_start2(),
-  _mark_stats_cache(mark_stats, G1RegionMarkStatsCache::RegionMarkStatsCacheSize), // this takes all the time
-  //_start3(),
+  _mark_stats_cache(mark_stats, G1RegionMarkStatsCache::RegionMarkStatsCacheSize),
   _calls(0),
   _time_target_ms(0.0),
   _start_cpu_time_ns(0),
@@ -2824,23 +2807,11 @@ G1CMTask::G1CMTask(uint worker_id,
   _has_aborted(false),
   _has_timed_out(false),
   _draining_satb_buffers(false),
-  //_start4(),
   _step_times_ms(),
-  //_start5(),
   _elapsed_time_ms(0.0),
   _termination_time_ms(0.0),
   _marking_step_diff_ms()
-  //,
-  //_start6()
 {
-  // lkorinth("G1CMTask initializer 0-1", _start0, _start1);
-  // lkorinth("G1CMTask initializer 1-2", _start1, _start2);
-  // lkorinth("G1CMTask initializer 2-3", _start2, _start3);
-  // lkorinth("G1CMTask initializer 3-4", _start3, _start4);
-  // lkorinth("G1CMTask initializer 4-5", _start4, _start5);
-  // lkorinth("G1CMTask initializer 5-6", _start5, _start6);
-
-  //GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: G1CMTask inner");
   guarantee(task_queue != nullptr, "invariant");
 
   _marking_step_diff_ms.add(0.5);
