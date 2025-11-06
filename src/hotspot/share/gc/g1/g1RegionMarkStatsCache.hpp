@@ -134,7 +134,7 @@ public:
 
 
   void late_init() {
-    assert (_cache == nullptr, "sanity");
+    assert (_cache == nullptr, "should only be called once, and _cache should be initialized to nullptr");
 //    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: late_init1");
     _cache = NEW_C_HEAP_ARRAY(G1RegionMarkStatsCacheEntry, _num_cache_entries, mtGC);
     reset();

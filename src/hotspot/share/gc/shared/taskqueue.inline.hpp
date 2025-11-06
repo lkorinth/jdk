@@ -96,27 +96,11 @@ inline void GenericTaskQueueSet<T, MT>::print_and_reset_taskqueue_stats(const ch
 }
 #endif // TASKQUEUE_STATS
 
-
-// static void lkorinth(const char* msg, TicksI& start, TicksI& stop) {
-//    Tickspan duration = stop._s - start._s;
-//    double duration_ms = TimeHelper::counter_to_millis(duration.value());
-//    log_info(gc)("lkorinth: %s: %.4fms", msg, duration_ms);
-//  }
-
 template<class E, MemTag MT, unsigned int N>
 inline GenericTaskQueue<E, MT, N>::GenericTaskQueue() :
-  //lkorinth
-  _start0(),
   _elems(MallocArrayAllocator<E>::allocate(N, MT)),
-  _start1(),
   _last_stolen_queue_id(InvalidQueueId),
-  _start2(),
-  _seed(17 /* random number */) {
-
- //lkorinth("G1CMTaskQ initializer 0-1", _start0, _start1);
- //lkorinth("G1CMTaskQ initializer 1-2", _start1, _start2);
-
-}
+  _seed(17 /* random number */) {}
 
 template<class E, MemTag MT, unsigned int N>
 inline GenericTaskQueue<E, MT, N>::~GenericTaskQueue() {

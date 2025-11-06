@@ -378,16 +378,16 @@ public:
 
 private:
   // Base class has trailing padding.
-TicksI                       _start0;
+
   // Element array.
   E* _elems;
-TicksI                       _start1;
+
   DEFINE_PAD_MINUS_SIZE(1, DEFAULT_PADDING_SIZE, sizeof(E*));
   // Queue owner local variables. Not to be accessed by other threads.
 
   static const uint InvalidQueueId = uint(-1);
   uint _last_stolen_queue_id; // The id of the queue we last stole from
-TicksI                       _start2;
+
   int _seed; // Current random seed used for selecting a random queue during stealing.
 
   DEFINE_PAD_MINUS_SIZE(2, DEFAULT_PADDING_SIZE, sizeof(uint) + sizeof(int));

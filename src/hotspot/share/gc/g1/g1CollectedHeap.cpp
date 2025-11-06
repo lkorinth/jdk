@@ -1425,7 +1425,7 @@ jint G1CollectedHeap::initialize() {
 
   size_t bitmap_size = G1CMBitMap::compute_size(heap_rs.size());
   G1RegionToSpaceMapper* bitmap_storage =
-      create_aux_memory_mapper("Mark Bitmap", bitmap_size, G1CMBitMap::heap_map_factor());
+    create_aux_memory_mapper("Mark Bitmap", bitmap_size, G1CMBitMap::heap_map_factor());
 
   _hrm.initialize(heap_storage, bitmap_storage, bot_storage, cardtable_storage, refinement_cards_storage);
   card_table->initialize(cardtable_storage);

@@ -582,7 +582,7 @@ public:
 
   uint worker_id_offset() const { return _worker_id_offset; }
 
-  void late_init();
+  void late_init_region_mark_stats_cache();
   // Clear statistics gathered during the concurrent cycle for the given region after
   // it has been reclaimed.
   void clear_statistics(G1HeapRegion* r);
@@ -721,19 +721,8 @@ private:
   uint needs_remembered_set_rebuild() const { return _needs_remembered_set_rebuild; }
 };
 
-// void G1FullGCTask::log_task(const char* name, uint worker_id, const Ticks& start, const Ticks& stop) {
-//   Tickspan duration = stop - start;
-//   double duration_ms = TimeHelper::counter_to_millis(duration.value());
-//   log_trace(gc, phases)("%s (%u) %.3fms", name, worker_id, duration_ms);
-// }
-
-// struct TicksI {
-//   Ticks _s;
-//   TicksI() : _s(Ticks::now()) {}
-// };
-
-// a class representing a marking task.
-class G1CMTask : public TerminatorTerminator  {
+// A class representing a marking task.
+class G1CMTask : public TerminatorTerminator {
 private:
   enum PrivateConstants {
     // The regular clock call is called once the scanned words reaches
@@ -745,12 +734,14 @@ private:
   };
 
   G1CMObjArrayProcessor       _objArray_processor;
+
   uint                        _worker_id;
   G1CollectedHeap*            _g1h;
   G1ConcurrentMark*           _cm;
   G1CMBitMap*                 _mark_bitmap;
   // the task queue of this task
   G1CMTaskQueue*              _task_queue;
+
   G1RegionMarkStatsCache      _mark_stats_cache;
   // Number of calls to this task
   uint                        _calls;
@@ -800,6 +791,7 @@ private:
   // aborting due to SATB buffers being available (as we're already
   // dealing with them)
   bool                        _draining_satb_buffers;
+
   // Number sequence of past step times
   NumberSeq                   _step_times_ms;
   // Elapsed time of this task
@@ -808,6 +800,7 @@ private:
   double                      _termination_time_ms;
 
   TruncatedSeq                _marking_step_diff_ms;
+
   // Updates the local fields after this task has claimed
   // a new region to scan
   void setup_for_region(G1HeapRegion* hr);
@@ -860,7 +853,7 @@ private:
 
   template<bool scan> void process_grey_task_entry(G1TaskQueueEntry task_entry);
 public:
-  void late_init() {
+  void late_init_region_mark_stats_cache() {
     _mark_stats_cache.late_init();
   }
   // Apply the closure on the given area of the objArray. Return the number of words

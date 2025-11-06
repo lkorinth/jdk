@@ -536,7 +536,6 @@ G1ConcurrentMark::G1ConcurrentMark(G1CollectedHeap* g1h,
 
   _concurrent_workers = new WorkerThreads("G1 Conc", _max_concurrent_workers);
   _concurrent_workers->initialize_workers();
-
   _num_concurrent_workers = _concurrent_workers->active_workers();
 
   if (!_global_mark_stack.initialize()) {
@@ -549,7 +548,7 @@ G1ConcurrentMark::G1ConcurrentMark(G1CollectedHeap* g1h,
   _num_active_tasks = _max_num_tasks;
 
   for (uint i = 0; i < _max_num_tasks; ++i) {
-    G1CMTaskQueue* task_queue  = new G1CMTaskQueue();
+    G1CMTaskQueue* task_queue = new G1CMTaskQueue();
     _task_queues->register_queue(i, task_queue);
 
     _tasks[i] = new G1CMTask(i, this, task_queue, _region_mark_stats);
@@ -579,7 +578,7 @@ void G1ConcurrentMark::reset() {
 }
 
 #include "gc/g1/g1Lazy.hpp"
-void G1ConcurrentMark::late_init() {
+void G1ConcurrentMark::late_init_region_mark_stats_cache() {
   static bool _statistics_initiated = false;
   if (!_statistics_initiated) {
 //    GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: late_init00");
@@ -587,7 +586,7 @@ void G1ConcurrentMark::late_init() {
     if (lazy()) {
       GCTraceTimeWrapper<LogLevel::Info, LOG_TAGS(gc)> tm("lkorinth: late_init0");
       for (uint j = 0; j < _max_num_tasks; ++j) {
-        _tasks[j]->late_init();
+        _tasks[j]->late_init_region_mark_stats_cache();
       }
     }
   }
@@ -595,7 +594,6 @@ void G1ConcurrentMark::late_init() {
 
 void G1ConcurrentMark::clear_statistics(G1HeapRegion* r) {
   uint region_idx = r->hrm_index();
-
   for (uint j = 0; j < _max_num_tasks; ++j) {
     _tasks[j]->clear_mark_stats_cache(region_idx);
   }
@@ -2773,12 +2771,6 @@ void G1CMTask::do_marking_step(double time_target_ms,
   }
 }
 
-// static void lkorinthx(const char* msg, TicksI& start, TicksI& stop) {
-//    Tickspan duration = stop._s - start._s;
-//    double duration_ms = TimeHelper::counter_to_millis(duration.value());
-//    log_info(gc)("lkorinth: %s: %.4fms", msg, duration_ms);
-//  }
-
 G1CMTask::G1CMTask(uint worker_id,
                    G1ConcurrentMark* cm,
                    G1CMTaskQueue* task_queue,
@@ -2797,7 +2789,6 @@ G1CMTask::G1CMTask(uint worker_id,
   _curr_region(nullptr),
   _finger(nullptr),
   _region_limit(nullptr),
-
   _words_scanned(0),
   _words_scanned_limit(0),
   _real_words_scanned_limit(0),

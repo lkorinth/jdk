@@ -247,13 +247,9 @@ typedef TimeInstant<CounterRepresentation, ElapsedCounterSource> Ticks;
 typedef TimeInterval<CounterRepresentation, ElapsedCounterSource> Tickspan;
 #endif
 
-
-//#include "utilities/ticks.hpp"
  struct TicksI {
    Ticks _s;
    TicksI() : _s(Ticks::now()) {}
  };
-
-
 
 #endif // SHARE_UTILITIES_TICKS_HPP
