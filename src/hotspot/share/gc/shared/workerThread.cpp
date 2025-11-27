@@ -22,6 +22,8 @@
  *
  */
 
+#include "gc/shared/collectedHeap.hpp"
+#include "gc/shared/gcConfig.hpp"
 #include "gc/shared/gc_globals.hpp"
 #include "gc/shared/workerThread.hpp"
 #include "logging/log.hpp"
@@ -31,6 +33,10 @@
 #include "runtime/java.hpp"
 #include "runtime/os.hpp"
 #include "runtime/safepoint.hpp"
+
+#if INCLUDE_G1GC
+#  include "gc/g1/g1CollectedHeap.hpp"
+#endif
 
 WorkerTaskDispatcher::WorkerTaskDispatcher() :
     _task(nullptr),
@@ -95,7 +101,13 @@ void WorkerThreads::initialize_workers() {
 
 WorkerThread* WorkerThreads::create_worker(uint name_suffix) {
   if (is_init_completed() && InjectGCWorkerCreationFailure) {
+#if INCLUDE_G1GC
+    if (!GCConfig::is_gc_selected(CollectedHeap::G1) || G1CollectedHeap::heap()->concurrent_mark()->is_fully_initialized()) {
+      return nullptr;
+    }
+#else
     return nullptr;
+#endif
   }
 
   WorkerThread* const worker = new WorkerThread(_name, name_suffix, &_dispatcher);
