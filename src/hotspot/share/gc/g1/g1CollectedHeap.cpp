@@ -1649,7 +1649,7 @@ void G1CollectedHeap::stop() {
   // that are destroyed during shutdown.
   _cr->stop();
   _service_thread->stop();
-  if (_cm->cm_thread() != nullptr) {
+  if (_cm->is_fully_initialized()) {
     _cm->cm_thread()->stop();
   }
 }
@@ -2426,7 +2426,7 @@ void G1CollectedHeap::print_gc_on(outputStream* st) const {
 
 void G1CollectedHeap::gc_threads_do(ThreadClosure* tc) const {
   workers()->threads_do(tc);
-  if (_cm->cm_thread() != nullptr) {
+  if (_cm->is_fully_initialized()) {
     tc->do_thread(_cm->cm_thread());
   }
   _cm->threads_do(tc);
@@ -2550,8 +2550,7 @@ HeapWord* G1CollectedHeap::do_collection_pause(size_t word_size,
 
 void G1CollectedHeap::start_concurrent_cycle(bool concurrent_operation_is_full_mark) {
   assert(!_cm->in_progress(), "Can not start concurrent operation while in progress");
-  assert(_cm != nullptr, "sanity");
-  assert(_cm->cm_thread() != nullptr, "sanity");
+  assert(_cm->is_fully_initialized(), "sanity");
   MutexLocker x(G1CGC_lock, Mutex::_no_safepoint_check_flag);
   if (concurrent_operation_is_full_mark) {
     _cm->post_concurrent_mark_start();

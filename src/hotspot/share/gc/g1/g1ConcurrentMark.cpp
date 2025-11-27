@@ -542,44 +542,47 @@ void G1ConcurrentMark::reset() {
   _root_regions.reset();
 }
 
-void G1ConcurrentMark::late_init() {
-  static bool _late_initiated = false;
-  if (!_late_initiated) {
-    _late_initiated = true;
-
-    // Create & start ConcurrentMark thread.
-    _cm_thread = new G1ConcurrentMarkThread(this);
-    if (_cm_thread->osthread() == nullptr) {
-      vm_shutdown_during_initialization("Could not create ConcurrentMarkThread");
-    }
-
-    log_debug(gc)("ConcGCThreads: %u offset %u", ConcGCThreads, _worker_id_offset);
-    log_debug(gc)("ParallelGCThreads: %u", ParallelGCThreads);
-
-    _max_concurrent_workers = ConcGCThreads;
-
-    _concurrent_workers = new WorkerThreads("G1 Conc", _max_concurrent_workers);
-    _concurrent_workers->initialize_workers();
-    _num_concurrent_workers = _concurrent_workers->active_workers();
-
-    if (!_global_mark_stack.initialize()) {
-      vm_exit_during_initialization("Failed to allocate initial concurrent mark overflow mark stack.");
-    }
-
-    _tasks = NEW_C_HEAP_ARRAY(G1CMTask*, _max_num_tasks, mtGC);
-
-    // so that the assertion in MarkingTaskQueue::task_queue doesn't fail
-    _num_active_tasks = _max_num_tasks;
-
-    for (uint i = 0; i < _max_num_tasks; ++i) {
-      G1CMTaskQueue* task_queue = new G1CMTaskQueue();
-      _task_queues->register_queue(i, task_queue);
-
-      _tasks[i] = new G1CMTask(i, this, task_queue, _region_mark_stats);
-    }
-
-    reset_at_marking_complete();
+void G1ConcurrentMark::fully_initialize() {
+  if (is_fully_initialized()) {
+    return;
   }
+
+  // Create & start ConcurrentMark thread.
+  _cm_thread = new G1ConcurrentMarkThread(this);
+  if (_cm_thread->osthread() == nullptr) {
+    vm_shutdown_during_initialization("Could not create ConcurrentMarkThread");
+  }
+
+  log_debug(gc)("ConcGCThreads: %u offset %u", ConcGCThreads, _worker_id_offset);
+  log_debug(gc)("ParallelGCThreads: %u", ParallelGCThreads);
+
+  _max_concurrent_workers = ConcGCThreads;
+
+  _concurrent_workers = new WorkerThreads("G1 Conc", _max_concurrent_workers);
+  _concurrent_workers->initialize_workers();
+  _num_concurrent_workers = _concurrent_workers->active_workers();
+
+  if (!_global_mark_stack.initialize()) {
+    vm_exit_during_initialization("Failed to allocate initial concurrent mark overflow mark stack.");
+  }
+
+  _tasks = NEW_C_HEAP_ARRAY(G1CMTask*, _max_num_tasks, mtGC);
+
+  // so that the assertion in MarkingTaskQueue::task_queue doesn't fail
+  _num_active_tasks = _max_num_tasks;
+
+  for (uint i = 0; i < _max_num_tasks; ++i) {
+    G1CMTaskQueue* task_queue = new G1CMTaskQueue();
+    _task_queues->register_queue(i, task_queue);
+
+    _tasks[i] = new G1CMTask(i, this, task_queue, _region_mark_stats);
+  }
+
+  reset_at_marking_complete();
+}
+
+bool G1ConcurrentMark::in_progress() const {
+  return is_fully_initialized() ? _cm_thread->in_progress() : false;
 }
 
 void G1ConcurrentMark::clear_statistics(G1HeapRegion* r) {
@@ -800,7 +803,7 @@ void G1ConcurrentMark::clear_bitmap(WorkerThreads* workers, bool may_yield) {
 void G1ConcurrentMark::cleanup_for_next_mark() {
   // Make sure that the concurrent mark thread looks to still be in
   // the current cycle.
-  guarantee(cm_thread() != nullptr, "should be initializd");
+  guarantee(is_fully_initialized(), "should be initializd");
   guarantee(in_progress(), "invariant");
 
   // We are finishing up the current cycle by clearing the next
@@ -812,13 +815,13 @@ void G1ConcurrentMark::cleanup_for_next_mark() {
   clear_bitmap(_concurrent_workers, true);
 
   // Repeat the asserts from above.
-  guarantee(cm_thread() != nullptr, "should be initializd");
+  guarantee(is_fully_initialized(), "should be initializd");
   guarantee(in_progress(), "invariant");
   guarantee(!_g1h->collector_state()->mark_or_rebuild_in_progress(), "invariant");
 }
 
 void G1ConcurrentMark::clear_bitmap(WorkerThreads* workers) {
-  late_init();
+  fully_initialize();
 
   assert_at_safepoint_on_vm_thread();
   // To avoid fragmentation the full collection requesting to clear the bitmap
@@ -1110,13 +1113,6 @@ void G1ConcurrentMark::root_region_scan_abort_and_wait() {
   root_regions()->abort();
   root_regions()->wait_until_scan_finished();
 }
-
-bool G1ConcurrentMark::in_progress() const {
-  return _cm_thread == nullptr
-         ? false
-         : _cm_thread->in_progress();
-}
-
 
 void G1ConcurrentMark::concurrent_cycle_start() {
   _gc_timer_cm->register_gc_start();
@@ -1900,7 +1896,7 @@ bool G1ConcurrentMark::concurrent_cycle_abort() {
   // nothing, but this situation should be extremely rare (a full gc after shutdown
   // has been signalled is already rare), and this work should be negligible compared
   // to actual full gc work.
-  if (cm_thread() == nullptr || (!cm_thread()->in_progress() && !_g1h->is_shutting_down())) {
+  if (!is_fully_initialized() || (!cm_thread()->in_progress() && !_g1h->is_shutting_down())) {
     return false;
   }
 
@@ -1962,7 +1958,7 @@ void G1ConcurrentMark::print_summary_info() {
   }
 
   log.trace(" Concurrent marking:");
-  if (cm_thread() == nullptr) {
+  if (!is_fully_initialized()) {
     log.trace("    has not been initialized yet");
     return;
   }
@@ -1982,7 +1978,7 @@ void G1ConcurrentMark::print_summary_info() {
 }
 
 void G1ConcurrentMark::threads_do(ThreadClosure* tc) const {
-  if (_concurrent_workers != nullptr) { // they are initiated late
+  if (is_fully_initialized()) { // they are initialized late
     _concurrent_workers->threads_do(tc);
   }
 }

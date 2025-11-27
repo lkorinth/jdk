@@ -39,7 +39,7 @@ bool G1PeriodicGCTask::should_start_periodic_gc(G1CollectedHeap* g1h,
   SuspendibleThreadSetJoiner sts;
 
   // We should not start a concurrent gc if concurrent marking has not been initialized yet
-  if (g1h->concurrent_mark()->cm_thread() == nullptr) {
+  if (!g1h->concurrent_mark()->is_fully_initialized()) {
     log_debug(gc, periodic)("Concurrent marking has not been initialized. Skipping.");
     return false;
   }

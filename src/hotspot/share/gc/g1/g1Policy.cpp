@@ -740,7 +740,7 @@ double G1Policy::constant_other_time_ms(double pause_time_ms) const {
 }
 
 bool G1Policy::about_to_start_mixed_phase() const {
-  if (_g1h->concurrent_mark()->cm_thread() == nullptr) {
+  if (!_g1h->concurrent_mark()->is_fully_initialized()) {
     return false;
   }
   return _g1h->concurrent_mark()->in_progress() || collector_state()->in_young_gc_before_mixed();
@@ -1239,7 +1239,7 @@ void G1Policy::update_survivors_policy() {
 }
 
 bool G1Policy::force_concurrent_start_if_outside_cycle(GCCause::Cause gc_cause) {
-  _g1h->_cm->late_init();
+  _g1h->_cm->fully_initialize();
   // We actually check whether we are marking here and not if we are in a
   // reclamation phase. This means that we will schedule a concurrent mark
   // even while we are still in the process of reclaiming memory.
