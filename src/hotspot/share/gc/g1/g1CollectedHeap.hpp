@@ -224,6 +224,10 @@ public:
 
   void prepare_region_for_full_compaction(G1HeapRegion* hr);
 
+  bool injectThreadCreationError() override {
+    return CollectedHeap::injectThreadCreationError() && concurrent_mark()->is_fully_initialized();
+  }
+
 private:
   // Rebuilds the region sets / lists so that they are repopulated to
   // reflect the contents of the heap. The only exception is the

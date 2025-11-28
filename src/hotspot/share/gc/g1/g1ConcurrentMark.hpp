@@ -583,7 +583,14 @@ public:
   uint worker_id_offset() const { return _worker_id_offset; }
 
   void fully_initialize();
-  bool is_fully_initialized() const { return _cm_thread != nullptr; }
+  bool is_fully_initialized() const {
+    if (_tasks == nullptr) {
+      return false;
+    }
+    assert(_cm_thread != nullptr, "must create thread before considered fully initialized due to thread creation injection errors");
+    assert(_concurrent_workers != nullptr, "must create thread before considered fully initialized due to thread creation injection errors");
+    return true;
+  }
   bool in_progress() const;
 
   // Clear statistics gathered during the concurrent cycle for the given region after
