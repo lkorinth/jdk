@@ -565,6 +565,8 @@ public:
   // Approximate number of incoming references found during marking.
   size_t incoming_refs(uint region) const { return _region_mark_stats[region]._incoming_refs; }
 
+  bool _is_fully_initialized;
+
   // Update the TAMS for the given region to the current top.
   inline void update_top_at_mark_start(G1HeapRegion* r);
   // Reset the TAMS for the given region to bottom of that region.
@@ -584,12 +586,13 @@ public:
 
   void fully_initialize();
   bool is_fully_initialized() const {
-    if (_tasks == nullptr) {
-      return false;
-    }
-    assert(_cm_thread != nullptr, "must create thread before considered fully initialized due to thread creation injection errors");
-    assert(_concurrent_workers != nullptr, "must create thread before considered fully initialized due to thread creation injection errors");
-    return true;
+    return _is_fully_initialized;
+    // if (_tasks == nullptr) {
+    //   return false;
+    // }
+    // assert(_cm_thread != nullptr, "must create thread before considered fully initialized due to thread creation injection errors");
+    // assert(_concurrent_workers != nullptr, "must create thread before considered fully initialized due to thread creation injection errors");
+    // return true;
   }
   bool in_progress() const;
 

@@ -25,9 +25,9 @@
 #ifndef SHARE_GC_SHARED_COLLECTEDHEAP_HPP
 #define SHARE_GC_SHARED_COLLECTEDHEAP_HPP
 
+#include "gc/shared/gc_globals.hpp"
 #include "gc/shared/gcCause.hpp"
 #include "gc/shared/gcWhen.hpp"
-#include "gc/shared/gc_globals.hpp"
 #include "gc/shared/verifyOption.hpp"
 #include "memory/allocation.hpp"
 #include "memory/metaspace.hpp"

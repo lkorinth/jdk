@@ -515,7 +515,8 @@ G1ConcurrentMark::G1ConcurrentMark(G1CollectedHeap* g1h,
   _region_mark_stats(NEW_C_HEAP_ARRAY(G1RegionMarkStats, _g1h->max_num_regions(), mtGC)),
   _top_at_mark_starts(NEW_C_HEAP_ARRAY(HeapWord*, _g1h->max_num_regions(), mtGC)),
   _top_at_rebuild_starts(NEW_C_HEAP_ARRAY(HeapWord*, _g1h->max_num_regions(), mtGC)),
-  _needs_remembered_set_rebuild(false)
+  _needs_remembered_set_rebuild(false),
+  _is_fully_initialized(false)
 {
   assert(G1CGC_lock != nullptr, "CGC_lock must be initialized");
 
@@ -579,6 +580,8 @@ void G1ConcurrentMark::fully_initialize() {
   }
 
   reset_at_marking_complete();
+
+  _is_fully_initialized = true;
 }
 
 bool G1ConcurrentMark::in_progress() const {

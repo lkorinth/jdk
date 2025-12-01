@@ -95,7 +95,8 @@ void WorkerThreads::initialize_workers() {
 }
 
 WorkerThread* WorkerThreads::create_worker(uint name_suffix) {
-  if (Universe::heap()->injectThreadCreationError()) {
+  //assert(Universe::heap() != nullptr, "sanity");
+  if (Universe::heap() != nullptr && Universe::heap()->injectThreadCreationError()) {
     return nullptr;
   }
 
