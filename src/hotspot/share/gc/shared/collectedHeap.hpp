@@ -25,7 +25,6 @@
 #ifndef SHARE_GC_SHARED_COLLECTEDHEAP_HPP
 #define SHARE_GC_SHARED_COLLECTEDHEAP_HPP
 
-#include "gc/shared/gc_globals.hpp"
 #include "gc/shared/gcCause.hpp"
 #include "gc/shared/gcWhen.hpp"
 #include "gc/shared/verifyOption.hpp"
@@ -34,7 +33,6 @@
 #include "memory/universe.hpp"
 #include "oops/stackChunkOop.hpp"
 #include "runtime/handles.hpp"
-#include "runtime/init.hpp"
 #include "runtime/perfDataTypes.hpp"
 #include "runtime/safepoint.hpp"
 #include "services/cpuTimeUsage.hpp"
@@ -246,10 +244,6 @@ protected:
   // after the Universe is fully formed, but before general heap allocation is allowed.
   // This is the correct place to place such initialization methods.
   virtual void post_initialize();
-
-  virtual bool injectThreadCreationError() {
-    return is_init_completed() && InjectGCWorkerCreationFailure;
-  }
 
   bool is_shutting_down() const;
 

@@ -22,7 +22,6 @@
  *
  */
 
-#include "gc/shared/collectedHeap.hpp"
 #include "gc/shared/gc_globals.hpp"
 #include "gc/shared/workerThread.hpp"
 #include "logging/log.hpp"
@@ -95,8 +94,7 @@ void WorkerThreads::initialize_workers() {
 }
 
 WorkerThread* WorkerThreads::create_worker(uint name_suffix) {
-  //assert(Universe::heap() != nullptr, "sanity");
-  if (Universe::heap() != nullptr && Universe::heap()->injectThreadCreationError()) {
+  if (is_init_completed() && InjectGCWorkerCreationFailure) {
     return nullptr;
   }
 
