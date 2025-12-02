@@ -821,8 +821,6 @@ void G1ConcurrentMark::cleanup_for_next_mark() {
 }
 
 void G1ConcurrentMark::clear_bitmap(WorkerThreads* workers) {
-  //fully_initialize();
-
   assert_at_safepoint_on_vm_thread();
   // To avoid fragmentation the full collection requesting to clear the bitmap
   // might use fewer workers than available. To ensure the bitmap is cleared

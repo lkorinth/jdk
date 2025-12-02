@@ -94,9 +94,6 @@ void WorkerThreads::initialize_workers() {
 }
 
 WorkerThread* WorkerThreads::create_worker(uint name_suffix) {
-  // if (is_init_completed() && InjectGCWorkerCreationFailure) {
-  //   return nullptr;
-  // }
 
   WorkerThread* const worker = new WorkerThread(_name, name_suffix, &_dispatcher);
 
