@@ -143,6 +143,40 @@ $(eval $(call SetupLogging))
 
 ################################################################################
 
+q       := $(HASH)
+spaceQ  := $(q)s
+assignQ := $(q)a
+qQ      := $(q)$(q)
+
+# $(call quote,echo "#trala") -> echo#s"##trala"
+quote = $(subst $(SPACE),$(spaceQ),$(subst $(q),$(qQ),$1))
+
+# $(call unQuote,echo#s"##trala") -> echo "#trala"
+unQuote = $(subst $(qQ),$(q),$(subst $(spaceQ),$(SPACE),$1))
+
+# $(call quoteAssignment,name,some value) -> name#asome#svalue
+# $(call quoteAssignment,bad+=name,some value) -> error
+quoteAssignment = $(if $(findstring +=,$1),$(error you can not have += in a variable name: "$1"),$(call quote,$1)$(assignQ)$(call quote,$2))
+
+# $(call unquoteAssignmentIndex,name#asome#svalue,1) -> name
+# $(call unquoteAssignmentIndex,name#asome#svalue,2) -> some value
+unquoteAssignmentIndex = $(call unQuote,$(word $2,$(subst $(assignQ),$(SPACE),$1)))
+
+# $(call requrseFiles,dir) -> header.hpp file1.cpp file2.cpp
+requrseFiles = $(strip $(foreach f,$(wildcard $1/*),$(call requrseFiles,$f) $f))
+
+# $(call filterFiles,dir,%.cpp) -> file1.cpp file2.cpp (without path)
+filterFiles = $(filter $2,$(notdir $(call requrseFiles,$1)))
+
+# $(call overrideFlags,dir,%.cpp,_CXXFLAGS,-Wconversion) -> file1.cpp_CXXFLAGS#a-Wconversion file2.cpp_CXXFLAGS#a-Wconversion
+overrideFlags = $(foreach file,$(call filterFiles,$1,$2,),$(call quoteAssignment,$(file)$3,$4))
+
+# $(call unpack module_,file1.cpp_CXXFLAGS#a-Wconversion file2.cpp_CXXFLAGS#a-Wconversion) -> module_file1.cpp_CXXFLAGS += -Wconversion
+#                                                                                             module_file2.cpp_CXXFLAGS += -Wconversion
+unpack = $(foreach pair,$2,$1$(call unquoteAssignmentIndex,$(pair),1) += $(call unquoteAssignmentIndex,$(pair),2)$(NEWLINE))
+
+################################################################################
+
 MAX_PARAMS := 96
 PARAM_SEQUENCE := $(call sequence, 2, $(MAX_PARAMS))
 
@@ -166,7 +200,10 @@ define NamedParamsMacroTemplate
       Too many named arguments to macro, please update MAX_PARAMS in MakeBase.gmk))
   # Iterate over 2 3 4... and evaluate the named parameters with $1_ as prefix
   $(foreach i, $(PARAM_SEQUENCE), $(if $(strip $($i)), \
-    $(strip $1)_$(strip $(call EscapeHash, $(call DoubleDollar, $($i))))$(NEWLINE)))
+    $(if $(findstring :=,$($i)), \
+      $(strip $1)_$(strip $(call EscapeHash, $(call DoubleDollar, $($i))))$(NEWLINE), \
+      $(call unpack,$(strip $1)_,$($i)))))
+
   # Debug print all named parameter names and values
   $(if $(findstring $(LOG_LEVEL), trace), \
     $(info $0 $(strip $1) $(foreach i, $(PARAM_SEQUENCE), \
