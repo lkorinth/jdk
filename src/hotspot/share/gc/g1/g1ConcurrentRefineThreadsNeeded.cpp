@@ -99,7 +99,7 @@ void G1ConcurrentRefineThreadsNeeded::update(uint active_threads,
   // Estimate the number of refinement threads we need to run in order to
   // reach the goal in time.
   double thread_capacity = refine_rate * _predicted_time_until_next_gc_ms;
-  double nthreads = cards_needed / thread_capacity;
+  double nthreads = as_rough_floating(cards_needed) / thread_capacity;
 
   // Decide how to round nthreads to an integral number of threads.  Always
   // rounding up is contrary to delaying refinement work.  But when we're
@@ -113,5 +113,5 @@ void G1ConcurrentRefineThreadsNeeded::update(uint active_threads,
     rthreads = ::round(nthreads);
   }
 
-  _threads_needed = static_cast<uint>(MIN2<size_t>(rthreads, UINT_MAX));
+  _threads_needed = clamp_type<uint>(rthreads);
 }

@@ -83,7 +83,7 @@ void G1ConcurrentMarkThread::delay_to_keep_mmu(bool remark) {
     MonitorLocker ml(G1CGC_lock, Monitor::_no_safepoint_check_flag);
     while (!_cm->has_aborted() && !should_terminate()) {
       double sleep_time_sec = (delay_end_sec - os::elapsedTime());
-      jlong sleep_time_ms = ceil(sleep_time_sec * MILLIUNITS);
+      jlong sleep_time_ms = clamp_type<jlong>(ceil(sleep_time_sec * MILLIUNITS));
       if (sleep_time_ms <= 0) {
         break;                  // Passed end time.
       } else if (ml.wait(sleep_time_ms)) {
