@@ -411,7 +411,7 @@ G1ConcurrentRefine::G1ConcurrentRefine(G1CollectedHeap* g1h) :
   _last_adjust(),
   _needs_adjust(false),
   _heap_was_locked(false),
-  _threads_needed(g1h->policy(), adjust_threads_period_ms()),
+  _threads_needed(g1h->policy(), as_rough_floating(adjust_threads_period_ms())),
   _thread_control(G1ConcRefinementThreads),
   _sweep_state(g1h->max_num_regions())
 { }
@@ -489,7 +489,7 @@ void G1ConcurrentRefine::update_pending_cards_target(double pending_cards_time_m
   }
 
   // Base the pending cards budget on the measured rate.
-  double rate = processed_pending_cards / pending_cards_time_ms;
+  double rate = as_rough_floating(processed_pending_cards) / pending_cards_time_ms;
   size_t new_target = static_cast<size_t>(goal_ms * rate);
   // Add some hysteresis with previous values.
   if (is_pending_cards_target_initialized()) {

@@ -29,6 +29,7 @@
 #include "cppstdlib/cstddef.hpp"
 #include "cppstdlib/limits.hpp"
 #include "cppstdlib/type_traits.hpp"
+#include "metaprogramming/enableIf.hpp"
 #include "utilities/checkedCast.hpp"
 #include "utilities/compilerWarnings.hpp"
 #include "utilities/debug.hpp"
@@ -197,6 +198,15 @@ constexpr tight_unsigned<sizeof(T)> u_sizeof() {
 template <typename T>
 constexpr tight_signed<sizeof(T)> s_sizeof() {
   return static_cast<tight_signed<sizeof(T)>>(sizeof(T));
+}
+
+template<typename T> inline double as_floating(T integral) {
+  static_assert(std::numeric_limits<T>::max() > (1ULL << std::numeric_limits<double>::digits));
+  return checked_cast<T>(integral);
+}
+
+template<typename T> inline double as_rough_floating(T integral) {
+  return static_cast<double>(integral);
 }
 
 // Convert pointer to intptr_t, for use in printing pointers.
@@ -1154,6 +1164,30 @@ template<typename T>
 inline T clamp(T value, T min, T max) {
   assert(min <= max, "must be");
   return MIN2(MAX2(value, min), max);
+}
+
+template<typename TO,
+         typename FROM,
+         ENABLE_IF(std::is_floating_point_v<FROM>)>
+inline TO clamp_type(FROM from) {
+  if (from < as_rough_floating(std::numeric_limits<TO>::min())) {
+    return std::numeric_limits<TO>::min();
+  } else if (from > as_rough_floating(std::numeric_limits<TO>::max())) {
+    return std::numeric_limits<TO>::max();
+  }
+  return static_cast<TO>(from);
+}
+
+template<typename TO,
+         typename FROM,
+         ENABLE_IF(!std::is_floating_point_v<FROM>)>
+inline TO clamp_type(FROM from) {
+  if (from < std::numeric_limits<TO>::min()) {
+    return std::numeric_limits<TO>::min();
+  } else if (from > std::numeric_limits<TO>::max()) {
+    return std::numeric_limits<TO>::max();
+  }
+  return static_cast<TO>(from);
 }
 
 inline bool is_odd (intx x) { return x & 1;      }
