@@ -555,7 +555,7 @@ class ConstantPool : public Metadata {
     int bsmai = bootstrap_methods_attribute_index(cp_index);
     BSMAttributeEntry* bsme = bsm_attribute_entry(bsmai);
     assert((uint)j < (uint)bsme->argument_count(), "oob");
-    return bsm_attribute_entry(bsmai)->argument(j);
+    return bsm_attribute_entry(bsmai)->argument(static_cast<u2>(j));
   }
 
   // The following methods (name/signature/klass_ref_at, klass_ref_at_noresolve,
