@@ -1217,9 +1217,9 @@ private:
     jlong long_iv_scale  = _iv_scale;
     jlong long_iv_stride = _vloop.iv_stride();
     jlong max_val = 1 << 30;
-    if (abs(long_iv_scale) >= max_val ||
-        abs(long_iv_stride) >= max_val ||
-        abs(long_iv_scale * long_iv_stride) >= max_val) {
+    if (llabs(long_iv_scale) >= max_val ||
+        llabs(long_iv_stride) >= max_val ||
+        llabs(long_iv_scale * long_iv_stride) >= max_val) {
 #ifndef PRODUCT
       if (_vloop.mptrace().is_trace_parsing()) {
         tty->print_cr("VPointer::init_is_valid: scale or stride too large.");
