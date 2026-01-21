@@ -74,7 +74,7 @@ public:
 
   static ContainerType encode(ValueType value) {
     assert(((ContainerType)value & (FieldMask << ValueShift)) == (ContainerType)value, "Invalid value");
-    return ((ContainerType)value >> ValueShift) << FieldShift;
+    return (ContainerType)(((ContainerType)value >> ValueShift) << FieldShift);
   }
 };
 

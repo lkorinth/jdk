@@ -168,6 +168,37 @@ class oopDesc;
 #define SIZE_FORMAT_X_0          "0x%08"      PRIxPTR
 #endif  // _LP64
 
+template <size_t N>
+using tight_unsigned =
+  typename std::conditional<N <= std::numeric_limits<uint8_t>::max(), uint8_t,
+    typename std::conditional<N <= std::numeric_limits<uint16_t>::max(), uint16_t,
+      typename std::conditional<N <= std::numeric_limits<uint32_t>::max(), uint32_t,
+        uint64_t
+      >::type
+    >::type
+  >::type;
+
+template <size_t N>
+using tight_signed =
+  typename std::conditional<N <= std::numeric_limits<int8_t>::max(), int8_t,
+    typename std::conditional<N <= std::numeric_limits<int16_t>::max(), int16_t,
+      typename std::conditional<N <= std::numeric_limits<int32_t>::max(), int32_t,
+        int64_t
+      >::type
+    >::type
+  >::type;
+
+
+template <typename T>
+constexpr tight_unsigned<sizeof(T)> u_sizeof() {
+  return static_cast<tight_unsigned<sizeof(T)>>(sizeof(T));
+}
+
+template <typename T>
+constexpr tight_signed<sizeof(T)> s_sizeof() {
+  return static_cast<tight_signed<sizeof(T)>>(sizeof(T));
+}
+
 // Convert pointer to intptr_t, for use in printing pointers.
 inline intptr_t p2i(const volatile void* p) {
   return (intptr_t) p;
