@@ -1159,9 +1159,20 @@ template<class T> inline T asserted_abs(T x, const char* file, int line) {
   return (x < 0 && valid_arg) ? -x : x;
 }
 
+template<class T>
+inline auto unsigned_abs(T x) {
+  using U = std::make_unsigned<T>;
+
+  U u = static_cast<U>(x);
+  return (x > 0) ? u : -u;
+}
+
+
 // Return the given value clamped to the range [min ... max]
-template<typename T>
-inline T clamp(T value, T min, T max) {
+template<typename R, typename T>
+inline R clamp(T value,
+               R min = std::numeric_limits<R>::min(),
+               R max = std::numeric_limits<R>::max()) {
   assert(min <= max, "must be");
   return MIN2(MAX2(value, min), max);
 }
